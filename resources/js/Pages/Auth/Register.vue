@@ -8,6 +8,7 @@ import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { ref, computed } from "vue";
+import AuthLayout from "../../Layouts/AuthLayout.vue";
 
 const form = useForm({
     country: 1,
@@ -137,31 +138,14 @@ const validateNumbers = (event) => {
 </script>
 
 <template>
-    <Head title="Register" />
-    <div class="container mx-auto min-h-screen">
-        <Toolbar>
-            <template #start>
-                <Image
-                    alt="logo"
-                    src="/images/logo/logo-01.png"
-                    style="width: 84px"
-                />
-            </template>
-            <template #end>
-                <Button
-                    label="Show"
-                    icon="pi pi-external-link"
-                    @click="openModal"
-                />
-            </template>
-        </Toolbar>
-        <div class="w-3/4 mx-auto">
+    <AuthLayout title="Register">
+        <div class="w-3/4 mx-auto space-y-4 m-8">
             <h1>Register</h1>
             <p class="text-sm">
                 Please insert personal details to create an account
             </p>
             <ValidationErrors />
-            <form @submit.prevent="submit">
+            <form @submit.prevent="submit" class="space-y-4">
                 <div class="field">
                     <h5 class="text-primary">Country</h5>
                     <Dropdown
@@ -278,135 +262,7 @@ const validateNumbers = (event) => {
                 </p>
             </div>
         </div>
-    </div>
-
-    <Dialog
-        header="Header"
-        v-model:visible="displayModal"
-        :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-        :draggable="false"
-        :style="{ width: '50vw' }"
-        :modal="true"
-    >
-        <p>English</p>
-        <p>简体中文</p>
-        <template #footer>
-            <div class="text-center">
-                <Button label="Confirm" @click="closeModal" autofocus />
-            </div>
-        </template>
-    </Dialog>
-
-    <!-- <JetAuthenticationCard>
-        <template #logo>
-            <JetAuthenticationCardLogo />
-        </template>
-
-        <JetValidationErrors class="mb-4" />
-
-        <form @submit.prevent="submit">
-            <div>
-                <JetLabel for="name" value="Name" />
-                <JetInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel for="email" value="Email" />
-                <JetInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel for="password" value="Password" />
-                <JetInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-                <JetInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
-
-            <div
-                v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
-                class="mt-4"
-            >
-                <JetLabel for="terms">
-                    <div class="flex items-center">
-                        <JetCheckbox
-                            id="terms"
-                            v-model:checked="form.terms"
-                            name="terms"
-                        />
-
-                        <div class="ml-2">
-                            I agree to the
-                            <a
-                                target="_blank"
-                                :href="route('terms.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900"
-                                >Terms of Service</a
-                            >
-                            and
-                            <a
-                                target="_blank"
-                                :href="route('policy.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900"
-                                >Privacy Policy</a
-                            >
-                        </div>
-                    </div>
-                </JetLabel>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900"
-                >
-                    Already registered?
-                </Link>
-
-                <JetButton
-                    class="ml-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </JetButton>
-            </div>
-        </form>
-        <Button class="mt-5" @click="test">Test</Button>
-    </JetAuthenticationCard> -->
+    </AuthLayout>
 </template>
 
 <style scoped lang="css">

@@ -56,24 +56,24 @@ const chartOptions = {
 
 <template>
     <AppLayoutNew title="Home">
-        <div class="h-screen main-con p-8">
+        <div class="h-screen main-con p-8 space-y-5">
             <!--  <h1 >Home</h1> -->
             <div class="h-1/2"></div>
-            <div class="h-screen mx-auto">
+            <div class="h-screen mx-auto space-y-5">
                 <div class="text-center">
                     <h4>Total Profit Per Day</h4>
                     <p>Aug 17, 2022</p>
                     <h1 class="py-5">0.4068%</h1>
-                    <div class="grid">
-                        <div class="col-12 md:col-4">
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-full md:col-span-4">
                             <p>Investor Profit</p>
                             <p>0.1356%</p>
                         </div>
-                        <div class="col-12 md:col-4">
+                        <div class="col-span-full md:col-span-4">
                             <p>Developer Fund House</p>
                             <p>0.1356%</p>
                         </div>
-                        <div class="col-12 md:col-4">
+                        <div class="col-span-full md:col-span-4">
                             <p>ABS Agency</p>
                             <p>0.1356%</p>
                         </div>
@@ -89,7 +89,7 @@ const chartOptions = {
                             :series="series"
                         ></apexchart>
                     </div>
-                    <div class="flex justify-content-between">
+                    <div class="flex justify-between">
                         <div>Return</div>
                         <div>
                             Daily 0.1356% | Monthly 2.4203% | Accumulate

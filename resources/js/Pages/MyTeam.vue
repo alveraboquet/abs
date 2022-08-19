@@ -192,7 +192,7 @@ const renderUser = (user) => {
     return {
         key: user.id,
         label: user.full_name,
-        icon: "pi pi-fw pi-star-fill",
+        /* icon: "pi pi-fw pi-star-fill", */
         data: user.invite_code,
         //leaf: user.children ? true : false,
         children: user.children?.map((c) => renderUser(c)),
@@ -206,20 +206,20 @@ const renderUser = (user) => {
             <h1>My Agency</h1>
             <Card class="drop-shadow-lg mt-5">
                 <template #content>
-                    <div class="grid text-center">
-                        <div class="col-6">
+                    <div class="grid grid-cols-12 text-center gap-4">
+                        <div class="col-span-6">
                             <p>Total Agent</p>
                             <p>{{ usePage().props.value.user.total_group }}</p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-span-6">
                             <p>Direct Agent</p>
                             <p>{{ usePage().props.value.user.total_direct }}</p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-span-6">
                             <p>Group Sales</p>
                             <p>$475,000.0000</p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-span-6">
                             <p>Personal Sales</p>
                             <p>$0.0000</p>
                         </div>
@@ -231,14 +231,14 @@ const renderUser = (user) => {
                 <TabPanel header="Agent Structure">
                     <Tree :value="treeUsers">
                         <template #default="slotProps">
-                            <div class="flex align-items-center">
+                            <div class="flex items-center">
                                 <b>{{ slotProps.node.label }} </b>
                                 <Avatar image="/images/ranking/01.png" />
                             </div>
                             <div>
                                 <p>Agency Level: Agency Manager</p>
                             </div>
-                            <div class="flex align-items-stretch space-x-5">
+                            <div class="flex items-stretch space-x-5">
                                 <div>
                                     <p>Personal Invest</p>
                                     <p>$0.0000</p>

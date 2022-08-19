@@ -8,7 +8,6 @@ import JetInput from "@/Components/Input.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
-import AuthLayout from "../../Layouts/AuthLayout.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -43,50 +42,58 @@ const closeModal = () => {
 </script>
 
 <template>
-    <AuthLayout title="Login">
+    <Head title="Log in" />
+
+    <div class="h-screen">
         <div class="main-con login-con">
-            <div class="w-3/4 mx-auto mt-24">
+            <Toolbar>
+                <template #start>
+                    <Image
+                        alt="logo"
+                        src="/images/logo/logo-01.png"
+                        imageStyle="width: 84px"
+                    />
+                </template>
+
+                <template #end>
+                    <Button
+                        label="Show"
+                        class="p-button-text"
+                        icon="pi pi-external-link"
+                        @click="openModal"
+                    />
+                </template>
+            </Toolbar>
+
+            <div class="mt-8 pt-8">
                 <div class="grid grid-cols-12 mx-auto">
-                    <div
-                        class="col-span-12 md:col-span-6 flex items-center px-5"
-                    >
-                        <Image
-                            alt="logo"
-                            src="/images/logo/logo-01.png"
-                            class="w-3/4 mx-auto"
-                        />
+                    <div class="col-span-12 md:col-span-4 flex items-center">
+                        <Image alt="logo" src="/images/logo/logo-01.png" />
                     </div>
-                    <div
-                        class="col-span-12 md:col-span-6 flex flex-col space-y-5"
-                    >
+                    <div class="col-span-12 md:col-span-8 flex flex-column">
                         <ValidationErrors />
                         <div class="text-center">
                             <h1>Login</h1>
                             <p>Please login to continue</p>
                         </div>
-                        <form
-                            @submit.prevent="submit"
-                            class="flex-grow-1 space-y-4"
-                        >
-                            <div>
-                                <h5 class="text-primary">Username</h5>
-                                <InputText
-                                    class="w-full"
-                                    type="text"
-                                    v-model="form.email"
-                                    placeholder="Type Username"
-                                />
-                            </div>
-                            <div>
-                                <h5 class="text-primary">Password</h5>
-                                <Password
-                                    class="w-full"
-                                    v-model="form.password"
-                                    toggleMask
-                                    :feedback="false"
-                                    placeholder="Type Password"
-                                />
-                            </div>
+                        <form @submit.prevent="submit" class="flex-grow-1">
+                            <h5 class="text-primary">Username</h5>
+                            <InputText
+                                class="w-full"
+                                type="text"
+                                v-model="form.email"
+                                placeholder="Type Username"
+                            />
+
+                            <h5 class="text-primary">Password</h5>
+                            <Password
+                                class="w-full"
+                                v-model="form.password"
+                                toggleMask
+                                :feedback="false"
+                                placeholder="Type Password"
+                            />
+
                             <div class="text-right">
                                 <Link href="forgot-password"
                                     >Forget Password</Link
@@ -112,17 +119,33 @@ const closeModal = () => {
                     </div>
                 </div>
             </div>
-        </div></AuthLayout
-    >
+        </div>
+
+        <Dialog
+            header="Header"
+            v-model:visible="displayModal"
+            :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+            :draggable="false"
+            :style="{ width: '50vw' }"
+            :modal="true"
+        >
+            <p>English</p>
+            <p>简体中文</p>
+            <template #footer>
+                <div class="text-center">
+                    <Button label="Confirm" @click="closeModal" autofocus />
+                </div>
+            </template>
+        </Dialog>
+    </div>
 </template>
 <style scoped lang="css">
 .main-con.login-con {
     background-image: url(/images/BG-14.png);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-
-    /*padding: 10px 15% 50px;*/
+    background-position: 100% 40%;
+    padding: 10px 15% 50px;
 }
 
 .pre-login-header {
@@ -159,10 +182,20 @@ const closeModal = () => {
         background-image: url(/images/BG-01.png);
         background-repeat: no-repeat;
         background-size: cover;
-        /* padding: 15px 20px 50px; */
+        padding: 15px 20px 50px;
     }
 }
-
+.p-toolbar {
+    position: fixed;
+    top: 0;
+    justify-content: space-between;
+    padding: 20px 8%;
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
+    background-color: #fff;
+    width: 100%;
+    margin: 0 -15%;
+    z-index: 11;
+}
 ::v-deep(.p-password input) {
     width: 100%;
 }

@@ -30,12 +30,14 @@ import Tag from "primevue/tag";
 import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Tree from "primevue/tree";
-
+import Chip from "primevue/chip";
 import { VueClipboard } from "@soerenmartius/vue3-clipboard";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
-import "primeflex/primeflex.css";
+import { VueMasonryPlugin } from "vue-masonry";
+import { i18nVue } from "laravel-vue-i18n";
+/* import "primeflex/primeflex.css"; */
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -54,6 +56,13 @@ createInertiaApp({
             .use(PrimeVue)
             .use(VueApexCharts)
             .use(VueClipboard)
+            .use(VueMasonryPlugin)
+            .use(i18nVue, {
+                resolve: async (lang) => {
+                    const langs = import.meta.glob("../../lang/*.json");
+                    return await langs[`../../lang/${lang}.json`]();
+                },
+            })
             .component("Dialog", Dialog)
             .component("Message", Message)
             .component("Button", Button)
@@ -76,6 +85,7 @@ createInertiaApp({
             .component("AvatarGroup", AvatarGroup)
             .component("Tag", Tag)
             .component("Tree", Tree)
+            .component("Chip", Chip)
             .mount(el);
     },
 });

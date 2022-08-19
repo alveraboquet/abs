@@ -43,6 +43,9 @@ Route::middleware([
     Route::get('/invitation', function () {
         return Inertia::render('Invitation');
     })->name('invitation');
+    Route::get('/projects', function () {
+        return Inertia::render('Projects');
+    })->name('projects');
 });
 
 Route::fallback(function () {
