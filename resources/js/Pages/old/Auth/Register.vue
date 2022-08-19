@@ -15,7 +15,7 @@ const form = useForm({
     full_name: "",
     phone: "",
     username: "",
-    invite_code: route().params.invite,
+    invite_code: "",
     password: "",
     security_pin: "",
     email: "",

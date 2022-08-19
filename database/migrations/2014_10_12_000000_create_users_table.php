@@ -24,7 +24,18 @@ return new class extends Migration
             $table->string('security_pin');
             $table->string('country');
             $table->string('province');
-            $table->string('referral');
+            $table->string('referral')->nullable();
+            $table->string('hierarchyList')->nullable();
+            $table->string('invite_code')->unique();
+
+            $table->double('personal_sales', 0, 2)->default(0);
+            $table->double('direct_sales', 0, 2)->default(0);
+            $table->double('total_sales', 0, 2)->default(0);
+
+            $table->integer('total_direct')->default(0);
+            $table->integer('total_group')->default(0);
+
+
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();

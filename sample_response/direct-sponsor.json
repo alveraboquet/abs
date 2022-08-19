@@ -1,0 +1,58 @@
+[
+    {
+        "name": "18431037697",
+        "status": 1,
+        "ranking": 5,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": "404900.0000"
+    },
+    {
+        "name": "20287686",
+        "status": 1,
+        "ranking": 6,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": "34200.0000"
+    },
+    {
+        "name": "china",
+        "status": 1,
+        "ranking": 1,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": 0
+    },
+    {
+        "name": "jbck",
+        "status": 1,
+        "ranking": 6,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": "6100.0000"
+    },
+    {
+        "name": "jk001",
+        "status": 1,
+        "ranking": 5,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": 0
+    },
+    {
+        "name": "jow01",
+        "status": 1,
+        "ranking": 5,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": "29800.0000"
+    },
+    {
+        "name": "AbsGlobalRealty",
+        "status": 1,
+        "ranking": 6,
+        "personal_staking": 0,
+        "direct_staking": 0,
+        "group_staking": 0
+    }
+]

@@ -21,11 +21,13 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@soerenmartius/vue3-clipboard": "^0.1.2",
         "apexcharts": "^3.35.4",
         "chart.js": "^3.9.1",
         "primeflex": "^3.2.1",
         "primeicons": "^5.0.0",
         "primevue": "^3.16.0",
+        "qrcode.vue": "^3.3.3",
         "vue3-apexcharts": "^1.4.1"
     }
 }

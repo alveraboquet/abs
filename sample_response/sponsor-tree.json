@@ -1,0 +1,154 @@
+[
+    {
+        "level": 0,
+        "name": "9ss0001",
+        "rank": "Agency Manager",
+        "rank_cn": "\u4ee3\u7406\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": "475000.0000",
+        "direct_sale": 0,
+        "downline": []
+    },
+    {
+        "level": 1,
+        "name": "18431037697",
+        "rank": "Unit Manager",
+        "rank_cn": "\u5355\u4f4d\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": "404900.0000",
+        "direct_sale": 0,
+        "downline": {
+            "level": 2,
+            "name": "18731028458",
+            "rank": "Member",
+            "rank_cn": "\u4f1a\u5458",
+            "personla_sale": 0,
+            "group_sale": 0,
+            "direct_sale": 0,
+            "downline": {
+                "level": 3,
+                "name": "zhx18034006568",
+                "rank": "Member",
+                "rank_cn": "\u4f1a\u5458",
+                "personla_sale": 0,
+                "group_sale": 0,
+                "direct_sale": 0,
+                "downline": []
+            }
+        }
+    },
+    {
+        "level": 1,
+        "name": "20287686",
+        "rank": "Agency Manager",
+        "rank_cn": "\u4ee3\u7406\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": "34200.0000",
+        "direct_sale": 0,
+        "downline": {
+            "level": 2,
+            "name": "admin01",
+            "rank": "Member",
+            "rank_cn": "\u4f1a\u5458",
+            "personla_sale": 0,
+            "group_sale": 0,
+            "direct_sale": 0,
+            "downline": {
+                "level": 3,
+                "name": "Jchee96",
+                "rank": "Member",
+                "rank_cn": "\u4f1a\u5458",
+                "personla_sale": 0,
+                "group_sale": 0,
+                "direct_sale": 0,
+                "downline": []
+            }
+        }
+    },
+    {
+        "level": 1,
+        "name": "china",
+        "rank": "Member",
+        "rank_cn": "\u4f1a\u5458",
+        "personal_sale": 0,
+        "group_sale": 0,
+        "direct_sale": 0,
+        "downline": []
+    },
+    {
+        "level": 1,
+        "name": "jbck",
+        "rank": "Agency Manager",
+        "rank_cn": "\u4ee3\u7406\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": "6100.0000",
+        "direct_sale": 0,
+        "downline": {
+            "level": 2,
+            "name": "jstake",
+            "rank": "Member",
+            "rank_cn": "\u4f1a\u5458",
+            "personla_sale": 0,
+            "group_sale": 0,
+            "direct_sale": 0,
+            "downline": {
+                "level": 3,
+                "name": "wonder",
+                "rank": "Unit Manager",
+                "rank_cn": "\u5355\u4f4d\u7ecf\u7406",
+                "personla_sale": 0,
+                "group_sale": "1000.0000",
+                "direct_sale": "1000.0000",
+                "downline": []
+            }
+        }
+    },
+    {
+        "level": 1,
+        "name": "jk001",
+        "rank": "Unit Manager",
+        "rank_cn": "\u5355\u4f4d\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": 0,
+        "direct_sale": 0,
+        "downline": []
+    },
+    {
+        "level": 1,
+        "name": "jow01",
+        "rank": "Unit Manager",
+        "rank_cn": "\u5355\u4f4d\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": "29800.0000",
+        "direct_sale": 0,
+        "downline": {
+            "level": 2,
+            "name": "J001",
+            "rank": "Member",
+            "rank_cn": "\u4f1a\u5458",
+            "personla_sale": 0,
+            "group_sale": "6000.0000",
+            "direct_sale": 0,
+            "downline": {
+                "level": 3,
+                "name": "AstAst",
+                "rank": "Unit Manager",
+                "rank_cn": "\u5355\u4f4d\u7ecf\u7406",
+                "personla_sale": 0,
+                "group_sale": "22800.0000",
+                "direct_sale": "1000.0000",
+                "downline": []
+            }
+        }
+    },
+    {
+        "level": 1,
+        "name": "AbsGlobalRealty",
+        "rank": "Agency Manager",
+        "rank_cn": "\u4ee3\u7406\u7ecf\u7406",
+        "personal_sale": 0,
+        "group_sale": 0,
+        "direct_sale": 0,
+        "downline": []
+    }
+]

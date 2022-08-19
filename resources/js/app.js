@@ -27,7 +27,11 @@ import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Divider from "primevue/divider";
 import Tag from "primevue/tag";
+import Avatar from "primevue/avatar";
+import AvatarGroup from "primevue/avatargroup";
+import Tree from "primevue/tree";
 
+import { VueClipboard } from "@soerenmartius/vue3-clipboard";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
@@ -49,6 +53,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(PrimeVue)
             .use(VueApexCharts)
+            .use(VueClipboard)
             .component("Dialog", Dialog)
             .component("Message", Message)
             .component("Button", Button)
@@ -67,7 +72,10 @@ createInertiaApp({
             .component("TabView", TabView)
             .component("TabPanel", TabPanel)
             .component("Divider", Divider)
+            .component("Avatar", Avatar)
+            .component("AvatarGroup", AvatarGroup)
             .component("Tag", Tag)
+            .component("Tree", Tree)
             .mount(el);
     },
 });

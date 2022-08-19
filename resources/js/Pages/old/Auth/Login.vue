@@ -58,7 +58,6 @@ const closeModal = () => {
                 <template #end>
                     <Button
                         label="Show"
-                        class="p-button-text"
                         icon="pi pi-external-link"
                         @click="openModal"
                     />

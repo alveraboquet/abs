@@ -1,0 +1,23 @@
+[
+    {
+        "id": 319,
+        "user_id": 637,
+        "fullname": "9ss0001",
+        "phone_mobile": null,
+        "email": "9ss0001@gmail.com",
+        "wallet_address": "TUe4SXC9k4buUAffnjbFv27ng6pmcAeFbk",
+        "ic": "9ss0001",
+        "front_img_path": "abs\/oyuXJtb66ypsfbqDZvwpYw3uLmxV9jweJs6RmFm6.jpg",
+        "back_img_path": "abs\/BVnhvx6EFKJcoYhrBVi3HgWeTgKdJ6gbjmavoHfa.jpg",
+        "status": 9,
+        "remark": "testing",
+        "approved_by": 3,
+        "approved_at": "2022-04-18 21:28:00",
+        "created_at": "2022-04-18T13:16:00.000000Z",
+        "updated_at": "2022-04-18T13:28:00.000000Z",
+        "type": 1,
+        "hold_img_path": "",
+        "utils_img_path": "",
+        "passport_img_path": ""
+    }
+]

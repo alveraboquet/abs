@@ -1,0 +1,18 @@
+{
+    "id": 4,
+    "type": 1,
+    "image": "abs/ycJF8w4mzpudoMGtO3Qz7OiUO7F7wYyL3TCyEUme.jpg",
+    "show_popout": 1,
+    "status": 1,
+    "created_by": 3,
+    "updated_by": null,
+    "created_at": "2022-07-01T15:07:10.000000Z",
+    "updated_at": "2022-07-01T15:07:10.000000Z",
+    "languages": [
+        {
+            "type": 1,
+            "title": "KYC System Update Notice",
+            "message": "<div>From 1st July 2022 at 6pm, new and existing user accounts are required to provide an electricity/water/phone bill and a picture of you holding your identity card for KYC verification. </div><div><br></div><div>Verification will be rejected for accounts that have not updated their details within 7 days.</div>"
+        }
+    ]
+}

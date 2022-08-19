@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,12 +31,20 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return redirect('home');
     })->name('dashboard');
+    /* Route::get('/', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard'); */
     Route::get('/home', function () {
         return Inertia::render('Home');
     })->name('home');
-    Route::get('/my-team', function () {
-        return Inertia::render('MyTeam');
-    })->name('my-team');
+    Route::get('/my-team', [UserController::class, 'getDownline'])->name('my-team');
+    Route::get('/invitation', function () {
+        return Inertia::render('Invitation');
+    })->name('invitation');
+});
+
+Route::fallback(function () {
+    return  redirect('home');
 });

@@ -1,12 +1,11 @@
 <script setup>
-import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/inertia-vue3";
 import { onMounted, reactive, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
-import { computed } from "@vue/reactivity";
 
-const props = defineProps({
-    users: Array,
+defineProps({
+    users: Object,
 });
 
 const form = useForm({
@@ -186,18 +185,6 @@ const initateNodes = () => {
         },
     ];
 };
-
-const treeUsers = computed(() => props.users.map((u) => renderUser(u)));
-const renderUser = (user) => {
-    return {
-        key: user.id,
-        label: user.full_name,
-        icon: "pi pi-fw pi-star-fill",
-        data: user.invite_code,
-        //leaf: user.children ? true : false,
-        children: user.children?.map((c) => renderUser(c)),
-    };
-};
 </script>
 
 <template>
@@ -209,11 +196,11 @@ const renderUser = (user) => {
                     <div class="grid text-center">
                         <div class="col-6">
                             <p>Total Agent</p>
-                            <p>{{ usePage().props.value.user.total_group }}</p>
+                            <p>494</p>
                         </div>
                         <div class="col-6">
                             <p>Direct Agent</p>
-                            <p>{{ usePage().props.value.user.total_direct }}</p>
+                            <p>7</p>
                         </div>
                         <div class="col-6">
                             <p>Group Sales</p>
@@ -226,35 +213,15 @@ const renderUser = (user) => {
                     </div>
                 </template>
             </Card>
+            <Tree
+                :value="nodes"
+                @node-expand="onNodeExpand"
+                :loading="loading"
+            ></Tree>
 
             <TabView class="mt-5">
                 <TabPanel header="Agent Structure">
-                    <Tree :value="treeUsers">
-                        <template #default="slotProps">
-                            <div class="flex align-items-center">
-                                <b>{{ slotProps.node.label }} </b>
-                                <Avatar image="/images/ranking/01.png" />
-                            </div>
-                            <div>
-                                <p>Agency Level: Agency Manager</p>
-                            </div>
-                            <div class="flex align-items-stretch space-x-5">
-                                <div>
-                                    <p>Personal Invest</p>
-                                    <p>$0.0000</p>
-                                </div>
-                                <div>
-                                    <p>Personal Sales</p>
-                                    <p>$0.0000</p>
-                                </div>
-                                <div>
-                                    <p>Personal Sales</p>
-                                    <p>$0.0000</p>
-                                </div>
-                            </div>
-                        </template>
-                    </Tree>
-                    <!--  <div class="w-full">
+                    <div class="w-full">
                         <span class="p-input-icon-left w-full">
                             <i class="pi pi-search text-primary" />
                             <InputText
@@ -271,7 +238,7 @@ const renderUser = (user) => {
                                     <p>Name</p>
                                     <Avatar image="/images/ranking/01.png" />
                                 </div>
-                                <div><i class="pi pi-caret-down"></i></div>
+                                <div>e</div>
                             </div>
                             <div>
                                 <p>Agency Level: Agency Manager</p>
@@ -291,8 +258,8 @@ const renderUser = (user) => {
                                 </div>
                             </div>
                         </div>
-                    </div> -->
-                </TabPanel>
+                    </div></TabPanel
+                >
                 <TabPanel header="Direct Agent">
                     <div v-for="i in 10">
                         <div class="flex justify-between">
