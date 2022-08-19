@@ -64,7 +64,7 @@ const logout = () => {
             </Toolbar>
 
             <div class="flex flex-row flex-1 overflow-hidden">
-                <div class="hidden lg:flex">
+                <div class="hidden md:flex">
                     <div class="w-60 shadow-md bg-white h-full">
                         <ul class="relative px-1 divide-solid divide-y">
                             <li class="relative">
@@ -154,8 +154,8 @@ const logout = () => {
                 <div class="flex-1 flex-grow overflow-y-scroll no-scrollbar">
                     <slot />
                 </div>
-                <div class="bg-yellow-500 hidden lg:flex">
-                    <div class="hidden lg:flex">
+                <div class="bg-yellow-500 hidden md:flex">
+                    <div class="hidden md:flex">
                         <div class="w-60 shadow-md bg-white h-full">
                             <div class="pt-4 pb-2 px-6">
                                 <div class="w-10 mx-auto">
@@ -264,6 +264,60 @@ const logout = () => {
                     </div>
                 </div>
             </div>
+            <section
+                id="bottom-navigation"
+                class="md:hidden block inset-x-0 bottom-0 z-10 bg-white shadow"
+            >
+                <div id="tabs" class="flex justify-between">
+                    <Link
+                        href="home"
+                        class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                    >
+                        <i class="pi pi-home inline-block mb-1 !text-xl"></i>
+                        <span class="tab tab-home block text-xs">Home</span>
+                    </Link>
+                    <Link
+                        href="projects"
+                        class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                    >
+                        <i
+                            class="pi pi-chart-bar inline-block mb-1 !text-xl"
+                        ></i>
+                        <span class="tab tab-kategori block text-xs"
+                            >Project</span
+                        >
+                    </Link>
+                    <a
+                        href="#"
+                        class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                    >
+                        <i class="pi pi-dollar inline-block mb-1 !text-xl"></i>
+                        <span class="tab tab-explore block text-xs"
+                            >Staking</span
+                        >
+                    </a>
+                    <a
+                        href="#"
+                        class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                    >
+                        <i
+                            class="pi pi-info-circle inline-block mb-1 !text-xl"
+                        ></i>
+                        <span class="tab tab-whishlist block text-xs"
+                            >About ABS</span
+                        >
+                    </a>
+                    <a
+                        href="#"
+                        class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+                    >
+                        <i class="pi pi-user inline-block mb-1 !text-xl"></i>
+                        <span class="tab tab-account block text-xs"
+                            >Personal</span
+                        >
+                    </a>
+                </div>
+            </section>
         </div>
     </div>
 </template>
