@@ -32,11 +32,21 @@ import AvatarGroup from "primevue/avatargroup";
 import Tree from "primevue/tree";
 import Chip from "primevue/chip";
 import { VueClipboard } from "@soerenmartius/vue3-clipboard";
+import { VueMasonryPlugin } from "vue-masonry";
+import { i18nVue } from "laravel-vue-i18n";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import ColumnGroup from "primevue/columngroup"; //optional for column grouping
+import Row from "primevue/row";
+import FileUpload from "primevue/fileupload";
+import Textarea from "primevue/textarea";
+import RadioButton from "primevue/radiobutton";
+import Listbox from "primevue/listbox";
+
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
-import { VueMasonryPlugin } from "vue-masonry";
-import { i18nVue } from "laravel-vue-i18n";
+
 /* import "primeflex/primeflex.css"; */
 
 const appName =
@@ -86,6 +96,14 @@ createInertiaApp({
             .component("Tag", Tag)
             .component("Tree", Tree)
             .component("Chip", Chip)
+            .component("DataTable", DataTable)
+            .component("Column", Column)
+            .component("ColumnGroup", ColumnGroup)
+            .component("Row", Row)
+            .component("FileUpload", FileUpload)
+            .component("Textarea", Textarea)
+            .component("RadioButton", RadioButton)
+            .component("Listbox", Listbox)
             .mount(el);
     },
 });

@@ -15,7 +15,7 @@ defineProps({
 });
 
 const form = useForm({
-    email: "",
+    username: "",
     password: "",
     remember: false,
 });
@@ -73,7 +73,7 @@ const closeModal = () => {
                                 <InputText
                                     class="w-full"
                                     type="text"
-                                    v-model="form.email"
+                                    v-model="form.username"
                                     placeholder="Type Username"
                                 />
                             </div>

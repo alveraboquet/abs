@@ -36,9 +36,7 @@ Route::middleware([
     /* Route::get('/', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard'); */
-    Route::get('/home', function () {
-        return Inertia::render('Home');
-    })->name('home');
+    Route::get('/home', [UserController::class, 'home'])->name('home');
     Route::get('/my-team', [UserController::class, 'getDownline'])->name('my-team');
     Route::get('/invitation', function () {
         return Inertia::render('Invitation');
@@ -46,8 +44,19 @@ Route::middleware([
     Route::get('/projects', function () {
         return Inertia::render('Projects');
     })->name('projects');
+    Route::get('/manage-member', [UserController::class, 'getMember'])->name('manage-member');
+    Route::get('/test',  [UserController::class, 'calculateProfit']);
+    Route::get('/topup', function () {
+        return Inertia::render('Topup');
+    })->name('topup');
+    Route::get('/settings', function () {
+        return Inertia::render('Setting');
+    })->name('setting');
 });
-
+Route::get('locale/{lang}', function ($lang) {
+    session()->put('locale', $lang);
+    return redirect()->back();
+});
 Route::fallback(function () {
     return  redirect('home');
 });

@@ -7,6 +7,7 @@ import { computed } from "@vue/reactivity";
 
 const props = defineProps({
     users: Array,
+    directUsers: Array,
 });
 
 const form = useForm({
@@ -294,9 +295,9 @@ const renderUser = (user) => {
                     </div> -->
                 </TabPanel>
                 <TabPanel header="Direct Agent">
-                    <div v-for="i in 10">
+                    <div v-for="row in directUsers">
                         <div class="flex justify-between">
-                            <p>Name</p>
+                            <p>{{ row.full_name }}</p>
                             <p>
                                 <Tag value="active" severity="success" />
                             </p>

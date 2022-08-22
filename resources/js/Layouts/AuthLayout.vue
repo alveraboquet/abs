@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Head, Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import JetAuthenticationCard from "@/Components/AuthenticationCard.vue";
 import JetAuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
@@ -8,29 +8,12 @@ import JetInput from "@/Components/Input.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { getActiveLanguage, loadLanguageAsync } from "laravel-vue-i18n";
 defineProps({
     canResetPassword: Boolean,
     status: String,
     title: String,
 });
-
-const form = useForm({
-    email: "",
-    password: "",
-    remember: false,
-});
-
-const submit = () => {
-    form.post(route("login"), {
-        onFinish: () => form.reset("password"),
-    });
-    /* form.transform((data) => ({
-        ...data,
-        remember: form.remember ? "on" : "",
-    })).post(route("login"), {
-        onFinish: () => form.reset("password"),
-    }); */
-};
 
 const displayModal = ref(false);
 
@@ -39,6 +22,19 @@ const openModal = () => {
 };
 const closeModal = () => {
     displayModal.value = false;
+};
+const languages = [
+    { name: "English", value: "en" },
+    { name: "简体中文", value: "cn" },
+];
+
+const lang = ref(getActiveLanguage());
+watch(lang, async function (newLang) {
+    await loadLanguageAsync(newLang);
+});
+
+const changeLang = function (l) {
+    lang.value = l;
 };
 </script>
 
@@ -77,8 +73,14 @@ const closeModal = () => {
             :style="{ width: '50vw' }"
             :modal="true"
         >
-            <p>English</p>
-            <p>简体中文</p>
+            <!--    <p>English</p>
+            <p>简体中文</p> -->
+            <Listbox
+                v-model="lang"
+                :options="languages"
+                optionLabel="name"
+                optionValue="value"
+            ></Listbox>
             <template #footer>
                 <div class="text-center">
                     <Button label="Confirm" @click="closeModal" autofocus />

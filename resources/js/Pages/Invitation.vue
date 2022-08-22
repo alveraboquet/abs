@@ -4,7 +4,6 @@ import { onMounted, reactive, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import QrcodeVue from "qrcode.vue";
 import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
-import route from "../../../vendor/tightenco/ziggy/src/js";
 const qrCode = usePage().props.value.user.invite_code;
 const qrValue = {
     value: route("register", { invite: qrCode }),

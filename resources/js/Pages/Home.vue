@@ -1,12 +1,20 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import { Link } from "@inertiajs/inertia-vue3";
+
+const props = defineProps({
+    yesterdayProfit: Object,
+    lastWeekProfit: Array,
+    monthlyProfit: Number,
+    accumulateProfit: Number,
+});
 
 const series = [
     {
         /*  name: "STOCK ABC", */
         name: "",
-        data: [0.1382, 0.1375, 0.1354, 0.1433, 0.1573, 0.1484, 0.1356],
+        data: props.lastWeekProfit.profit,
     },
 ];
 
@@ -33,15 +41,7 @@ const chartOptions = {
         text: "Performance",
         align: "left",
     },
-    labels: [
-        "2022-08-11",
-        "2022-08-12",
-        "2022-08-13",
-        "2022-08-14",
-        "2022-08-15",
-        "2022-08-16",
-        "2022-08-17",
-    ] /*
+    labels: props.lastWeekProfit.date /*
     xaxis: {
         type: "datetime",
     },
@@ -62,20 +62,20 @@ const chartOptions = {
             <div class="h-screen mx-auto space-y-5">
                 <div class="text-center">
                     <h4>Total Profit Per Day</h4>
-                    <p>Aug 17, 2022</p>
-                    <h1 class="py-5">0.4068%</h1>
+                    <p>{{ yesterdayProfit.date }}</p>
+                    <h1 class="py-5">{{ yesterdayProfit.total_profit }}%</h1>
                     <div class="grid grid-cols-12">
                         <div class="col-span-full md:col-span-4">
                             <p>Investor Profit</p>
-                            <p>0.1356%</p>
+                            <p>{{ yesterdayProfit.profit_1 }}%</p>
                         </div>
                         <div class="col-span-full md:col-span-4">
                             <p>Developer Fund House</p>
-                            <p>0.1356%</p>
+                            <p>{{ yesterdayProfit.profit_2 }}%</p>
                         </div>
                         <div class="col-span-full md:col-span-4">
                             <p>ABS Agency</p>
-                            <p>0.1356%</p>
+                            <p>{{ yesterdayProfit.profit_3 }}%</p>
                         </div>
                     </div>
                 </div>
@@ -92,8 +92,9 @@ const chartOptions = {
                     <div class="flex justify-between">
                         <div>Return</div>
                         <div>
-                            Daily 0.1356% | Monthly 2.4203% | Accumulate
-                            28.6521%
+                            Daily {{ yesterdayProfit.profit_1 }}% | Monthly
+                            {{ monthlyProfit.toFixed(4) }}% | Accumulate
+                            {{ accumulateProfit.toFixed(4) }}%
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { Head, Link, usePage } from "@inertiajs/inertia-vue3";
 import JetApplicationMark from "@/Components/ApplicationMark.vue";
@@ -8,7 +8,8 @@ import JetDropdown from "@/Components/Dropdown.vue";
 import JetDropdownLink from "@/Components/DropdownLink.vue";
 import JetNavLink from "@/Components/NavLink.vue";
 import JetResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { getActiveLanguage } from "laravel-vue-i18n";
+import { getActiveLanguage, loadLanguageAsync } from "laravel-vue-i18n";
+import { computed } from "@vue/reactivity";
 
 defineProps({
     title: String,
@@ -27,9 +28,18 @@ const switchToTeam = (team) => {
         }
     );
 };
-
+const user = computed(() => usePage().props.value.user);
 const logout = () => {
     Inertia.post(route("logout"));
+};
+
+const lang = ref(getActiveLanguage());
+watch(lang, async function (newLang) {
+    await loadLanguageAsync(newLang);
+});
+
+const changeLang = function (l) {
+    lang.value = l;
 };
 </script>
 
@@ -46,9 +56,7 @@ const logout = () => {
                         style="width: 84px"
                     />
 
-                    <p class="ml-5">
-                        Welcome, {{ usePage().props.value.user.full_name }}
-                    </p>
+                    <p class="ml-5">Welcome, {{ user.username }}</p>
                 </template>
                 <template #end>
                     <Link as="button" class="mr-2">
@@ -142,7 +150,7 @@ const logout = () => {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="#!"
+                                    href="settings"
                                 >
                                     <i class="pi pi-cog mr-3"></i>
                                     <span>Settings</span>
@@ -203,7 +211,7 @@ const logout = () => {
                                 <li class="relative">
                                     <Link
                                         class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                        href="home"
+                                        href="topup"
                                     >
                                         <i class="pi pi-money-bill mr-3"></i>
                                         <span>Topup Now</span>
@@ -220,7 +228,7 @@ const logout = () => {
                                         <i class="pi pi-book mr-3"></i>
                                         <span
                                             ><p>Auto Receipt Record</p>
-                                            <p>
+                                            <p class="text-xs">
                                                 Weekly Auto Distribution
                                             </p></span
                                         >
@@ -234,7 +242,9 @@ const logout = () => {
                                         class="flex justify-between py-4 px-6 h-12 text-sm items-center"
                                     >
                                         <i class="pi pi-money-bill mr-3"></i>
-                                        <span>Agency Total Invest</span>
+                                        <span class="leading-none text-xs"
+                                            >Agency Total Invest</span
+                                        >
 
                                         <span>$475,000.0000</span>
                                     </div>
@@ -244,7 +254,9 @@ const logout = () => {
                                         class="flex justify-between py-4 px-6 h-12 text-sm items-center"
                                     >
                                         <i class="pi pi-money-bill mr-3"></i>
-                                        <span>Agency Total Sharing</span>
+                                        <span class="leading-none text-xs"
+                                            >Agency Total Sharing</span
+                                        >
 
                                         <span>$475,000.0000</span>
                                     </div>
@@ -254,7 +266,9 @@ const logout = () => {
                                         class="flex justify-between py-4 px-6 h-12 text-sm items-center"
                                     >
                                         <i class="pi pi-money-bill mr-3"></i>
-                                        <span>Agency Weekly Sharing</span>
+                                        <span class="leading-none text-xs"
+                                            >Agency Weekly Sharing</span
+                                        >
                                         <span>$475,000.0000</span>
                                     </div>
                                 </li>
