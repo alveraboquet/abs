@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('full_name');
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone');
@@ -38,11 +39,19 @@ return new class extends Migration
             $table->integer('total_direct')->default(0);
             $table->integer('total_group')->default(0);
 
+            $table->string('usdt_address')->nullable();
+            $table->string('usdt_withdrawal_address')->nullable();
 
+            $table->boolean('is_auto_withdrawal')->default(true);
+
+
+            $table->boolean('status')->default(true);
+            $table->string('role')->default('user');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

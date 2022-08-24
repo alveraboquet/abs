@@ -28,7 +28,7 @@ const switchToTeam = (team) => {
         }
     );
 };
-const user = computed(() => usePage().props.value.user);
+const curUser = computed(() => usePage().props.value.auth.user);
 const logout = () => {
     Inertia.post(route("logout"));
 };
@@ -56,11 +56,11 @@ const changeLang = function (l) {
                         style="width: 84px"
                     />
 
-                    <p class="ml-5">Welcome, {{ user.username }}</p>
+                    <p class="ml-5">Welcome, {{ curUser.username }}</p>
                 </template>
                 <template #end>
-                    <Link as="button" class="mr-2">
-                        <i class="pi pi-bell text-primary"></i> Notification
+                    <Link class="mr-2" href="notifications">
+                        <i class="pi pi-bell text-primary"></i> Notifications
                     </Link>
 
                     <form @submit.prevent="logout">
@@ -96,7 +96,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="#!"
+                                    href="stacking"
                                 >
                                     <i class="pi pi-dollar mr-3"></i>
                                     <span>Staking</span>
@@ -105,7 +105,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="#!"
+                                    href="abs"
                                 >
                                     <i class="pi pi-info-circle mr-3"></i>
                                     <span>About ABS</span>
@@ -123,7 +123,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="#!"
+                                    href="kyc"
                                 >
                                     <i class="pi pi-user-edit mr-3"></i>
                                     <span>KYC</span>
@@ -132,7 +132,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="#!"
+                                    href="feedback-center"
                                 >
                                     <i class="pi pi-question-circle mr-3"></i>
                                     <span>Feedback Center</span>
@@ -168,22 +168,21 @@ const changeLang = function (l) {
                             <div class="pt-4 pb-2 px-6">
                                 <div class="w-10 mx-auto">
                                     <Avatar
-                                        image="/images/ranking/07.png"
+                                        image="https://via.placeholder.com/100"
                                         size="large"
                                         shape="circle"
                                     />
                                 </div>
 
                                 <div class="flex items-center justify-center">
-                                    <b
-                                        >{{
-                                            usePage().props.value.user.full_name
-                                        }}
-                                    </b>
-                                    <Avatar image="/images/ranking/01.png" />
+                                    <b>{{ curUser.full_name }} </b>
+                                    <Avatar
+                                        :image="curUser.user_ranking.image"
+                                    />
                                 </div>
                                 <p class="text-xs text-center">
-                                    Agency Level: Agency Manager
+                                    Agency Level:
+                                    {{ curUser.user_ranking.name_en }}
                                 </p>
                             </div>
                             <ul class="relative px-1 divide-solid divide-y">
@@ -193,7 +192,7 @@ const changeLang = function (l) {
                                         href="home"
                                     >
                                         <div>USDT Assets</div>
-                                        <div>$00000.0000</div>
+                                        <div>${{ curUser.usdt_wallet }}</div>
                                     </Link>
                                 </li>
                                 <li class="relative">
@@ -202,7 +201,7 @@ const changeLang = function (l) {
                                         href="home"
                                     >
                                         <div>ROI Assets</div>
-                                        <div>$00000.0000</div>
+                                        <div>${{ curUser.roi_wallet }}</div>
                                     </Link>
                                 </li>
                             </ul>
@@ -302,7 +301,7 @@ const changeLang = function (l) {
                         >
                     </Link>
                     <a
-                        href="#"
+                        href="stacking"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i class="pi pi-dollar inline-block mb-1 !text-xl"></i>
@@ -311,7 +310,7 @@ const changeLang = function (l) {
                         >
                     </a>
                     <a
-                        href="#"
+                        href="abs"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i
@@ -322,7 +321,7 @@ const changeLang = function (l) {
                         >
                     </a>
                     <a
-                        href="#"
+                        href="profile"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i class="pi pi-user inline-block mb-1 !text-xl"></i>

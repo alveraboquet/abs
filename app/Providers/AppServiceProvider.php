@@ -26,13 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        if (App::environment("production")) {
+        if (App::environment('production')) {
+            resolve(\Illuminate\Routing\UrlGenerator::class)->forceScheme('https');
         } else {
-            if (App::environment('production')) {
-                resolve(\Illuminate\Routing\UrlGenerator::class)->forceScheme('https');
-            } else {
-                Mail::alwaysTo('shaoqi.cheah@gmail.com');
-            }
+            Mail::alwaysTo('shaoqi.cheah@gmail.com');
         }
     }
 }

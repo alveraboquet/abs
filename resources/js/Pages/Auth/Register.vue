@@ -1,14 +1,16 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import { Head, Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import JetAuthenticationCard from "@/Components/AuthenticationCard.vue";
 import JetAuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 import JetButton from "@/Components/Button.vue";
 import JetInput from "@/Components/Input.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
+import Banner from "@/Components/Banner.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { ref, computed } from "vue";
-import AuthLayout from "../../Layouts/AuthLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const form = useForm({
     country: 1,
@@ -16,7 +18,7 @@ const form = useForm({
     full_name: "",
     phone: "",
     username: "",
-    invite_code: route().params.invite,
+    invite_code: route().params.invite?.toUpperCase(),
     password: "",
     security_pin: "",
     email: "",
@@ -135,6 +137,30 @@ const validateNumbers = (event) => {
         event.preventDefault();
     }
 };
+const verifyEmailSent = ref(false);
+const sendVerifyEmail = () => {
+    verifyEmailSent.value = false;
+    if (!form.email) {
+        form.setError("email", "error");
+        return;
+    } else {
+        form.clearErrors();
+        Inertia.post(
+            "/email/verify",
+            { email: form.email },
+            {
+                onSuccess: () => {
+                    if (
+                        usePage().props.value.jetstream.flash?.bannerStyle ==
+                        "success"
+                    ) {
+                        verifyEmailSent.value = true;
+                    }
+                },
+            }
+        );
+    }
+};
 </script>
 
 <template>
@@ -144,6 +170,7 @@ const validateNumbers = (event) => {
             <p class="text-sm">
                 Please insert personal details to create an account
             </p>
+            <Banner />
             <ValidationErrors />
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="field">
@@ -230,13 +257,27 @@ const validateNumbers = (event) => {
                 </div>
                 <div class="field">
                     <h5 class="text-primary">Email</h5>
-                    <InputText
-                        class="w-full"
-                        type="email"
-                        v-model="form.email"
-                        placeholder="Type Email"
-                    />
+                    <div class="p-inputgroup">
+                        <InputText
+                            class="w-full"
+                            :class="{ 'p-invalid': form.errors.email }"
+                            type="email"
+                            v-model="form.email"
+                            placeholder="Type Email"
+                        />
+
+                        <Button
+                            label="Send Now"
+                            @click="sendVerifyEmail"
+                            :disabled="false"
+                        />
+                        <!-- verifyEmailSent -->
+                    </div>
+                    <small class="p-error" v-if="form.errors.email"
+                        >Email is required.
+                    </small>
                 </div>
+
                 <div class="field">
                     <h5 class="text-primary">Verification Code</h5>
                     <InputText
@@ -244,6 +285,7 @@ const validateNumbers = (event) => {
                         type="text"
                         v-model="form.verification_code"
                         placeholder="Type Verification Code"
+                        :disabled="!verifyEmailSent"
                     />
                 </div>
                 <div class="text-center">

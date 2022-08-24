@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('rankings', function (Blueprint $table) {
             $table->id();
+            //$table->integer('level')->default(1);
             $table->string('name_en');
             $table->string('name_cn');
             $table->integer('min_group')->default(0);

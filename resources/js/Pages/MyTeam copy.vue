@@ -2,7 +2,7 @@
 import { useForm } from "@inertiajs/inertia-vue3";
 import { onMounted, reactive, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 
 defineProps({
     users: Object,

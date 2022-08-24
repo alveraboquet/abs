@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
@@ -91,10 +91,12 @@ const chartOptions = {
                     </div>
                     <div class="flex justify-between">
                         <div>Return</div>
-                        <div>
-                            Daily {{ yesterdayProfit.profit_1 }}% | Monthly
-                            {{ monthlyProfit.toFixed(4) }}% | Accumulate
-                            {{ accumulateProfit.toFixed(4) }}%
+                        <div class="flex divide-x-4 space-x-4">
+                            <div>Daily {{ yesterdayProfit.profit_1 }}%</div>
+                            <div>Monthly {{ monthlyProfit.toFixed(4) }}%</div>
+                            <div>
+                                Accumulate {{ accumulateProfit.toFixed(4) }}%
+                            </div>
                         </div>
                     </div>
                 </div>

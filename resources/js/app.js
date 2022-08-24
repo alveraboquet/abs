@@ -42,7 +42,7 @@ import FileUpload from "primevue/fileupload";
 import Textarea from "primevue/textarea";
 import RadioButton from "primevue/radiobutton";
 import Listbox from "primevue/listbox";
-
+import Checkbox from "primevue/checkbox";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
@@ -104,6 +104,8 @@ createInertiaApp({
             .component("Textarea", Textarea)
             .component("RadioButton", RadioButton)
             .component("Listbox", Listbox)
+            .component("Checkbox", Checkbox)
+
             .mount(el);
     },
 });

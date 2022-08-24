@@ -1,12 +1,12 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/inertia-vue3';
-import JetAuthenticationCard from '@/Components/AuthenticationCard.vue';
-import JetAuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import JetButton from '@/Components/Button.vue';
-import JetInput from '@/Components/Input.vue';
-import JetLabel from '@/Components/Label.vue';
-import JetValidationErrors from '@/Components/ValidationErrors.vue';
-
+import { Head, useForm } from "@inertiajs/inertia-vue3";
+import JetAuthenticationCard from "@/Components/AuthenticationCard.vue";
+import JetAuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import JetButton from "@/Components/Button.vue";
+import JetInput from "@/Components/Input.vue";
+import JetLabel from "@/Components/Label.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 const props = defineProps({
     email: String,
     token: String,
@@ -15,69 +15,63 @@ const props = defineProps({
 const form = useForm({
     token: props.token,
     email: props.email,
-    password: '',
-    password_confirmation: '',
+    password: "",
+    password_confirmation: "",
 });
 
 const submit = () => {
-    form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("password.update"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
 
 <template>
-    <Head title="Reset Password" />
+    <AuthLayout title="Reset Password">
+        <div class="w-3/4 mx-auto space-y-4 m-8">
+            <h1>Reset Password</h1>
 
-    <JetAuthenticationCard>
-        <template #logo>
-            <JetAuthenticationCardLogo />
-        </template>
-
-        <JetValidationErrors class="mb-4" />
-
-        <form @submit.prevent="submit">
-            <div>
-                <JetLabel for="email" value="Email" />
-                <JetInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel for="password" value="Password" />
-                <JetInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel for="password_confirmation" value="Confirm Password" />
-                <JetInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <JetButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </JetButton>
-            </div>
-        </form>
-    </JetAuthenticationCard>
+            <ValidationErrors />
+            <form @submit.prevent="submit" class="space-y-4">
+                <div class="field">
+                    <h5 class="text-primary">Email</h5>
+                    <InputText
+                        class="w-full"
+                        type="text"
+                        v-model="form.email"
+                        placeholder="Type Email"
+                    />
+                </div>
+                <div>
+                    <h5 class="text-primary">Password</h5>
+                    <Password
+                        class="w-full"
+                        v-model="form.password"
+                        toggleMask
+                        :feedback="false"
+                        placeholder="Type Password"
+                    />
+                </div>
+                <div>
+                    <h5 class="text-primary">Confirm Password</h5>
+                    <Password
+                        class="w-full"
+                        v-model="form.password_confirmation"
+                        toggleMask
+                        :feedback="false"
+                        placeholder="Confirm Password"
+                    />
+                </div>
+                <div class="text-center">
+                    <Button
+                        class="mt-5"
+                        :type="submit"
+                        :disabled="form.processing"
+                    >
+                        Email Password Reset Link</Button
+                    >
+                </div>
+            </form>
+        </div>
+    </AuthLayout>
 </template>

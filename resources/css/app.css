@@ -27,9 +27,9 @@ https://theodorusclarence.com/library/tailwindcss-basestyle
 }
 
 @layer components {
-    .p-tabview-nav {
+    /*  .p-tabview-nav {
         @apply justify-center;
-    }
+    } */
 }
 /*
     https://github.com/tailwindlabs/tailwindcss/discussions/2394

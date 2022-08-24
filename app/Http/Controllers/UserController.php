@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profit;
+use App\Models\Ranking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -40,22 +41,39 @@ class UserController extends Controller
     public function getDownline(Request $request)
     {
         $id = $request->id ?? null;
-
-        $rootUsers = User::where('id', Auth::id())->with(['children'])->get();
+        $search = $request->search;
+        if ($search) {
+            $rootUsers = User::query()->where(function ($q) use ($search) {
+                $q->where('hierarchyList', 'like', '%-' . Auth::id() . '-%')->orWhere('id', Auth::id());
+            })
+                ->where('username', 'like', "%{$search}%")
+                ->with(['children'])->get();
+        } else {
+            $rootUsers = User::query()->where('id', Auth::id())
+                ->with(['children'])->get();
+        }
 
         $directUsers = User::where('referral', Auth::id())->get();
 
         return Inertia::render('MyTeam', [
             'users' => $rootUsers,
             'directUsers' => $directUsers,
+            'filters' => $request->only(['search']),
         ]);
     }
     public function getMember()
     {
         $users = User::all();
+        $rankings = Ranking::all();
         return Inertia::render('ManageMember', [
             'users' => $users,
+            'ranking' => $rankings,
         ]);
+    }
+
+    public function delete(Request $request)
+    {
+        dd(User::find($request->id));
     }
 
     public function calculateProfit()

@@ -3,7 +3,7 @@ import { useForm, usePage } from "@inertiajs/inertia-vue3";
 import { onMounted, reactive, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import projects from "../../../sample_response/projects.json";
-import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 
 const blocks = ref(projects.data);
 </script>

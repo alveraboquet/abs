@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SettingSeeder::class,
             UserSeeder::class,
-            RankingSeeder::class
+            RankingSeeder::class,
+            RunningNumberSeeder::class,
         ]);
     }
 }

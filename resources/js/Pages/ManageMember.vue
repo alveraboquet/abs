@@ -1,8 +1,10 @@
 <script setup>
+import { Inertia } from "@inertiajs/inertia";
 import { onMounted, ref } from "vue";
-import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 const props = defineProps({
     users: Array,
+    ranking: Array,
 });
 import { FilterMatchMode } from "primevue/api";
 
@@ -14,11 +16,7 @@ const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const submitted = ref(false);
-const statuses = ref([
-    { label: "INSTOCK", value: "instock" },
-    { label: "LOWSTOCK", value: "lowstock" },
-    { label: "OUTOFSTOCK", value: "outofstock" },
-]);
+const statuses = ref(props.ranking);
 const dt = ref(null);
 
 function formatCurrency(value) {
@@ -48,18 +46,30 @@ function saveProduct() {
         product.value = {};
     }
 }
-function editProduct(product) {
-    product.value = { ...product };
+function editProduct(p) {
+    product.value = { ...p };
     productDialog.value = true;
 }
-function confirmDeleteProduct(product) {
-    product.value = product;
+function confirmDeleteProduct(p) {
+    product.value = p;
     deleteProductDialog.value = true;
 }
 function deleteProduct() {
     //delete
-    deleteProductDialog.value = false;
-    product.value = {};
+    Inertia.post(
+        "user/delete",
+        { id: product.value.id },
+        {
+            onSuccess: () => {
+                deleteProductDialog.value = false;
+                product.value = {};
+            },
+            onError: (e) => {
+                console.log(e);
+            },
+        }
+    );
+
     //toast
 }
 
@@ -69,7 +79,7 @@ function exportCSV() {
 </script>
 <template>
     <AppLayoutNew title="manage member">
-        <div>
+        <div class="h-full p-8">
             <div class="card">
                 <Toolbar class="mb-4">
                     <template #start>
@@ -82,14 +92,6 @@ function exportCSV() {
                     </template>
 
                     <template #end>
-                        <FileUpload
-                            mode="basic"
-                            accept="image/*"
-                            :maxFileSize="1000000"
-                            label="Import"
-                            chooseLabel="Import"
-                            class="mr-2 inline-block"
-                        />
                         <Button
                             label="Export"
                             icon="pi pi-upload"
@@ -108,16 +110,14 @@ function exportCSV() {
                     :filters="filters"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} members"
                     responsiveLayout="scroll"
                 >
                     <template #header>
                         <div
-                            class="table-header flex flex-column md:flex-row md:justiify-content-between"
+                            class="table-header flex flex-col md:flex-row md:justify-between"
                         >
-                            <h5 class="mb-2 md:m-0 p-as-md-center">
-                                Manage Products
-                            </h5>
+                            <h5 class="mb-2 md:m-0">Manage Member</h5>
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search" />
                                 <InputText
@@ -127,12 +127,25 @@ function exportCSV() {
                             </span>
                         </div>
                     </template>
-
+                    <Column
+                        field="email"
+                        header="Email"
+                        :sortable="true"
+                    ></Column>
                     <Column
                         field="username"
                         header="Username"
                         :sortable="true"
-                        style="min-width: 12rem"
+                    ></Column>
+                    <Column
+                        field="full_name"
+                        header="Full Name"
+                        :sortable="true"
+                    ></Column>
+                    <Column
+                        field="user_ranking.name_en"
+                        header="Ranking"
+                        :sortable="true"
                     ></Column>
 
                     <Column :exportable="false" style="min-width: 8rem">
@@ -155,145 +168,48 @@ function exportCSV() {
             <Dialog
                 v-model:visible="productDialog"
                 :style="{ width: '450px' }"
-                header="Product Details"
+                header="Member Details"
                 :modal="true"
                 class="p-fluid"
             >
-                <img
-                    src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
-                    :alt="product.image"
-                    class="product-image"
-                    v-if="product.image"
-                />
                 <div class="field">
-                    <label for="name">Name</label>
+                    <label for="username">Username</label>
                     <InputText
-                        id="name"
-                        v-model.trim="product.name"
-                        required="true"
-                        autofocus
-                        :class="{ 'p-invalid': submitted && !product.name }"
+                        id="username"
+                        v-model.trim="product.username"
+                        required
                     />
-                    <small class="p-error" v-if="submitted && !product.name"
-                        >Name is required.</small
-                    >
                 </div>
                 <div class="field">
-                    <label for="description">Description</label>
-                    <Textarea
-                        id="description"
-                        v-model="product.description"
-                        required="true"
-                        rows="3"
-                        cols="20"
+                    <label for="fullName">Full Name</label>
+                    <InputText
+                        id="fullName"
+                        v-model.trim="product.full_name"
+                        required
+                    />
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <InputText
+                        for="email"
+                        v-model.trim="product.email"
+                        required
                     />
                 </div>
 
                 <div class="field">
-                    <label for="inventoryStatus" class="mb-3"
-                        >Inventory Status</label
-                    >
+                    <label for="ranking" class="mb-3">Ranking</label>
                     <Dropdown
-                        id="inventoryStatus"
-                        v-model="product.inventoryStatus"
-                        :options="statuses"
-                        optionLabel="label"
+                        id="ranking"
+                        v-model="product.ranking"
+                        :options="ranking"
+                        optionLabel="name_en"
+                        optionValue="id"
                         placeholder="Select a Status"
                     >
-                        <template #value="slotProps">
-                            <div
-                                v-if="slotProps.value && slotProps.value.value"
-                            >
-                                <span
-                                    :class="
-                                        'product-badge status-' +
-                                        slotProps.value.value
-                                    "
-                                    >{{ slotProps.value.label }}</span
-                                >
-                            </div>
-                            <div
-                                v-else-if="
-                                    slotProps.value && !slotProps.value.value
-                                "
-                            >
-                                <span
-                                    :class="
-                                        'product-badge status-' +
-                                        slotProps.value.toLowerCase()
-                                    "
-                                    >{{ slotProps.value }}</span
-                                >
-                            </div>
-                            <span v-else>
-                                {{ slotProps.placeholder }}
-                            </span>
-                        </template>
                     </Dropdown>
                 </div>
 
-                <div class="field">
-                    <label class="mb-3">Category</label>
-                    <div class="formgrid grid">
-                        <div class="field-radiobutton col-6">
-                            <RadioButton
-                                id="category1"
-                                name="category"
-                                value="Accessories"
-                                v-model="product.category"
-                            />
-                            <label for="category1">Accessories</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <RadioButton
-                                id="category2"
-                                name="category"
-                                value="Clothing"
-                                v-model="product.category"
-                            />
-                            <label for="category2">Clothing</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <RadioButton
-                                id="category3"
-                                name="category"
-                                value="Electronics"
-                                v-model="product.category"
-                            />
-                            <label for="category3">Electronics</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <RadioButton
-                                id="category4"
-                                name="category"
-                                value="Fitness"
-                                v-model="product.category"
-                            />
-                            <label for="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <label for="price">Price</label>
-                        <InputNumber
-                            id="price"
-                            v-model="product.price"
-                            mode="currency"
-                            currency="USD"
-                            locale="en-US"
-                        />
-                    </div>
-                    <div class="field col">
-                        <label for="quantity">Quantity</label>
-                        <InputNumber
-                            id="quantity"
-                            v-model="product.quantity"
-                            integeronly
-                        />
-                    </div>
-                </div>
                 <template #footer>
                     <Button
                         label="Cancel"
@@ -323,7 +239,7 @@ function exportCSV() {
                     />
                     <span v-if="product"
                         >Are you sure you want to delete
-                        <b>{{ product.name }}</b
+                        <b>{{ product.email }}</b
                         >?</span
                     >
                 </div>

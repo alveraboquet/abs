@@ -8,7 +8,7 @@ import JetInput from "@/Components/Input.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
-import AuthLayout from "../../Layouts/AuthLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -33,13 +33,6 @@ const submit = () => {
 };
 
 const displayModal = ref(false);
-
-const openModal = () => {
-    displayModal.value = true;
-};
-const closeModal = () => {
-    displayModal.value = false;
-};
 </script>
 
 <template>

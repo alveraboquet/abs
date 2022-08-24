@@ -1,10 +1,9 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
 import { computed } from "@vue/reactivity";
-import AppLayoutNew from "../Layouts/AppLayoutNew.vue";
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 
-const user = computed(() => usePage().props.value.user);
-console.log(user.value);
+const curUser = computed(() => usePage().props.value.auth.user);
 const resetPasswordForm = useForm({
     current_password: "",
     new_password: "",
@@ -12,11 +11,11 @@ const resetPasswordForm = useForm({
 });
 
 const editProfileForm = useForm({
-    full_name: user.value.full_name,
-    username: user.value.username,
-    phone: user.value.phone,
-    email: user.value.email,
-    invite_code: user.value.invite_code,
+    full_name: curUser.value.full_name,
+    username: curUser.value.username,
+    phone: curUser.value.phone,
+    email: curUser.value.email,
+    invite_code: curUser.value.invite_code,
 });
 
 const submit = () => {};

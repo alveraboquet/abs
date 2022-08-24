@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             'invite_code' => 'J6QYU1',
             'total_direct' => 2,
             'total_group' => 4,
+            'role' => 'admin',
         ]);
 
         User::create([
