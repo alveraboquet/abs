@@ -42,7 +42,7 @@ class CreateNewUser implements CreatesNewUsers
                     'code' => $code,
                     'created_at' => now()
                 ]);
-                $limit = 1;
+                $limit = 10;
                 if (!$rec->wasRecentlyCreated) {
                     $diff = now()->diffInMinutes($rec->created_at);
                     if ($diff > $limit) {
