@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('actual_amount');
             // $table->string('wallet_type');
             $table->string('trx_type');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('Pending');
 
             $table->string('bank_detail')->nullable();
             $table->string('TxID')->nullable();

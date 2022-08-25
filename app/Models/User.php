@@ -97,4 +97,39 @@ class User extends Authenticatable
             },
         );
     } */
+
+    public function frontImg(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => ($value ? '/uploads/' . $attribute['id'] . '/' . $value : null)
+        );
+    }
+
+    public function backImg(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => ($value ? '/uploads/' . $attribute['id'] . '/' . $value : null)
+        );
+    }
+
+    public function passportImg(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => ($value ? '/uploads/' . $attribute['id'] . '/' . $value : null)
+        );
+    }
+
+    public function holdImg(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => ($value ? '/uploads/' . $attribute['id'] . '/' . $value : null)
+        );
+    }
+
+    public function utilsImg(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => ($value ? '/uploads/' . $attribute['id'] . '/' . $value : null)
+        );
+    }
 }

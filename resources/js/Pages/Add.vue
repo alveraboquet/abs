@@ -1,7 +1,12 @@
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { computed } from "@vue/reactivity";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+import Banner from "@/Components/Banner.vue";
+
+const curUser = computed(() => usePage().props.value.auth.user);
 const form = useForm({
     amount: 1000,
     agree_1: false,
@@ -30,80 +35,100 @@ const closeModal = (num) => {
         displayModal3.value = false;
     }
 };
+
+const submitForm = () => {
+    form.post(route("orders.create"));
+};
 </script>
 <template>
     <AppLayoutNew title="Add">
         <div class="h-full p-8">
             <h1>Add New Order</h1>
+            <Banner />
+            <ValidationErrors />
+
             <p>Please insert amount to create new order</p>
 
             <Card>
                 <template #content>
                     <div class="flex justify-between">
                         <p>Wallet Balance</p>
-                        <p>$0.0000</p>
+                        <p>${{ curUser.usdt_wallet }}</p>
                     </div>
                     <hr />
-                    <p>Amount</p>
-                    <InputNumber
-                        class=""
-                        inputId="horizontal"
-                        v-model.number="form.amount"
-                        showButtons
-                        buttonLayout="horizontal"
-                        :step="100"
-                        :min="1000"
-                        incrementButtonIcon="pi pi-plus"
-                        decrementButtonIcon="pi pi-minus"
-                    />
-                    <p>Min Amount: $1000.00</p>
+                    <div class="text-center">
+                        <p>Amount</p>
+                        <InputNumber
+                            class=""
+                            inputId="horizontal"
+                            v-model.number="form.amount"
+                            showButtons
+                            buttonLayout="horizontal"
+                            :step="100"
+                            :min="1000"
+                            incrementButtonIcon="pi pi-plus"
+                            decrementButtonIcon="pi pi-minus"
+                        />
+                        <p>Min Amount: $1000.00</p>
+                    </div>
                 </template>
             </Card>
+            <div class="space-y-4 mt-4">
+                <div class="field-checkbox p-4">
+                    <Checkbox
+                        inputId="binary1"
+                        v-model="form.agree_1"
+                        :binary="true"
+                        class="mr-4"
+                    />
+                    <label for="binary1"
+                        >Agree with
+                        <span
+                            class="font-bold cursor-pointer"
+                            @click.prevent="openModal(1)"
+                            >Understanding of ABS</span
+                        ></label
+                    >
+                </div>
+                <hr />
+                <div class="field-checkbox p-4">
+                    <Checkbox
+                        inputId="binary2"
+                        v-model="form.agree_2"
+                        :binary="true"
+                        class="mr-4"
+                    />
+                    <label for="binary2"
+                        >Agree with
+                        <span
+                            class="font-bold cursor-pointer"
+                            @click.prevent="openModal(2)"
+                            >Summarise of Mutual Agreement</span
+                        ></label
+                    >
+                </div>
+                <hr />
+                <div class="field-checkbox p-4">
+                    <Checkbox
+                        inputId="binary3"
+                        v-model="form.agree_3"
+                        :binary="true"
+                        class="mr-4"
+                    />
+                    <label for="binary3"
+                        >Agree with
+                        <span
+                            class="font-bold cursor-pointer"
+                            @click.prevent="openModal(2)"
+                            >Term & Condition</span
+                        ></label
+                    >
+                </div>
+                <hr />
+            </div>
 
-            <div class="field-checkbox">
-                <Checkbox
-                    inputId="binary1"
-                    v-model="form.agree_1"
-                    :binary="true"
-                />
-                <label for="binary1"
-                    >Agree with
-                    <span
-                        class="font-bold cursor-pointer"
-                        @click.prevent="openModal(1)"
-                        >Understanding of ABS</span
-                    ></label
-                >
-            </div>
-            <div class="field-checkbox">
-                <Checkbox
-                    inputId="binary2"
-                    v-model="form.agree_2"
-                    :binary="true"
-                />
-                <label for="binary2"
-                    >Agree with
-                    <span
-                        class="font-bold cursor-pointer"
-                        @click.prevent="openModal(2)"
-                        >Summarise of Mutual Agreement</span
-                    ></label
-                >
-            </div>
-            <div class="field-checkbox">
-                <Checkbox
-                    inputId="binary3"
-                    v-model="form.agree_3"
-                    :binary="true"
-                />
-                <label for="binary3"
-                    >Agree with
-                    <span
-                        class="font-bold cursor-pointer"
-                        @click.prevent="openModal(2)"
-                        >Term & Condition</span
-                    ></label
-                >
+            <div class="text-center">
+                <Button @click="submitForm">Submit</Button>
             </div>
         </div>
 
@@ -279,7 +304,7 @@ const closeModal = (num) => {
             </p>
 
             <template #footer>
-                <div class="text-center">
+                <div class="text-center mt-4">
                     <Button
                         label="Confirm"
                         icon="pi pi-check"
@@ -493,7 +518,7 @@ const closeModal = (num) => {
             </p>
 
             <template #footer>
-                <div class="text-center">
+                <div class="text-center mt-4">
                     <Button
                         label="Confirm"
                         icon="pi pi-check"
@@ -503,6 +528,7 @@ const closeModal = (num) => {
                 </div>
             </template>
         </Dialog>
+
         <Dialog
             header="Term & Condition"
             v-model:visible="displayModal2"
@@ -511,34 +537,173 @@ const closeModal = (num) => {
             :modal="true"
         >
             <p class="m-0">
-            <div _ngcontent-ckt-c34="" class="modal-body">
-            <div _ngcontent-ckt-c34="" class="policy_wrap">
-            <!---->
-            </div>
-            <!---->
-            <div _ngcontent-ckt-c34="" class="policy_wrap">
-            <div _ngcontent-ckt-c34="" class="desc_text">
-            <span _ngcontent-ckt-c34="" translate=""> By signing up as an Investor on the Platform and by continuing to have an Investor account on the Platform, you acknowledge that you have read, understand, and agree to this Terms and Conditions.</span>
-            <br _ngcontent-ckt-c34="">
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> Our review of each Offer and posting of the same on the Platform do not mean that we</span>
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> (a) recommend you invest in the Issuer; </span>
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> (b) believe the Issuer is likely to be successful, or</span>
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> (c) endorse the Offer in any way.</span>
-            <br _ngcontent-ckt-c34="">
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> We are not responsible, and will not be liable to you, if the fundraising campaign of any Issuer you invest into is unsuccessful. The investment decision with respect to any investment through the Platform is yours and yours alone. Apart from what is contained in the Offer, we have not reviewed or approved any other information about the Issuer, including any information on websites that are linked to from the Offer (such as, without limitation, the website for the Issuer or the social media profiles of entrepreneurs or of the Issuer itself).</span>
-            <br _ngcontent-ckt-c34="">
-            <br _ngcontent-ckt-c34="">
-            <span _ngcontent-ckt-c34="" translate=""> Notwithstanding the above, our decision on authorising you to act as an Investor under the Platform is entirely ours. We will not be liable to you for any direct or indirect losses (including loss of profits, business or opportunities), damages, or costs arising from our decision not to authorise or permit you to be an Investor of the Platform. Upon becoming an Investor, you will be able to view majority of the Offers on the Platform. However, some Offers may be reserved for specific or restricted group of investors at our discretion.</span><br _ngcontent-ckt-c34="">
-            <br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> Upon completion of all the stated processes, you will become an Investor under the Platform. You will remain an Investor until and unless your membership is terminated or suspended. In becoming an Investor, you confirm that we have not solicited your membership or your investment, and that you have visited this Platform of your own volition.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> We do not provide any advice with respect to any aspect of transactions conducted through the Platform, other than advice on the technical use of the Platform. This means, among other things, that we cannot give you any legal, tax, financial, or other advice in connection with your membership or any investments you make through the Platform, and nothing on the Platform or in any communications we send to you is intended to constitute advice. If you need or want advice, you should consult an appropriate professional financial, legal, tax, or other adviser.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> As an Investor, you hereby agree and acknowledge that ABS Agency has the sole and absolute discretion to determine whether a Material Adverse Change has occurred. In the event of a Material Adverse Change, we will inform you via email of this. You will be given an opt-out option within ten(10) calendar days from the day of receiving this email notification.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> Completion of an Offer (“Completion”) will take place only after the following conditions have been satisfied.</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • All the transfers of funds have been verified by us</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • The Offer target has been achieved before or upon the expiry of the Offer period</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • There is no ongoing Material Adverse Change</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • The Issuer has completed all required due diligence activities</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • Any and all such conditions precedent as set out in the respective investment/ transaction agreements relating to the fund raising</span><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> • The six (6) Business Days Cooling-off Period of all the Investors have expired.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> Upon Completion, all the investment funds in the Trust Account will be released to the Issuer after the Trustee’s receipt of the written confirmation issued by ABS Agency in accordance with the terms and conditions of the Trust Deed.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> As an Investor, you may be entitled to certain dividends in an Issuer in accordance with the terms of investments entered into between you and the said Issuer. Please note that any declaration of dividends by the said Issuer may trigger statutory requirements under the Companies Act 2016, including requirements for directors of the Issuer to prepare solvency statements and to procure relevant approvals from the Issuer’s directors and shareholders (as applicable), or relevant transactions and agreements.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> We reserve the right to amend our fees and its contents at any time. In the event of a materially new service or product line, we will inform you through the Platform or by email.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> If you no longer wish to be a Member of the Platform, you may terminate your membership at any time by notifying us pursuant to the notification process. We may terminate your membership at any time and for any or no reason.</span><br _ngcontent-ckt-c34=""><br _ngcontent-ckt-c34=""><span _ngcontent-ckt-c34="" translate=""> We are not in breach of this Agreement if there is, and shall not be liable or have responsibility of any kind for any loss or damage incurred by you as a result of, any total or partial failure, interruption or delay in performance of our duties and obligations occasioned by any act of God; natural disaster; act of government, state, governmental or supranational body or regulatory authority; war; civil disruption; pandemic; terrorism; labour disputes; or any other event, circumstance, or state of affairs (whether or not similar in kind to any of the above) beyond our reasonable control.</span></div></div><!----></div>
+                <span>
+                    By signing up as an Investor on the Platform and by
+                    continuing to have an Investor account on the Platform, you
+                    acknowledge that you have read, understand, and agree to
+                    this Terms and Conditions.</span
+                >
+                <br />
+                <br />
+                <span>
+                    Our review of each Offer and posting of the same on the
+                    Platform do not mean that we</span
+                >
+                <br />
+                <span> (a) recommend you invest in the Issuer; </span>
+                <br />
+                <span>
+                    (b) believe the Issuer is likely to be successful, or</span
+                >
+                <br />
+                <span> (c) endorse the Offer in any way.</span>
+                <br />
+                <br />
+                <span>
+                    We are not responsible, and will not be liable to you, if
+                    the fundraising campaign of any Issuer you invest into is
+                    unsuccessful. The investment decision with respect to any
+                    investment through the Platform is yours and yours alone.
+                    Apart from what is contained in the Offer, we have not
+                    reviewed or approved any other information about the Issuer,
+                    including any information on websites that are linked to
+                    from the Offer (such as, without limitation, the website for
+                    the Issuer or the social media profiles of entrepreneurs or
+                    of the Issuer itself).</span
+                >
+                <br />
+                <br />
+                <span>
+                    Notwithstanding the above, our decision on authorising you
+                    to act as an Investor under the Platform is entirely ours.
+                    We will not be liable to you for any direct or indirect
+                    losses (including loss of profits, business or
+                    opportunities), damages, or costs arising from our decision
+                    not to authorise or permit you to be an Investor of the
+                    Platform. Upon becoming an Investor, you will be able to
+                    view majority of the Offers on the Platform. However, some
+                    Offers may be reserved for specific or restricted group of
+                    investors at our discretion.</span
+                ><br />
+                <br />
+                <span>
+                    Upon completion of all the stated processes, you will become
+                    an Investor under the Platform. You will remain an Investor
+                    until and unless your membership is terminated or suspended.
+                    In becoming an Investor, you confirm that we have not
+                    solicited your membership or your investment, and that you
+                    have visited this Platform of your own volition.</span
+                >
+                <br />
+                <br />
+                <span>
+                    We do not provide any advice with respect to any aspect of
+                    transactions conducted through the Platform, other than
+                    advice on the technical use of the Platform. This means,
+                    among other things, that we cannot give you any legal, tax,
+                    financial, or other advice in connection with your
+                    membership or any investments you make through the Platform,
+                    and nothing on the Platform or in any communications we send
+                    to you is intended to constitute advice. If you need or want
+                    advice, you should consult an appropriate professional
+                    financial, legal, tax, or other adviser.</span
+                ><br /><br /><span translate="">
+                    As an Investor, you hereby agree and acknowledge that ABS
+                    Agency has the sole and absolute discretion to determine
+                    whether a Material Adverse Change has occurred. In the event
+                    of a Material Adverse Change, we will inform you via email
+                    of this. You will be given an opt-out option within ten(10)
+                    calendar days from the day of receiving this email
+                    notification.</span
+                ><br /><br />
+                <span>
+                    Completion of an Offer (“Completion”) will take place only
+                    after the following conditions have been satisfied.</span
+                >
+                <br />
+                <span>
+                    • All the transfers of funds have been verified by us</span
+                >
+                <br />
+                <span>
+                    • The Offer target has been achieved before or upon the
+                    expiry of the Offer period</span
+                >
+                <br />
+                <span> • There is no ongoing Material Adverse Change</span>
+                <br />
+                <span>
+                    • The Issuer has completed all required due diligence
+                    activities</span
+                >
+                <br />
+                <span>
+                    • Any and all such conditions precedent as set out in the
+                    respective investment/ transaction agreements relating to
+                    the fund raising</span
+                >
+                <br />
+                <span>
+                    • The six (6) Business Days Cooling-off Period of all the
+                    Investors have expired.</span
+                >
+                <br />
+                <br />
+                <span>
+                    Upon Completion, all the investment funds in the Trust
+                    Account will be released to the Issuer after the Trustee’s
+                    receipt of the written confirmation issued by ABS Agency in
+                    accordance with the terms and conditions of the Trust
+                    Deed.</span
+                >
+                <br />
+                <br />
+                <span>
+                    As an Investor, you may be entitled to certain dividends in
+                    an Issuer in accordance with the terms of investments
+                    entered into between you and the said Issuer. Please note
+                    that any declaration of dividends by the said Issuer may
+                    trigger statutory requirements under the Companies Act 2016,
+                    including requirements for directors of the Issuer to
+                    prepare solvency statements and to procure relevant
+                    approvals from the Issuer’s directors and shareholders (as
+                    applicable), or relevant transactions and agreements.</span
+                >
+                <br />
+                <br />
+                <span>
+                    We reserve the right to amend our fees and its contents at
+                    any time. In the event of a materially new service or
+                    product line, we will inform you through the Platform or by
+                    email.</span
+                >
+                <br />
+                <br />
+                <span>
+                    If you no longer wish to be a Member of the Platform, you
+                    may terminate your membership at any time by notifying us
+                    pursuant to the notification process. We may terminate your
+                    membership at any time and for any or no reason.</span
+                >
+                <br />
+                <br />
+                <span>
+                    We are not in breach of this Agreement if there is, and
+                    shall not be liable or have responsibility of any kind for
+                    any loss or damage incurred by you as a result of, any total
+                    or partial failure, interruption or delay in performance of
+                    our duties and obligations occasioned by any act of God;
+                    natural disaster; act of government, state, governmental or
+                    supranational body or regulatory authority; war; civil
+                    disruption; pandemic; terrorism; labour disputes; or any
+                    other event, circumstance, or state of affairs (whether or
+                    not similar in kind to any of the above) beyond our
+                    reasonable control.</span
+                >
             </p>
 
             <template #footer>
-                <div class="text-center">
+                <div class="text-center mt-4">
                     <Button
                         label="Confirm"
                         icon="pi pi-check"

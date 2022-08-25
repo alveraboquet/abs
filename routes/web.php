@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmailOtpController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -17,7 +18,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/* 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -26,6 +27,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+ */
 
 Route::middleware([
     'auth:sanctum',
@@ -38,7 +40,7 @@ Route::middleware([
     /* Route::get('/', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard'); */
-    Route::redirect('/', '/login');
+    /* Route::redirect('/', '/login'); */
     Route::get('/home', [UserController::class, 'home'])->name('home');
 
     Route::get('/my-team', [UserController::class, 'getDownline'])->name('my-team');
@@ -48,7 +50,6 @@ Route::middleware([
     Route::get('/projects', function () {
         return Inertia::render('Projects');
     })->name('projects');
-    Route::get('/manage-member', [UserController::class, 'getMember'])->name('manage-member');
 
     Route::get('/topup', function () {
         return Inertia::render('Topup');
@@ -88,11 +89,20 @@ Route::middleware([
         return Inertia::render('Notifications');
     })->name('notifications');
 
+    Route::get('/profile/1/topup-history', function () {
+        return Inertia::render('TopupHistory');
+    })->name('topup-history');
+
+    Route::get('/manage-member', [UserController::class, 'manageMember'])->name('manage-member');
+    Route::get('/manage-topup', [UserController::class, 'manageTopup'])->name('manage-topup');
+
 
 
 
     Route::post('/user/delete', [UserController::class, 'delete'])->name('user.delete');
     Route::post('/deposit', [PaymentController::class, 'deposit'])->name('deposit');
+    Route::post('submit-kyc', [UserController::class, 'submitKyc'])->name('submit-kyc');
+    Route::post('/orders/create', [OrderController::class, 'create'])->name('orders.create');
 });
 Route::post('email/verify', [EmailOtpController::class, 'create'])->name('email.verify');
 Route::get('email/confirm-verify', [EmailOtpController::class, 'verify'])->name('email.verify.confirm');

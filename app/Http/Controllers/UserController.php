@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Profit;
 use App\Models\Ranking;
 use App\Models\User;
@@ -61,7 +62,7 @@ class UserController extends Controller
             'filters' => $request->only(['search']),
         ]);
     }
-    public function getMember()
+    public function manageMember()
     {
         $users = User::all();
         $rankings = Ranking::all();
@@ -70,6 +71,15 @@ class UserController extends Controller
             'ranking' => $rankings,
         ]);
     }
+
+    public function manageTopup()
+    {
+        $lists = Payment::where('trx_type', 'deposit')->with(['user'])->get();
+        return Inertia::render('ManageTopup', [
+            'lists' => $lists,
+        ]);
+    }
+
 
     public function delete(Request $request)
     {
@@ -174,5 +184,79 @@ class UserController extends Controller
             $randomfloat = round($randomfloat, $round);
 
         return $randomfloat;
+    }
+
+    public function submitKyc(Request $request)
+    {
+
+        $request->validate([
+            'id_type' => ['required'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'id_no' => ['required'],
+            'usdt_address' => ['required'],
+            'hold_img' => ['required', 'file'],
+            'utils_img' => ['required', 'file'],
+        ]);
+        $user = User::find(Auth::id());
+        $kyc_path = "uploads/" . $user->id;
+        if ($request->id_type == 'ic') {
+            $request->validate([
+                'front_img' => ['required', 'file'],
+                'back_img' => ['required', 'file'],
+            ]);
+
+            $front_img = $request->file('front_img');
+            $front_img_name = pathinfo($front_img->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $front_img->getClientOriginalExtension();
+            $front_img->move($kyc_path, $front_img_name);
+
+            $back_img = $request->file('back_img');
+            $back_img_name = pathinfo($back_img->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $back_img->getClientOriginalExtension();
+            $back_img->move($kyc_path, $back_img_name);
+
+            $user->front_img = $front_img_name;
+            $user->back_img = $back_img_name;
+        } else {
+            $request->validate([
+                'passport_img' => ['required', 'file'],
+            ]);
+
+            $passport_img = $request->file('passport_img');
+            $passport_img_name = pathinfo($passport_img->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $passport_img->getClientOriginalExtension();
+            $passport_img->move($kyc_path, $passport_img_name);
+            $user->passport_img = $passport_img_name;
+        }
+
+        $hold_img = $request->file('hold_img');
+        $hold_img_name = pathinfo($hold_img->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $hold_img->getClientOriginalExtension();
+        $hold_img->move($kyc_path, $hold_img_name);
+
+
+        $utils_img = $request->file('utils_img');
+        $utils_img_name = pathinfo($utils_img->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $utils_img->getClientOriginalExtension();
+        $utils_img->move($kyc_path, $utils_img_name);
+
+        $user->hold_img = $hold_img_name;
+        $user->utils_img = $utils_img_name;
+
+        $user->full_name = $request->full_name;
+        $user->id_no = $request->id_no;
+        $user->usdt_address = $request->usdt_address;
+        $user->kyc_status = 'Pending';
+        $user->kyc_reason = null;
+        $user->save();
+
+        return back()->banner('Wait for Approval');
+    }
+
+    public function topupHistory()
+    {
+        $lists = Payment::where('user_id', Auth::id())->where('trx_type', 'deposit')->latest()->get();
+
+        return Inertia::render('TopupHistory', compact('lists'));
+    }
+
+    public function withdrawalHistory()
+    {
+        //$lists = Payment::where('user_id', Auth::id())->latest()->get();
     }
 }

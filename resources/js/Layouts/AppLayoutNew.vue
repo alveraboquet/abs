@@ -59,7 +59,7 @@ const changeLang = function (l) {
                     <p class="ml-5">Welcome, {{ curUser.username }}</p>
                 </template>
                 <template #end>
-                    <Link class="mr-2" href="notifications">
+                    <Link class="mr-2" href="/notifications">
                         <i class="pi pi-bell text-primary"></i> Notifications
                     </Link>
 
@@ -78,7 +78,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="home"
+                                    href="/home"
                                 >
                                     <i class="pi pi-home mr-3"></i>
                                     <span>Home</span>
@@ -87,7 +87,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="projects"
+                                    href="/projects"
                                 >
                                     <i class="pi pi-chart-bar mr-3"></i>
                                     <span>Project</span>
@@ -96,7 +96,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="stacking"
+                                    href="/stacking"
                                 >
                                     <i class="pi pi-dollar mr-3"></i>
                                     <span>Staking</span>
@@ -105,7 +105,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="abs"
+                                    href="/abs"
                                 >
                                     <i class="pi pi-info-circle mr-3"></i>
                                     <span>About ABS</span>
@@ -114,7 +114,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="my-team"
+                                    href="/my-team"
                                 >
                                     <i class="pi pi-users mr-3"></i>
                                     <span>My Agency</span>
@@ -123,7 +123,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="kyc"
+                                    href="/kyc"
                                 >
                                     <i class="pi pi-user-edit mr-3"></i>
                                     <span>KYC</span>
@@ -132,7 +132,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="feedback-center"
+                                    href="/feedback-center"
                                 >
                                     <i class="pi pi-question-circle mr-3"></i>
                                     <span>Feedback Center</span>
@@ -141,7 +141,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out disabled:bg-red-500"
-                                    href="invitation"
+                                    href="/invitation"
                                 >
                                     <i class="pi pi-share-alt mr-3"></i>
                                     <span>Invitation</span>
@@ -150,7 +150,7 @@ const changeLang = function (l) {
                             <li class="relative">
                                 <Link
                                     class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                    href="settings"
+                                    href="/settings"
                                 >
                                     <i class="pi pi-cog mr-3"></i>
                                     <span>Settings</span>
@@ -189,7 +189,7 @@ const changeLang = function (l) {
                                 <li class="relative">
                                     <Link
                                         class="flex justify-between text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                        href="home"
+                                        href="/profile/1"
                                     >
                                         <div>USDT Assets</div>
                                         <div>${{ curUser.usdt_wallet }}</div>
@@ -198,7 +198,7 @@ const changeLang = function (l) {
                                 <li class="relative">
                                     <Link
                                         class="flex justify-between text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                        href="home"
+                                        href="/profile/2"
                                     >
                                         <div>ROI Assets</div>
                                         <div>${{ curUser.roi_wallet }}</div>
@@ -210,7 +210,7 @@ const changeLang = function (l) {
                                 <li class="relative">
                                     <Link
                                         class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                        href="topup"
+                                        href="/topup"
                                     >
                                         <i class="pi pi-money-bill mr-3"></i>
                                         <span>Topup Now</span>
@@ -222,7 +222,7 @@ const changeLang = function (l) {
                                 <li class="relative">
                                     <Link
                                         class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-                                        href="home"
+                                        href="/profile/2/withdrawal-history"
                                     >
                                         <i class="pi pi-book mr-3"></i>
                                         <span
@@ -283,14 +283,14 @@ const changeLang = function (l) {
             >
                 <div id="tabs" class="flex justify-between">
                     <Link
-                        href="home"
+                        href="/home"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i class="pi pi-home inline-block mb-1 !text-xl"></i>
                         <span class="tab tab-home block text-xs">Home</span>
                     </Link>
                     <Link
-                        href="projects"
+                        href="/projects"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i
@@ -301,7 +301,7 @@ const changeLang = function (l) {
                         >
                     </Link>
                     <a
-                        href="stacking"
+                        href="/stacking"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i class="pi pi-dollar inline-block mb-1 !text-xl"></i>
@@ -310,7 +310,7 @@ const changeLang = function (l) {
                         >
                     </a>
                     <a
-                        href="abs"
+                        href="/abs"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i
@@ -321,7 +321,7 @@ const changeLang = function (l) {
                         >
                     </a>
                     <a
-                        href="profile"
+                        href="/profile"
                         class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                     >
                         <i class="pi pi-user inline-block mb-1 !text-xl"></i>

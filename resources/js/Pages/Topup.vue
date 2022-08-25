@@ -5,6 +5,7 @@ import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 
 import QrcodeVue from "qrcode.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const address = "TWCd1YieHXotjsBsVb4qi1KSCwvbHt7cDh";
 const label = ref("Copy");
@@ -39,6 +40,11 @@ const testUpload = (e) => {
 <template>
     <AppLayoutNew title="Topup">
         <div class="container p-8">
+            <div class="flex justify-between">
+                <h1>Topup Now</h1>
+                <Link href="/profile/1/topup-history">Topup History</Link>
+            </div>
+
             <Card>
                 <template #content>
                     <div class="flex flex-col items-center justify-between">

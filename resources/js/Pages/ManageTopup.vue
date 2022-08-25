@@ -3,16 +3,20 @@ import { Inertia } from "@inertiajs/inertia";
 import { onMounted, ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 const props = defineProps({
-    users: Array,
+    lists: Array,
     ranking: Array,
 });
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode, FilterOperator } from "primevue/api";
 
 const viewDialog = ref(false);
 const deleteDialog = ref(false);
 const item = ref({});
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    status: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+    },
 });
 const submitted = ref(false);
 const dt = ref(null);
@@ -40,35 +44,14 @@ function editItem(p) {
     item.value = { ...p };
     viewDialog.value = true;
 }
-function confirmDeleteItem(p) {
-    item.value = p;
-    deleteDialog.value = true;
-}
-function deleteItem() {
-    //delete
-    Inertia.post(
-        "user/delete",
-        { id: item.value.id },
-        {
-            onSuccess: () => {
-                deleteDialog.value = false;
-                item.value = {};
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        }
-    );
-
-    //toast
-}
 
 function exportCSV() {
     dt.value.exportCSV();
 }
+const statuses = ref(["Pending", "Approved", "Rejected"]);
 </script>
 <template>
-    <AppLayoutNew title="manage member">
+    <AppLayoutNew title="Manage Topup">
         <div class="h-full p-8">
             <div class="card">
                 <!-- <Toolbar class="mb-4">
@@ -93,21 +76,23 @@ function exportCSV() {
  -->
                 <DataTable
                     ref="dt"
-                    :value="users"
+                    :value="lists"
                     dataKey="id"
                     :paginator="true"
                     :rows="10"
                     :filters="filters"
+                    filterDisplay="menu"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} members"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     responsiveLayout="scroll"
+                    :globalFilterFields="['status']"
                 >
                     <template #header>
                         <div
                             class="table-header flex flex-col md:flex-row md:justify-between"
                         >
-                            <h5 class="mb-2 md:m-0">Manage Member</h5>
+                            <h5 class="mb-2 md:m-0">Manage Topup</h5>
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search" />
                                 <InputText
@@ -117,34 +102,71 @@ function exportCSV() {
                             </span>
                         </div>
                     </template>
-                    <Column field="email" header="Email" sortable></Column>
                     <Column
-                        field="username"
-                        header="Username"
+                        field="payment_id"
+                        header="Payment ID"
                         sortable
                     ></Column>
                     <Column
-                        field="full_name"
-                        header="Full Name"
+                        field="user.full_name"
+                        header="User"
                         sortable
                     ></Column>
+                    <Column field="TxID" header="TxID" sortable></Column>
                     <Column
-                        field="user_ranking.name_en"
-                        header="Ranking"
+                        field="actual_amount"
+                        header="Amount"
                         sortable
                     ></Column>
+                    <Column field="status" header="Status" sortable>
+                        <template #body="{ data }">
+                            <Tag
+                                v-if="data.status == 'Pending'"
+                                severity="info"
+                                >{{ data.status }}</Tag
+                            >
+                            <Tag
+                                v-else-if="data.status == 'Rejected'"
+                                severity="danger"
+                                >{{ data.status }}</Tag
+                            >
+                            <Tag
+                                v-else-if="data.status == 'Approved'"
+                                severity="success"
+                                >{{ data.status }}</Tag
+                            >
+                        </template>
+                        <template #filter="{ filterModel }">
+                            <Dropdown
+                                v-model="filterModel.value"
+                                :options="statuses"
+                                placeholder="Any"
+                                class="p-column-filter"
+                                :showClear="true"
+                            >
+                            </Dropdown>
+                        </template>
+                    </Column>
+                    <Column header="Receipt" sortable>
+                        <template #body="slotProps">
+                            <Image
+                                imageClass="w-10"
+                                :src="slotProps.data.receipt"
+                                preview
+                            ></Image>
+                        </template>
+                    </Column>
 
-                    <Column :exportable="false" style="min-width: 8rem">
+                    <Column
+                        header="Action"
+                        :exportable="false"
+                        style="min-width: 8rem"
+                    >
                         <template #body="slotProps">
                             <Button
                                 icon="pi pi-pencil"
                                 class="p-button-rounded p-button-success mr-2"
                                 @click="editItem(slotProps.data)"
-                            />
-                            <Button
-                                icon="pi pi-trash"
-                                class="p-button-rounded p-button-warning"
-                                @click="confirmDeleteItem(slotProps.data)"
                             />
                         </template>
                     </Column>
@@ -204,38 +226,6 @@ function exportCSV() {
                         icon="pi pi-check"
                         class="p-button-text"
                         @click="saveProduct"
-                    />
-                </template>
-            </Dialog>
-
-            <Dialog
-                v-model:visible="deleteDialog"
-                :style="{ width: '450px' }"
-                header="Confirm"
-                :modal="true"
-            >
-                <div class="confirmation-content">
-                    <i
-                        class="pi pi-exclamation-triangle mr-3"
-                        style="font-size: 2rem"
-                    />
-                    <span v-if="item"
-                        >Are you sure you want to delete <b>{{ item.email }}</b
-                        >?</span
-                    >
-                </div>
-                <template #footer>
-                    <Button
-                        label="No"
-                        icon="pi pi-times"
-                        class="p-button-text"
-                        @click="deleteDialog = false"
-                    />
-                    <Button
-                        label="Yes"
-                        icon="pi pi-check"
-                        class="p-button-text"
-                        @click="deleteItem"
                     />
                 </template>
             </Dialog>
