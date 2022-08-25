@@ -2,9 +2,11 @@
 import { useForm } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
-const address = "TRzE5nJuoi4Y5cwaJHpikLaKQZYNyNRKE8";
+
 import QrcodeVue from "qrcode.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
+
+const address = "TWCd1YieHXotjsBsVb4qi1KSCwvbHt7cDh";
 const label = ref("Copy");
 const onCopySuccess = () => {
     label.value = "Copied";
