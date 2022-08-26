@@ -30,6 +30,7 @@
         "primevue": "^3.16.0",
         "qrcode.vue": "^3.3.3",
         "vue-masonry": "^0.16.0",
-        "vue3-apexcharts": "^1.4.1"
+        "vue3-apexcharts": "^1.4.1",
+        "vue3-radial-progress": "^1.1.1"
     }
 }

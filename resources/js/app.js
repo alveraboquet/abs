@@ -46,6 +46,8 @@ import Checkbox from "primevue/checkbox";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
+import Empty from "@/Components/Empty.vue";
+import RadialProgressBar from "vue3-radial-progress";
 
 /* import "primeflex/primeflex.css"; */
 
@@ -67,6 +69,7 @@ createInertiaApp({
             .use(VueApexCharts)
             .use(VueClipboard)
             .use(VueMasonryPlugin)
+            .use(RadialProgressBar)
             .use(i18nVue, {
                 resolve: async (lang) => {
                     const langs = import.meta.glob("../../lang/*.json");
@@ -105,6 +108,7 @@ createInertiaApp({
             .component("RadioButton", RadioButton)
             .component("Listbox", Listbox)
             .component("Checkbox", Checkbox)
+            .component("Empty", Empty)
 
             .mount(el);
     },

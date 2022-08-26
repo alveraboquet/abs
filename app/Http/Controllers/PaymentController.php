@@ -14,7 +14,7 @@ class PaymentController extends Controller
     private $path_url = 'uploads/transaction';
     //
 
-    public function deposit(Request $request)
+    public function topup(Request $request)
     {
         $request->validate([
             'amount' => ['required', 'numeric', 'min:0'],
@@ -29,7 +29,7 @@ class PaymentController extends Controller
         $actualAmount = $request->amount - $processing_fee;
         $payment_id = RunningNumberService::getID('transaction');
         Payment::create([
-            'trx_type' => 'deposit',
+            'trx_type' => 'topup',
             'payment_id' => $payment_id,
             'original_amount' => $request->amount,
             'actual_amount' => $actualAmount,

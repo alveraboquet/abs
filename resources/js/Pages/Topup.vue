@@ -83,6 +83,7 @@ const testUpload = (e) => {
                                 mode="currency"
                                 currency="USD"
                                 locale="en-US"
+                                :minFractionDigits="4"
                             />
                         </div>
                         <div>

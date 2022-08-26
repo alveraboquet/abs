@@ -29,6 +29,10 @@ Route::get('/', function () {
 });
  */
 
+Route::get('internal-register', function () {
+    return Inertia::render('Auth/Register2');
+})->name('internal-register');
+Route::post('internal-register', [UserController::class, 'internalRegister']);
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -60,9 +64,7 @@ Route::middleware([
     Route::get('/feedback-center', function () {
         return Inertia::render('FeedbackCenter');
     })->name('feedback-center');
-    Route::get('/stacking', function () {
-        return Inertia::render('Stacking');
-    })->name('stacking');
+    Route::get('/staking', [UserController::class, 'getStaking'])->name('staking');
     Route::get('/add', function () {
         return Inertia::render('Add');
     })->name('add');
@@ -89,18 +91,20 @@ Route::middleware([
         return Inertia::render('Notifications');
     })->name('notifications');
 
-    Route::get('/profile/1/topup-history', function () {
-        return Inertia::render('TopupHistory');
-    })->name('topup-history');
+    Route::post('submit-feedback', [UserController::class, 'submitFeedback'])->name('submit-feedback');
+
+
+    Route::get('/profile/1/topup-history', [UserController::class, 'topupHistory'])->name('topup-history');
 
     Route::get('/manage-member', [UserController::class, 'manageMember'])->name('manage-member');
     Route::get('/manage-topup', [UserController::class, 'manageTopup'])->name('manage-topup');
+    Route::post('/topup/update', [UserController::class, 'updateTopup'])->name('update-topup');
 
 
 
 
     Route::post('/user/delete', [UserController::class, 'delete'])->name('user.delete');
-    Route::post('/deposit', [PaymentController::class, 'deposit'])->name('deposit');
+    Route::post('/deposit', [PaymentController::class, 'topup'])->name('deposit');
     Route::post('submit-kyc', [UserController::class, 'submitKyc'])->name('submit-kyc');
     Route::post('/orders/create', [OrderController::class, 'create'])->name('orders.create');
 });

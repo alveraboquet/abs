@@ -18,5 +18,6 @@ class SettingSeeder extends Seeder
         //
         Setting::create(['name' => 'monthly_profit', 'value' => 12]);
         Setting::create(['name' => 'processing_fee', 'value' => 0]);
+        Setting::create(['name' => 'duration', 'value' => 365]);
     }
 }

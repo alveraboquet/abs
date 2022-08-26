@@ -11,6 +11,7 @@ import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { ref, computed } from "vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { Inertia } from "@inertiajs/inertia";
+import route from "../../../../vendor/tightenco/ziggy/src/js";
 
 const form = useForm({
     country: 1,
@@ -18,7 +19,9 @@ const form = useForm({
     full_name: "",
     phone: "",
     username: "",
-    invite_code: route().params.invite?.toUpperCase(),
+    invite_code: route().params.invite
+        ? route().params.invite.toUppercase()
+        : "",
     password: "",
     security_pin: "",
     email: "",
@@ -165,7 +168,7 @@ const sendVerifyEmail = () => {
 
 <template>
     <AuthLayout title="Register">
-        <div class="w-3/4 mx-auto space-y-4 m-8">
+        <div class="w-3/4 mx-auto space-y-4 m-8 p-8">
             <h1>Register</h1>
             <p class="text-sm">
                 Please insert personal details to create an account
@@ -292,7 +295,7 @@ const sendVerifyEmail = () => {
                     <Button
                         class="mt-5"
                         :type="submit"
-                        :disabled="form.processing"
+                        :disabled="!form.verification_code || form.processing"
                         >Register</Button
                     >
                 </div>

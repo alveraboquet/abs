@@ -15,6 +15,21 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
+            $table->unsignedBigInteger('user_id');
+            $table->double('amount');
+            $table->double('float_amount');
+            $table->double('total_profit')->default(0);
+            $table->double('total_percentage')->default(0);
+
+            $table->string('status')->default('Pending');
+            $table->date('date_apply');
+            $table->date('date_activate')->nullable();
+            $table->date('date_cancel')->nullable();
+            $table->date('date_end')->nullable();
+            $table->integer('duration')->nullable();
+
+
             $table->timestamps();
         });
     }

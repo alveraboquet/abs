@@ -21,6 +21,13 @@ https://theodorusclarence.com/library/tailwindcss-basestyle
     h4 {
         @apply text-base font-bold md:text-lg;
     }
+    h5 {
+        @apply text-base font-bold md:text-lg;
+    }
+    h6 {
+        @apply text-base font-bold;
+    }
+
     body {
         @apply text-sm md:text-base;
     }
@@ -44,5 +51,9 @@ https://theodorusclarence.com/library/tailwindcss-basestyle
     .no-scrollbar {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
+    }
+
+    .text-primary {
+        @apply text-[#00178a];
     }
 }

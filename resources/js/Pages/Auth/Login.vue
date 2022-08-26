@@ -37,7 +37,7 @@ const displayModal = ref(false);
 
 <template>
     <AuthLayout title="Login">
-        <div class="main-con login-con">
+        <div class="main-con login-con h-full">
             <div class="w-3/4 mx-auto mt-24">
                 <div class="grid grid-cols-12 mx-auto">
                     <div
@@ -46,7 +46,7 @@ const displayModal = ref(false);
                         <Image
                             alt="logo"
                             src="/images/logo/logo-01.png"
-                            class="w-3/4 mx-auto"
+                            class="w-3/4 mx-auto m-8"
                         />
                     </div>
                     <div
@@ -54,7 +54,7 @@ const displayModal = ref(false);
                     >
                         <ValidationErrors />
                         <div class="text-center">
-                            <h1>Login</h1>
+                            <h1 class="hidden md:block">Login</h1>
                             <p>Please login to continue</p>
                         </div>
                         <form
@@ -105,14 +105,14 @@ const displayModal = ref(false);
                     </div>
                 </div>
             </div>
-        </div></AuthLayout
-    >
+        </div>
+    </AuthLayout>
 </template>
 <style scoped lang="css">
 .main-con.login-con {
     background-image: url(/images/BG-14.png);
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
     background-position: center;
 
     /*padding: 10px 15% 50px;*/
@@ -130,17 +130,18 @@ const displayModal = ref(false);
     z-index: 11;
 }
 
+/*
 .main-con {
-    min-height: 100%;
-    padding: 40px 12% 10%;
+   min-height: 100%;
+   padding: 40px 12% 10%;
     background-color: #fff;
-}
+}*/
 
 .login-layout {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 23vh 5% 0 0;
+    /*padding: 23vh 5% 0 0;*/
 }
 
 @media only screen and (max-width: 768px) {

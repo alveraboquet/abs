@@ -2,6 +2,8 @@
 import { Inertia } from "@inertiajs/inertia";
 import { onMounted, ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import Banner from "@/Components/Banner.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
 const props = defineProps({
     lists: Array,
     ranking: Array,
@@ -30,15 +32,18 @@ function hideDialog() {
     viewDialog.value = false;
     submitted.value = false;
 }
-function saveProduct() {
+function saveItem() {
     submitted.value = true;
 
-    if (item.value.name.trim()) {
-        //update or add
-        //toast
-        viewDialog.value = false;
-        item.value = {};
-    }
+    Inertia.post("/topup/update", item.value, {
+        onSuccess: () => {
+            viewDialog.value = false;
+            item.value = {};
+        },
+        onError: (e) => {
+            console.log(e);
+        },
+    });
 }
 function editItem(p) {
     item.value = { ...p };
@@ -53,6 +58,8 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
 <template>
     <AppLayoutNew title="Manage Topup">
         <div class="h-full p-8">
+            <Banner />
+            <ValidationErrors />
             <div class="card">
                 <!-- <Toolbar class="mb-4">
                     <template #start>
@@ -78,15 +85,14 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
                     ref="dt"
                     :value="lists"
                     dataKey="id"
-                    :paginator="true"
+                    paginator
                     :rows="10"
-                    :filters="filters"
+                    v-model:filters="filters"
                     filterDisplay="menu"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     responsiveLayout="scroll"
-                    :globalFilterFields="['status']"
                 >
                     <template #header>
                         <div
@@ -142,7 +148,7 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
                                 :options="statuses"
                                 placeholder="Any"
                                 class="p-column-filter"
-                                :showClear="true"
+                                showClear
                             >
                             </Dropdown>
                         </template>
@@ -167,6 +173,7 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
                                 icon="pi pi-pencil"
                                 class="p-button-rounded p-button-success mr-2"
                                 @click="editItem(slotProps.data)"
+                                :disabled="slotProps.data.status != 'Pending'"
                             />
                         </template>
                     </Column>
@@ -176,39 +183,16 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
             <Dialog
                 v-model:visible="viewDialog"
                 :style="{ width: '450px' }"
-                header="Member Details"
+                header="Payment Details"
                 :modal="true"
                 class="p-fluid"
             >
                 <div class="field">
-                    <label for="username">Username</label>
-                    <InputText
-                        id="username"
-                        v-model.trim="item.username"
-                        required
-                    />
-                </div>
-                <div class="field">
-                    <label for="fullName">Full Name</label>
-                    <InputText
-                        id="fullName"
-                        v-model.trim="item.full_name"
-                        required
-                    />
-                </div>
-                <div class="field">
-                    <label for="email">Email</label>
-                    <InputText for="email" v-model.trim="item.email" required />
-                </div>
-
-                <div class="field">
-                    <label for="ranking" class="mb-3">Ranking</label>
+                    <label for="ranking" class="mb-3">Status</label>
                     <Dropdown
                         id="ranking"
-                        v-model="item.ranking"
-                        :options="ranking"
-                        optionLabel="name_en"
-                        optionValue="id"
+                        v-model="item.status"
+                        :options="statuses"
                         placeholder="Select a Status"
                     >
                     </Dropdown>
@@ -225,7 +209,7 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
                         label="Save"
                         icon="pi pi-check"
                         class="p-button-text"
-                        @click="saveProduct"
+                        @click="saveItem"
                     />
                 </template>
             </Dialog>

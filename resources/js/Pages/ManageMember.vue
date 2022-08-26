@@ -26,14 +26,21 @@ function hideDialog() {
     viewDialog.value = false;
     submitted.value = false;
 }
-function saveProduct() {
+function saveItem() {
     submitted.value = true;
 
     if (item.value.name.trim()) {
+        Inertia.post("/topup/update", item, {
+            onSuccess: () => {
+                viewDialog.value = false;
+                item.value = {};
+            },
+            onError: (e) => {
+                console.log(e);
+            },
+        });
         //update or add
         //toast
-        viewDialog.value = false;
-        item.value = {};
     }
 }
 function editItem(p) {
@@ -95,7 +102,7 @@ function exportCSV() {
                     ref="dt"
                     :value="users"
                     dataKey="id"
-                    :paginator="true"
+                    paginator
                     :rows="10"
                     :filters="filters"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -203,7 +210,7 @@ function exportCSV() {
                         label="Save"
                         icon="pi pi-check"
                         class="p-button-text"
-                        @click="saveProduct"
+                        @click="saveItem"
                     />
                 </template>
             </Dialog>

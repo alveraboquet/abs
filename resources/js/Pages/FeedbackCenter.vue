@@ -1,14 +1,24 @@
 <script setup>
 import { useForm } from "@inertiajs/inertia-vue3";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
-
-const submit = () => {};
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+import Banner from "@/Components/Banner.vue";
 const form = useForm({ phone: "", email: "", title: "", content: "" });
+
+const submit = () => {
+    form.post("submit-feedback", {
+        onSuccess: () => {
+            form.reset();
+        },
+    });
+};
 </script>
 <template>
     <AppLayoutNew title="Feedback Center">
         <div class="h-full p-8">
             <h1>Feedback Center</h1>
+            <Banner />
+            <ValidationErrors />
             <form @submit.prevent="submit" class="flex-grow-1 space-y-4">
                 <div>
                     <h5 class="text-primary">Phone No.</h5>

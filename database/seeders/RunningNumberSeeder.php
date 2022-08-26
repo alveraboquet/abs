@@ -17,6 +17,11 @@ class RunningNumberSeeder extends Seeder
     {
         RunningNumber::create([
             'type' => "transaction",
+            'prefix' => "T",
+            'digits' => 7,
+        ]);
+        RunningNumber::create([
+            'type' => "order",
             'prefix' => "ABS",
             'digits' => 7,
         ]);

@@ -5,7 +5,7 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     yesterdayProfit: Object,
-    lastWeekProfit: Array,
+    lastWeekProfit: Object,
     monthlyProfit: Number,
     accumulateProfit: Number,
 });
@@ -91,11 +91,32 @@ const chartOptions = {
                     </div>
                     <div class="flex justify-between">
                         <div>Return</div>
-                        <div class="flex divide-x-4 space-x-4">
-                            <div>Daily {{ yesterdayProfit.profit_1 }}%</div>
-                            <div>Monthly {{ monthlyProfit.toFixed(4) }}%</div>
+                        <div class="flex">
                             <div>
-                                Accumulate {{ accumulateProfit.toFixed(4) }}%
+                                Daily
+                                <span class="font-bold">
+                                    {{ yesterdayProfit.profit_1 }}%
+                                </span>
+                            </div>
+                            <Divider
+                                layout="vertical"
+                                class="before:!border-solid before:!border-l-black before:!border-l"
+                            />
+                            <div>
+                                Monthly
+                                <span class="font-bold">
+                                    {{ monthlyProfit.toFixed(4) }}%
+                                </span>
+                            </div>
+                            <Divider
+                                layout="vertical"
+                                class="before:!border-solid before:!border-l-black before:!border-l"
+                            />
+                            <div>
+                                Accumulate
+                                <span class="font-bold">
+                                    {{ accumulateProfit.toFixed(4) }}%
+                                </span>
                             </div>
                         </div>
                     </div>

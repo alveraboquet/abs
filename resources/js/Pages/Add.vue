@@ -37,7 +37,11 @@ const closeModal = (num) => {
 };
 
 const submitForm = () => {
-    form.post(route("orders.create"));
+    form.post(route("orders.create"), {
+        onSuccess: () => {
+            form.reset();
+        },
+    });
 };
 </script>
 <template>

@@ -63,7 +63,7 @@ class CreateNewUser implements CreatesNewUsers
             // 'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-
+        EmailOtp::where('email', $input['email'])->delete();
         do {
             $code = strtoupper(Str::random(6));
             $exists = User::where('invite_code', $code)->exists();

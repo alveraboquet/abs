@@ -2,6 +2,7 @@
     #
     Your OTP is {{ $otp }}
 
-    Thanks,<br>
+    Thanks,
+
     {{ config('app.name') }}
 @endcomponent

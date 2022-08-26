@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Profit;
 use App\Models\Ranking;
+use App\Models\Support;
 use App\Models\User;
+use App\Models\WalletLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -74,7 +81,7 @@ class UserController extends Controller
 
     public function manageTopup()
     {
-        $lists = Payment::where('trx_type', 'deposit')->with(['user'])->get();
+        $lists = Payment::where('trx_type', 'topup')->with(['user'])->get();
         return Inertia::render('ManageTopup', [
             'lists' => $lists,
         ]);
@@ -87,6 +94,99 @@ class UserController extends Controller
     }
 
     public function calculateProfit()
+    {
+
+        $date = today()->startOfMonth();
+        $exists = Profit::where('date', $date)->exists();
+        if ($exists) return "Already exist";
+
+
+
+        $days = $date->daysInMonth;
+        $maxProfit = 12;
+        $percentagePerDay = array();
+        $profitPerDay = array();
+        for ($i = 0; $i < $days; $i++) {
+            $rand = $this->float_rand(0, 1, 4);
+            //$rand = rand(1, 100);
+            $percentagePerDay[$i] = $rand;
+        }
+
+        $sumPercentage = collect($percentagePerDay)->sum();
+        for ($i = 0; $i < $days; $i++) {
+            $profit = $percentagePerDay[$i] / $sumPercentage * $maxProfit;
+            $profitPerDay[$i] = round($profit, 4);
+        }
+        $sumProfit = round(collect($profitPerDay)->sum(), 4);
+        $overflow = $maxProfit - round($sumProfit, 4);
+        $profitPerDay[rand(0, $days - 1)] += $overflow;
+
+
+        for ($i = 0; $i < $days; $i++) {
+            $eachProfit = round($profitPerDay[$i] / 3, 4);
+            Profit::create([
+                'date' => $date,
+                'year' => $date->year,
+                'month' => $date->month,
+                'day' => $date->day,
+                'total_profit' => $profitPerDay[$i],
+                'profit_1' => $eachProfit,
+                'profit_2' => $eachProfit,
+                'profit_3' => $eachProfit,
+            ]);
+            $date->addDay(1);
+        }
+        return "Success";
+    }
+
+
+    public function calculateProfitV2()
+    {
+        $date = today()->startOfMonth();
+        $exists = Profit::where('date', $date)->exists();
+        if ($exists) return "Already exist";
+
+
+
+        $days = $date->daysInMonth;
+        $maxProfit = 12;
+        $percentagePerDay = array();
+        $profitPerDay = array();
+        for ($i = 0; $i < $days; $i++) {
+            $rand = $this->float_rand(0, 1, 4);
+            //$rand = rand(1, 100);
+            $percentagePerDay[$i] = $rand;
+        }
+
+        $sumPercentage = collect($percentagePerDay)->sum();
+        for ($i = 0; $i < $days; $i++) {
+            $profit = $percentagePerDay[$i] / $sumPercentage * $maxProfit;
+            $profitPerDay[$i] = round($profit, 4);
+        }
+        $sumProfit = round(collect($profitPerDay)->sum(), 4);
+        $overflow = $maxProfit - round($sumProfit, 4);
+        $profitPerDay[rand(0, $days - 1)] += $overflow;
+
+
+
+        for ($i = 0; $i < $days; $i++) {
+            $eachProfit = $profitPerDay[$i] / 3;
+            Profit::create([
+                'date' => $date,
+                'year' => $date->year,
+                'month' => $date->month,
+                'day' => $date->day,
+                'total_profit' => $profitPerDay[$i],
+                'profit_1' => $eachProfit,
+                'profit_2' => $eachProfit,
+                'profit_3' => $eachProfit,
+            ]);
+            $date->addDay(1);
+        }
+        return "Success";
+    }
+
+    public function calculateProfitOld()
     {
         $now = now();
         $days = $now->daysInMonth;
@@ -250,7 +350,7 @@ class UserController extends Controller
 
     public function topupHistory()
     {
-        $lists = Payment::where('user_id', Auth::id())->where('trx_type', 'deposit')->latest()->get();
+        $lists = Payment::where('user_id', Auth::id())->where('trx_type', 'topup')->latest()->get();
 
         return Inertia::render('TopupHistory', compact('lists'));
     }
@@ -258,5 +358,99 @@ class UserController extends Controller
     public function withdrawalHistory()
     {
         //$lists = Payment::where('user_id', Auth::id())->latest()->get();
+    }
+
+    public function updateTopup(Request $request)
+    {
+        $payment = Payment::find($request->id);
+        $payment->update(['status' => $request->status]);
+        if ($request->status == 'Approved') {
+            $user = User::find($payment->user_id);
+
+            WalletLog::create([
+                'user_id' => $user->id,
+                'wallet_type' => 'usdt',
+                'type' => 'topup',
+                'opening_balance' => $user->usdt_wallet,
+                'amount' => $payment->actual_amount,
+                'closing_balance' => $user->usdt_wallet + $payment->actual_amount
+            ]);
+            $user->usdt_wallet += $payment->actual_amount;
+            $user->save();
+        }
+        return back()->banner('Update successfull');
+    }
+
+    public function internalRegister(Request $request)
+    {
+        $input['invite_code'] = strtoupper($request->invite_code);
+        $input = $request->validate([
+            'country' => ['required', 'numeric'],
+            'province' => ['nullable', 'numeric'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:users'],
+            'invite_code' => ['required', 'string', 'min:6', 'exists:users,invite_code'],
+            'password' => [Password::min(8)],
+            'security_pin' => ['required', 'string', 'min:6'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phonePrefix' => ['required'],
+        ]);
+
+
+        do {
+            $code = strtoupper(Str::random(6));
+            $exists = User::where('invite_code', $code)->exists();
+        } while ($exists);
+
+        $referrer = User::firstWhere('invite_code', $input['invite_code']);
+        $referrer->total_direct += 1;
+        $upline = $referrer;
+        while ($upline) {
+            $upline->total_group += 1;
+            $upline->save();
+            $upline = $upline->parent;
+        }
+        $hierarchyList = $referrer->hierarchyList ? $referrer->hierarchyList . $referrer->id . '-' : '-' . $referrer->id . '-';
+
+        User::create([
+            'username' => $input['username'],
+            'full_name' => $input['full_name'],
+            'email' => $input['email'],
+            'phone' => $input['phonePrefix'] . $input['phone'],
+            'password' => Hash::make($input['password']),
+            'security_pin' => Hash::make($input['security_pin']),
+            'country' => $input['country'],
+            'province' => $input['province'],
+            'referral' => $referrer->id,
+            'hierarchyList' => $hierarchyList,
+            'invite_code' => $code,
+        ]);
+
+        return back()->banner('Register success. Invite code is ' . $code);
+    }
+
+    public function getStaking(Request $request)
+    {
+        $lists = Order::where('user_id', Auth::id())->latest()->get();
+        return Inertia::render('Staking', compact('lists'));
+    }
+    public function submitFeedback(Request $request)
+    {
+        $request->validate([
+            'phone' => ['required'],
+            'email' => ['required'],
+            'title' => ['required'],
+            'content' => ['required'],
+        ]);
+
+        Support::create([
+            'user_id' => Auth::id(),
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+        return back()->banner('Successfully submitted');
     }
 }
