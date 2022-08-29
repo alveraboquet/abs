@@ -23,7 +23,7 @@ const onCopyError = () => {
 
 <template>
     <AppLayoutNew title="Invitation">
-        <div class="h-screen md:m-8 main-con">
+        <div class="md:m-8 main-con">
             <h1>Invitation</h1>
 
             <div class="layout_con_1">

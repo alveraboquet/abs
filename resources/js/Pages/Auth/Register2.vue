@@ -254,7 +254,7 @@ const validateNumbers = (event) => {
             <div class="text-center">
                 <p>
                     I have an account.
-                    <Link href="login">Login Now</Link>
+                    <Link :href="route('login')">Login Now</Link>
                 </p>
             </div>
         </div>

@@ -1,7 +1,11 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
-import { computed } from "@vue/reactivity";
+
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { getActiveLanguage, loadLanguageAsync } from "laravel-vue-i18n";
+import { ref, watch, computed } from "vue";
+import Banner from "@/Components/Banner.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
 
 const curUser = computed(() => usePage().props.value.auth.user);
 const resetPasswordForm = useForm({
@@ -19,6 +23,31 @@ const editProfileForm = useForm({
 });
 
 const submit = () => {};
+
+const resetPasswordSubmit = () => {
+    resetPasswordForm.post(route("change-password"), {
+        onSuccess: () => {
+            resetPasswordForm.reset();
+        },
+    });
+};
+
+const languages = [
+    { name: "English", value: "en" },
+    { name: "简体中文", value: "cn" },
+];
+
+const lang = ref(getActiveLanguage());
+watch(lang, async function (newLang) {
+    console.log(newLang);
+    await loadLanguageAsync(newLang);
+});
+
+const selectedLang = ref(lang.value);
+
+const changeLang = function (l) {
+    lang.value = l;
+};
 </script>
 <template>
     <div class="h-full">
@@ -81,21 +110,23 @@ const submit = () => {};
                                 placeholder="Type Invitation code"
                             />
                         </div>
-                        <div class="text-center">
+                        <!-- <div class="text-center">
                             <Button
                                 class="mt-5"
                                 :type="submit"
                                 :disabled="editProfileForm.processing"
                                 >Confirm</Button
                             >
-                        </div>
+                        </div> -->
                     </form>
                 </TabPanel>
                 <TabPanel header="Password Setting">
                     <TabView>
                         <TabPanel header="Login Password">
+                            <Banner />
+                            <ValidationErrors />
                             <form
-                                @submit.prevent="submit"
+                                @submit.prevent="resetPasswordSubmit"
                                 class="flex-grow-1 space-y-4"
                             >
                                 <div>
@@ -123,7 +154,6 @@ const submit = () => {};
                                         placeholder="Type New Password"
                                     />
                                 </div>
-
                                 <div>
                                     <h5 class="text-primary">
                                         Confirm Password
@@ -135,9 +165,10 @@ const submit = () => {};
                                         "
                                         toggleMask
                                         :feedback="false"
-                                        placeholder="Type New Password"
+                                        placeholder="Confirm New Password"
                                     />
                                 </div>
+
                                 <div class="text-center">
                                     <Button
                                         class="mt-5"
@@ -152,12 +183,27 @@ const submit = () => {};
                 </TabPanel>
                 <TabPanel header="Language Setting">
                     <h1>Select Language</h1>
-                    <p>English</p>
-                    <p>简体中文</p>
-                    <Button>Confirm</Button>
+                    <Listbox
+                        v-model="selectedLang"
+                        :options="languages"
+                        optionLabel="name"
+                        optionValue="value"
+                    ></Listbox>
+                    <div class="text-center mt-4">
+                        <Button @click="changeLang(selectedLang)"
+                            >Confirm</Button
+                        >
+                    </div>
                 </TabPanel>
             </TabView>
         </AppLayoutNew>
     </div>
 </template>
-<style scope lang="css"></style>
+<style scope lang="css">
+.p-password {
+    width: 100% !important;
+}
+.p-inputtext {
+    width: 100% !important;
+}
+</style>

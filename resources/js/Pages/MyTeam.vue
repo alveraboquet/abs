@@ -20,7 +20,7 @@ const treeUsers = computed(() => props.users.map((u) => renderUser(u, 0)));
 const renderUser = (user, level) => {
     return {
         key: user.id,
-        label: user.full_name,
+        label: user.username,
         /* icon: "pi pi-fw pi-star-fill", */
         data: user.invite_code,
         //leaf: user.children ? true : false,
@@ -38,7 +38,11 @@ const search = ref(props.filters.search);
 watch(
     search,
     debounce(function (value) {
-        Inertia.get("my-team", { search: value }, { preserveState: true });
+        Inertia.get(
+            route("my-team"),
+            { search: value },
+            { preserveState: true }
+        );
     }, 300)
 );
 const curUser = computed(() => usePage().props.value.auth.user);
@@ -46,7 +50,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
 
 <template>
     <AppLayoutNew title="My Team">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <h1>My Agency</h1>
             <Card class="drop-shadow-lg mt-5">
                 <template #content>
@@ -158,7 +162,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                 <TabPanel header="Direct Agent">
                     <div v-for="dUser in directUsers">
                         <div class="flex justify-between">
-                            <p>{{ dUser.full_name }}</p>
+                            <p>{{ dUser.username }}</p>
                             <p>
                                 <Tag
                                     v-if="dUser.status == 1"

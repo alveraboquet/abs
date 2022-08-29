@@ -1,21 +1,31 @@
 <script setup>
-import { computed } from 'vue';
-import { Link } from '@inertiajs/inertia-vue3';
+import { computed } from "vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     href: String,
     active: Boolean,
+    disabled: Boolean,
 });
 
 const classes = computed(() => {
     return props.active
-        ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition'
-        : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition';
+        ? "py-4 px-2 h-12 flex items-center justify-between overflow-hidden text-primary text-ellipsis whitespace-nowrap rounded transition duration-300 ease-in-out bg-primary/10"
+        : props.disabled
+        ? "py-4 px-2 h-12 flex items-center justify-between overflow-hidden text-primary/40 text-ellipsis whitespace-nowrap rounded bg-slate-100"
+        : "py-4 px-2 h-12 flex items-center justify-between overflow-hidden text-primary text-ellipsis whitespace-nowrap rounded  hover:bg-primary/10 transition duration-300 ease-in-out";
 });
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
-        <slot />
+    <Link :class="classes" :href="href">
+        <div class="flex items-center"><slot /></div>
+
+        <div class="flex items-center">
+            <slot name="right"></slot>
+            <div v-if="!disabled">
+                <i class="pi pi-angle-right"> </i>
+            </div>
+        </div>
     </Link>
 </template>

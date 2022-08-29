@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -42,6 +43,16 @@ class HandleInertiaRequests extends Middleware
             'auth.user' => fn () => auth()->id()
                 ? User::with('userRanking')->find(auth()->id())
                 : null,
+            'notifications' => fn () => session('login_success')
+                ? Notification::query()
+                ->where('status', 'Active')
+                ->where('popup', true)
+                ->where('start_date', '<=', today())
+                ->where('end_date', '>=', today())
+                ->latest()
+                ->get()
+                : null,
+
             /* 'auth.user' => fn () => $request->user()
                 ? $request->user()
                 : null, */

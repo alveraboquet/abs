@@ -6,7 +6,6 @@ import Banner from "@/Components/Banner.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 const props = defineProps({
     lists: Array,
-    ranking: Array,
 });
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 
@@ -20,22 +19,17 @@ const filters = ref({
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
     },
 });
-const submitted = ref(false);
 const dt = ref(null);
 
 function openNew() {
     item.value = {};
-    submitted.value = false;
     viewDialog.value = true;
 }
 function hideDialog() {
     viewDialog.value = false;
-    submitted.value = false;
 }
 function saveItem() {
-    submitted.value = true;
-
-    Inertia.post("/topup/update", item.value, {
+    Inertia.post(route("admin.update-topup"), item.value, {
         onSuccess: () => {
             viewDialog.value = false;
             item.value = {};
@@ -185,12 +179,14 @@ const statuses = ref(["Pending", "Approved", "Rejected"]);
                 :style="{ width: '450px' }"
                 header="Payment Details"
                 :modal="true"
+                :closeOnEscape="false"
+                :draggable="false"
                 class="p-fluid"
             >
                 <div class="field">
-                    <label for="ranking" class="mb-3">Status</label>
+                    <label for="status" class="mb-3">Status</label>
                     <Dropdown
-                        id="ranking"
+                        id="status"
                         v-model="item.status"
                         :options="statuses"
                         placeholder="Select a Status"

@@ -44,18 +44,25 @@ class OrderController extends Controller
             'closing_balance' => $user->usdt_wallet - $amount
         ]);
 
+
+        $upline = $user->parent;
+        $direct = true;
+
+        while ($upline) {
+            if ($direct) {
+                $upline->direct_sales += $amount;
+                $direct = false;
+            }
+            $upline->group_sales += $amount;
+            $upline->save();
+            $upline = $upline->parent;
+        }
+
         $user->personal_sales += $amount;
         $user->usdt_wallet -= $amount;
 
 
-
         $user->save();
-
-
-
-
-
-
 
 
         return back()->banner('Successfully created');

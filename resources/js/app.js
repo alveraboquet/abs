@@ -43,11 +43,13 @@ import Textarea from "primevue/textarea";
 import RadioButton from "primevue/radiobutton";
 import Listbox from "primevue/listbox";
 import Checkbox from "primevue/checkbox";
-import "primevue/resources/themes/saga-blue/theme.css";
+import "primevue/resources/themes/mdc-light-indigo/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 import Empty from "@/Components/Empty.vue";
 import RadialProgressBar from "vue3-radial-progress";
+import Editor from "primevue/editor";
+import Calendar from "primevue/calendar";
 
 /* import "primeflex/primeflex.css"; */
 
@@ -109,6 +111,8 @@ createInertiaApp({
             .component("Listbox", Listbox)
             .component("Checkbox", Checkbox)
             .component("Empty", Empty)
+            .component("Editor", Editor)
+            .component("Calendar", Calendar)
 
             .mount(el);
     },

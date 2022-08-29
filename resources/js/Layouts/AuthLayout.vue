@@ -70,27 +70,28 @@ const changeLang = function (l) {
         </Toolbar>
         <slot />
     </div>
-
-    <Dialog
-        header="Filter"
-        v-model:visible="displayModal"
-        :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-        :draggable="false"
-        :style="{ width: '50vw' }"
-        :modal="true"
-    >
-        <Listbox
-            v-model="selectedLang"
-            :options="languages"
-            optionLabel="name"
-            optionValue="value"
-        ></Listbox>
-        <template #footer>
-            <div class="text-center">
-                <Button label="Confirm" @click="closeModal" autofocus />
-            </div>
-        </template>
-    </Dialog>
+    <Teleport to="body">
+        <Dialog
+            header="Filter"
+            v-model:visible="displayModal"
+            :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+            :draggable="false"
+            :style="{ width: '50vw' }"
+            :modal="true"
+        >
+            <Listbox
+                v-model="selectedLang"
+                :options="languages"
+                optionLabel="name"
+                optionValue="value"
+            ></Listbox>
+            <template #footer>
+                <div class="text-center">
+                    <Button label="Confirm" @click="closeModal" autofocus />
+                </div>
+            </template>
+        </Dialog>
+    </Teleport>
 </template>
 <style scoped lang="css">
 .main-con.login-con {

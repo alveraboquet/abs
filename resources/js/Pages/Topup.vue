@@ -42,7 +42,7 @@ const testUpload = (e) => {
         <div class="container p-8">
             <div class="flex justify-between">
                 <h1>Topup Now</h1>
-                <Link href="/profile/1/topup-history">Topup History</Link>
+                <Link :href="route('usdt.topup-history')">Topup History</Link>
             </div>
 
             <Card>

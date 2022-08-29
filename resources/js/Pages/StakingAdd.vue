@@ -45,7 +45,7 @@ const submitForm = () => {
 };
 </script>
 <template>
-    <AppLayoutNew title="Add">
+    <AppLayoutNew title="Add New Order">
         <div class="h-full p-8">
             <h1>Add New Order</h1>
             <Banner />
@@ -135,7 +135,8 @@ const submitForm = () => {
                 <Button @click="submitForm">Submit</Button>
             </div>
         </div>
-
+    </AppLayoutNew>
+    <Teleport to="body">
         <Dialog
             header="Understanding of ABS"
             v-model:visible="displayModal1"
@@ -313,7 +314,6 @@ const submitForm = () => {
                         label="Confirm"
                         icon="pi pi-check"
                         @click="closeModal(1)"
-                        autofocus
                     />
                 </div>
             </template>
@@ -526,8 +526,7 @@ const submitForm = () => {
                     <Button
                         label="Confirm"
                         icon="pi pi-check"
-                        @click="closeModal(1)"
-                        autofocus
+                        @click="closeModal(2)"
                     />
                 </div>
             </template>
@@ -535,7 +534,7 @@ const submitForm = () => {
 
         <Dialog
             header="Term & Condition"
-            v-model:visible="displayModal2"
+            v-model:visible="displayModal3"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :style="{ width: '50vw' }"
             :modal="true"
@@ -711,12 +710,11 @@ const submitForm = () => {
                     <Button
                         label="Confirm"
                         icon="pi pi-check"
-                        @click="closeModal(1)"
-                        autofocus
+                        @click="closeModal(3)"
                     />
                 </div>
             </template>
         </Dialog>
-    </AppLayoutNew>
+    </Teleport>
 </template>
 <style scope lang="css"></style>

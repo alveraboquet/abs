@@ -32,12 +32,13 @@ const changeSelection = function (l) {
 </script>
 <template>
     <AppLayoutNew title="USDT Asset">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <div class="flex justify-between">
                 <h1>USDT Asset</h1>
                 <Button
                     icon="pi pi-filter"
                     class="p-button-rounded p-button-text p-button-plain"
+                    @click="openModal"
                 />
             </div>
 
@@ -51,7 +52,8 @@ const changeSelection = function (l) {
             </Card>
             <Empty />
         </div>
-
+    </AppLayoutNew>
+    <Teleport to="body">
         <Dialog
             header="Filter"
             v-model:visible="selectionModal"
@@ -72,6 +74,6 @@ const changeSelection = function (l) {
                 </div>
             </template>
         </Dialog>
-    </AppLayoutNew>
+    </Teleport>
 </template>
 <style scope lang="css"></style>

@@ -81,7 +81,7 @@ const displayModal = ref(false);
                                 />
                             </div>
                             <div class="text-right">
-                                <Link href="forgot-password"
+                                <Link :href="route('password.request')"
                                     >Forget Password</Link
                                 >
                             </div>
@@ -98,7 +98,9 @@ const displayModal = ref(false);
                         <div class="text-center">
                             <p>
                                 Don't have an account?
-                                <Link href="register">Register Now</Link>
+                                <Link :href="route('register')"
+                                    >Register Now</Link
+                                >
                             </p>
                             <p>&#169;2021.ABS.All Rights Reserved</p>
                         </div>

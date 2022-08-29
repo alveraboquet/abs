@@ -189,7 +189,7 @@ const initateNodes = () => {
 
 <template>
     <AppLayoutNew title="My Team">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <h1>My Agency</h1>
             <Card class="drop-shadow-lg mt-5">
                 <template #content>

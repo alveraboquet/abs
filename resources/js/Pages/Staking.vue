@@ -7,10 +7,12 @@ defineProps({
 </script>
 <template>
     <AppLayoutNew title="Stacking">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <div class="flex items-center justify-between">
                 <h1>Stacking</h1>
-                <Button><Link href="add">Add New Order</Link></Button>
+                <Button>
+                    <Link :href="route('staking.add')"> Add New Order </Link>
+                </Button>
             </div>
             <p class="text-sm">Summary of your investment details</p>
 

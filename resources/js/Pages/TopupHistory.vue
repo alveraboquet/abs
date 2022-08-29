@@ -6,7 +6,7 @@ defineProps({
 </script>
 <template>
     <AppLayoutNew title="Topup History">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <h1>Topup History</h1>
             <p>{{ lists.length }} records</p>
             <div class="mt-8">

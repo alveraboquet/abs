@@ -29,7 +29,7 @@ https://theodorusclarence.com/library/tailwindcss-basestyle
     }
 
     body {
-        @apply text-sm md:text-base;
+        @apply text-sm;
     }
 }
 
@@ -51,9 +51,5 @@ https://theodorusclarence.com/library/tailwindcss-basestyle
     .no-scrollbar {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
-    }
-
-    .text-primary {
-        @apply text-[#00178a];
     }
 }

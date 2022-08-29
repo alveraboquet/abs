@@ -36,7 +36,7 @@ const changeSelection = function (l) {
 </script>
 <template>
     <AppLayoutNew title="ROI Asset">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <div class="flex justify-between">
                 <h1>ROI Asset</h1>
                 <Button
@@ -55,7 +55,9 @@ const changeSelection = function (l) {
                 </template>
             </Card>
         </div>
+    </AppLayoutNew>
 
+    <Teleport to="body">
         <Dialog
             header="Filter"
             v-model:visible="selectionModal"
@@ -76,6 +78,6 @@ const changeSelection = function (l) {
                 </div>
             </template>
         </Dialog>
-    </AppLayoutNew>
+    </Teleport>
 </template>
 <style scope currentItem="css"></style>

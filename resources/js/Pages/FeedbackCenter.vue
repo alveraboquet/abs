@@ -6,7 +6,7 @@ import Banner from "@/Components/Banner.vue";
 const form = useForm({ phone: "", email: "", title: "", content: "" });
 
 const submit = () => {
-    form.post("submit-feedback", {
+    form.post(route("submit-feedback"), {
         onSuccess: () => {
             form.reset();
         },

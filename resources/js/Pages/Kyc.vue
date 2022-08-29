@@ -18,7 +18,7 @@ const form = useForm({
     passport_img: null,
 });
 
-const id_type = ref("ic");
+const id_type = ref(curUser.value.id_type ?? "ic");
 
 const id_text = ref("Identification Card");
 
@@ -48,37 +48,37 @@ watch(id_type, (value) => {
 
 const modalContent = [
     {
-        image: "images/BG-11.jpg",
+        image: "/images/BG-11.jpg",
         text: `Upload Identification Card (Front)`,
         target: "front_img",
     },
     {
-        image: "images/BG-12.jpg",
+        image: "/images/BG-12.jpg",
         text: `Upload Identification Card (Back)`,
         target: "back_img",
     },
     {
-        image: "images/BG-23.png",
+        image: "/images/BG-23.png",
         text: `Upload holding Identification Card (ID must be clear)`,
         target: "hold_img",
     },
     {
-        image: "images/BG-22.png",
+        image: "/images/BG-22.png",
         text: `Upload Utilities Bill (Name must same as ID / Passport)`,
         target: "utils_img",
     },
     {
-        image: "images/BG-21.png",
+        image: "/images/BG-21.png",
         text: `Upload Passport`,
         target: "passport_img",
     },
     {
-        image: "images/BG-24.png",
+        image: "/images/BG-24.png",
         text: `Upload holding Passport (Passport  must be clear)`,
         target: "hold_img",
     },
     {
-        image: "images/BG-22.png",
+        image: "/images/BG-22.png",
         text: `Upload Utilities Bill (Name must same as ID / Passport)`,
         target: "utils_img",
     },
@@ -101,7 +101,7 @@ const submit = () => {
     })).post(route("submit-kyc"), {
         onSuccess: () => {
             // fileUp.value.clear();
-            form.reset();
+            //form.reset();
         },
     });
 };
@@ -141,7 +141,7 @@ const disableInput = computed(
 </script>
 <template>
     <AppLayoutNew title="KYC">
-        <div class="h-screen m-8">
+        <div class="m-8">
             <div class="flex items-center justify-between">
                 <h1>KYC</h1>
 
@@ -157,12 +157,12 @@ const disableInput = computed(
                     >
                     <Tag
                         severity="danger"
-                        v-if="curUser.kyc_status == 'Rejected'"
+                        v-else-if="curUser.kyc_status == 'Rejected'"
                         >{{ curUser.kyc_status }}</Tag
                     >
                     <Tag
                         severity="success"
-                        v-if="curUser.kyc_status == 'Approved'"
+                        v-else-if="curUser.kyc_status == 'Approved'"
                         >{{ curUser.kyc_status }}</Tag
                     >
                 </div>
@@ -185,15 +185,15 @@ const disableInput = computed(
                         v-if="curUser.kyc_status == 'Rejected'"
                     >
                         <i class="pi pi-times"></i>
-                        {{ curUser.kyc_reason }}
+                        Rejected
                     </div>
 
                     <div
                         class="text-green-500"
-                        v-if="curUser.kyc_status == 'Rejected'"
+                        v-if="curUser.kyc_status == 'Approved'"
                     >
                         <i class="pi pi-check"></i>
-                        {{ curUser.kyc_reason }}
+                        Real Name Authentication Has Been Authorised
                     </div>
                 </template>
             </Card>
