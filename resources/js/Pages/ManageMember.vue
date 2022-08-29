@@ -12,6 +12,7 @@ import ValidationErrors from "@/Components/ValidationErrors.vue";
 
 const viewDialog = ref(false);
 const editKYCDialog = ref(false);
+const createAdminDialog = ref(false);
 const item = ref({});
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -74,6 +75,26 @@ function exportCSV() {
     dt.value.exportCSV();
 }
 
+function openCreateAdmin() {
+    item.value = {};
+    createAdminDialog.value = true;
+}
+function hideCreateAdmin() {
+    createAdminDialog.value = false;
+}
+function saveCreateAdmin() {
+    Inertia.post(route("admin.create-admin"), item.value, {
+        onSuccess: () => {
+            createAdminDialog.value = false;
+            item.value = {};
+        },
+        onError: (e) => {
+            console.log(e);
+        },
+    });
+    //update or add
+}
+
 const kycStatuses = ref(["None", "Pending", "Approved", "Rejected"]);
 </script>
 <template>
@@ -82,25 +103,25 @@ const kycStatuses = ref(["None", "Pending", "Approved", "Rejected"]);
             <Banner />
             <ValidationErrors />
             <div class="card">
-                <!-- <Toolbar class="mb-4">
+                <Toolbar class="mb-4">
                     <template #start>
                         <Button
                             label="New"
                             icon="pi pi-plus"
                             class="p-button-success mr-2"
-                            @click="openNew"
+                            @click="openCreateAdmin"
                         />
                     </template>
 
-                    <template #end>
+                    <!-- <template #end>
                         <Button
                             label="Export"
                             icon="pi pi-upload"
                             class="p-button-help"
                             @click="exportCSV($event)"
                         />
-                    </template>
-                </Toolbar> -->
+                    </template> -->
+                </Toolbar>
 
                 <DataTable
                     ref="dt"
@@ -264,6 +285,65 @@ const kycStatuses = ref(["None", "Pending", "Approved", "Rejected"]);
                     icon="pi pi-check"
                     class="p-button-text"
                     @click="saveItem"
+                />
+            </template>
+        </Dialog>
+
+        <Dialog
+            v-model:visible="createAdminDialog"
+            :style="{ width: '450px' }"
+            header="Admin Details"
+            :modal="true"
+            :draggable="false"
+            :closeOnEscape="false"
+            class="p-fluid"
+        >
+            <div class="field">
+                <label for="username">Username</label>
+                <InputText
+                    id="username"
+                    v-model.trim="item.username"
+                    required
+                />
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <InputText for="email" v-model.trim="item.email" required />
+            </div>
+            <div class="field">
+                <label class="">Password</label>
+                <Password
+                    class="w-full"
+                    v-model="item.password"
+                    toggleMask
+                    :feedback="false"
+                    placeholder="Type Password"
+                />
+            </div>
+            <div class="field">
+                <label class="">Security Pin</label>
+                <Password
+                    class="w-full"
+                    v-model="item.security_pin"
+                    toggleMask
+                    :feedback="false"
+                    placeholder="At least 6 digit Security PIN"
+                />
+            </div>
+
+            <template #footer>
+                <Button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    @click="hideCreateAdmin"
+                />
+                <Button
+                    label="Save"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    @click="saveCreateAdmin"
                 />
             </template>
         </Dialog>

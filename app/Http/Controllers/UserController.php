@@ -310,4 +310,23 @@ class UserController extends Controller
 
         return back()->banner('Update successfull');
     }
+    public function createAdmin(Request $request)
+    {
+        $request->validate([
+            'username' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:users'],
+            'password' => ['required', Password::min(8)],
+            'security_pin' => ['required', 'string', 'min:6'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        ]);
+
+        User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'security_pin' => Hash::make($request->security_pin),
+            'role' => 'admin',
+        ]);
+
+        return back()->banner('Create Admin Successful');
+    }
 }

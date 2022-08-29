@@ -131,6 +131,7 @@ Route::middleware([
         Route::post('/notification/create', [NotificationController::class, 'createNotification'])->name('create-notification');
 
         Route::post('/user/update', [UserController::class, 'updateUser'])->name('update-user');
+        Route::post('/user/create-admin', [UserController::class, 'createAdmin'])->name('create-admin');
         Route::post('/user/update-kyc', [UserController::class, 'updateKYC'])->name('update-kyc');
     });
 
