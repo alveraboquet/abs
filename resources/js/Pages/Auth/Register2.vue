@@ -19,7 +19,7 @@ const form = useForm({
     phone: "",
     username: "",
     invite_code: route().params.invite
-        ? route().params.invite.toUppercase()
+        ? route().params.invite.toUpperCase()
         : "",
     password: "",
     security_pin: "",

@@ -5,11 +5,10 @@ import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import Banner from "@/Components/Banner.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { getActiveLanguage } from "laravel-vue-i18n";
-
+import { FilterMatchMode, FilterOperator } from "primevue/api";
 const props = defineProps({
     lists: Array,
 });
-import { FilterMatchMode, FilterOperator } from "primevue/api";
 
 const viewDialog = ref(false);
 const deleteDialog = ref(false);

@@ -11,7 +11,6 @@ import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { ref, computed } from "vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { Inertia } from "@inertiajs/inertia";
-import route from "../../../../vendor/tightenco/ziggy/src/js";
 import { getActiveLanguage } from "laravel-vue-i18n";
 
 const form = useForm({
@@ -21,7 +20,7 @@ const form = useForm({
     phone: "",
     username: "",
     invite_code: route().params.invite
-        ? route().params.invite.toUppercase()
+        ? route().params.invite.toUpperCase()
         : "",
     password: "",
     security_pin: "",
