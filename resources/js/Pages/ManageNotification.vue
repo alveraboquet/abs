@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import Banner from "@/Components/Banner.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { getActiveLanguage } from "laravel-vue-i18n";
 
 const props = defineProps({
     lists: Array,
@@ -77,11 +78,26 @@ function editItem(p) {
 function exportCSV() {
     dt.value.exportCSV();
 }
-const statuses = ref(["Inactive", "Active"]);
-const statuses2 = ref([
-    { name: "Yes", value: 1 },
-    { name: "No", value: 0 },
-]);
+
+const statuses = {
+    Active: { en: "Active", cn: "活跃" },
+    Inactive: { en: "Inactive", cn: "不活跃" },
+};
+
+const statusesOption = [
+    { value: "Active", en: "Active", cn: "活跃" },
+    { value: "Inactive", en: "Inactive", cn: "不活跃" },
+];
+const popupStatuses = {
+    1: { en: "Yes", cn: "是" },
+    0: { en: "No", cn: "否" },
+};
+
+const popupStatusesOption = [
+    { value: 1, en: "Yes", cn: "是" },
+    { value: 0, en: "No", cn: "否" },
+];
+
 const reader = new FileReader();
 reader.onloadend = () => {
     //console.log(reader.result);
@@ -95,9 +111,15 @@ const testUpload = (e) => {
     item.value.image = e.files[0];
     reader.readAsDataURL(e.files[0]);
 };
+
+const geti18nName = (name) => {
+    return `${name}_${getActiveLanguage()}`;
+};
 </script>
 <template>
-    <AppLayoutNew title="Manage Notification">
+    <AppLayoutNew
+        :title="$t('public.manage', { name: $t('public.notification') })"
+    >
         <div class="h-full p-8">
             <Banner />
             <ValidationErrors />
@@ -105,7 +127,7 @@ const testUpload = (e) => {
                 <Toolbar class="mb-4">
                     <template #start>
                         <Button
-                            label="New"
+                            :label="$t('public.new')"
                             icon="pi pi-plus"
                             class="p-button-success mr-2"
                             @click="openNew"
@@ -132,52 +154,78 @@ const testUpload = (e) => {
                     filterDisplay="menu"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    :currentPageReportTemplate="
+                        $t('public.pagination_template')
+                    "
                     responsiveLayout="scroll"
                 >
                     <template #header>
                         <div
                             class="table-header flex flex-col md:flex-row md:justify-between"
                         >
-                            <h5 class="mb-2 md:m-0">Manage Notification</h5>
+                            <h5 class="mb-2 md:m-0">
+                                {{
+                                    $t("public.manage", {
+                                        name: $t("public.notification"),
+                                    })
+                                }}
+                            </h5>
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search" />
                                 <InputText
                                     v-model="filters['global'].value"
-                                    placeholder="Search..."
+                                    :placeholder="
+                                        $t('public.search', {
+                                            attribute: '',
+                                        })
+                                    "
                                 />
                             </span>
                         </div>
                     </template>
-                    <Column field="title" header="Title" sortable></Column>
+                    <Column
+                        :field="geti18nName('title')"
+                        :header="$t('public.title')"
+                        sortable
+                    ></Column>
                     <Column
                         field="start_date"
-                        header="Start Date"
+                        :header="$t('public.start_date')"
                         sortable
                     ></Column>
                     <Column
                         field="end_date"
-                        header="End Date"
+                        :header="$t('public.end_date')"
                         sortable
                     ></Column>
 
-                    <Column field="status" header="Status" sortable>
+                    <Column
+                        field="status"
+                        :header="$t('public.status')"
+                        sortable
+                    >
                         <template #body="{ data }">
                             <Tag
                                 v-if="data.status == 'Inactive'"
                                 severity="danger"
-                                >{{ data.status }}</Tag
+                                >{{
+                                    statuses[data.status][getActiveLanguage()]
+                                }}</Tag
                             >
                             <Tag
                                 v-else-if="data.status == 'Active'"
                                 severity="success"
-                                >{{ data.status }}</Tag
+                                >{{
+                                    statuses[data.status][getActiveLanguage()]
+                                }}</Tag
                             >
                         </template>
                         <template #filter="{ filterModel }">
                             <Dropdown
                                 v-model="filterModel.value"
-                                :options="statuses"
+                                :options="statusesOption"
+                                :option-label="getActiveLanguage()"
+                                option-value="value"
                                 placeholder="Any"
                                 class="p-column-filter"
                                 showClear
@@ -187,7 +235,7 @@ const testUpload = (e) => {
                     </Column>
 
                     <Column
-                        header="Action"
+                        :header="$t('public.action')"
                         :exportable="false"
                         style="min-width: 8rem"
                     >
@@ -206,31 +254,53 @@ const testUpload = (e) => {
             <Dialog
                 v-model:visible="viewDialog"
                 :style="{ width: '450px' }"
-                header="Notification Details"
+                :header="
+                    $t('public.details', { name: $t('public.notification') })
+                "
                 :modal="true"
                 :draggable="false"
                 :closeOnEscape="false"
                 class="p-fluid"
             >
                 <div class="field">
-                    <label for="title">Title</label>
-                    <InputText id="title" v-model.trim="item.title" required />
+                    <label for="title_en">{{ $t("public.title") }} (EN)</label>
+                    <InputText
+                        id="title_en"
+                        v-model.trim="item.title_en"
+                        required
+                    />
                 </div>
                 <div class="field">
-                    <label>Content</label>
+                    <label for="title_cn">{{ $t("public.title") }} (CN)</label>
+                    <InputText
+                        id="title_cn"
+                        v-model.trim="item.title_cn"
+                        required
+                    />
+                </div>
+                <div class="field">
+                    <label>{{ $t("public.content") }} (EN)</label>
                     <Editor
-                        v-model="item.content"
+                        v-model="item.content_en"
+                        editorStyle="height: 320px"
+                    />
+                </div>
+                <div class="field">
+                    <label>{{ $t("public.content") }} (CN)</label>
+                    <Editor
+                        v-model="item.content_cn"
                         editorStyle="height: 320px"
                     />
                 </div>
 
                 <div class="field">
-                    <label>Image</label>
+                    <label>{{ $t("public.image") }}</label>
                     <FileUpload
                         name="demo[]"
                         mode="basic"
                         accept="image/*"
                         custom-upload
+                        :choose-label="$t('public.choose')"
                         @select="testUpload($event)"
                     ></FileUpload>
 
@@ -242,7 +312,7 @@ const testUpload = (e) => {
                     ></Image>
                 </div>
                 <div class="field">
-                    <label>Start Date</label>
+                    <label>{{ $t("public.start_date") }}</label>
                 </div>
                 <Calendar
                     v-model="item.start_date"
@@ -251,7 +321,7 @@ const testUpload = (e) => {
                     :manualInput="false"
                 />
                 <div class="field">
-                    <label>End Date</label>
+                    <label>{{ $t("public.end_date") }}</label>
                     <Calendar
                         v-model="item.end_date"
                         touchUI
@@ -261,37 +331,41 @@ const testUpload = (e) => {
                 </div>
 
                 <div class="field">
-                    <label for="status" class="mb-3">Status</label>
+                    <label for="status" class="mb-3">{{
+                        $t("public.status")
+                    }}</label>
                     <Dropdown
                         id="status"
                         v-model="item.status"
-                        :options="statuses"
-                        placeholder="Select a Status"
+                        :options="statusesOption"
+                        :option-label="getActiveLanguage()"
+                        option-value="value"
                     >
                     </Dropdown>
                 </div>
                 <div class="field">
-                    <label for="popup" class="mb-3">Popup</label>
+                    <label for="popup" class="mb-3">{{
+                        $t("public.popup")
+                    }}</label>
                     <Dropdown
                         id="popup"
                         v-model="item.popup"
-                        :options="statuses2"
-                        optionLabel="name"
-                        optionValue="value"
-                        placeholder="Select a Status"
+                        :options="popupStatusesOption"
+                        :option-label="getActiveLanguage()"
+                        option-value="value"
                     >
                     </Dropdown>
                 </div>
 
                 <template #footer>
                     <Button
-                        label="Cancel"
+                        :label="$t('public.cancel')"
                         icon="pi pi-times"
                         class="p-button-text"
                         @click="hideDialog"
                     />
                     <Button
-                        label="Save"
+                        :label="$t('public.save')"
                         icon="pi pi-check"
                         class="p-button-text"
                         @click="saveItem"

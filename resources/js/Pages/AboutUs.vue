@@ -1,56 +1,63 @@
 <script setup>
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { trans, wTrans } from "laravel-vue-i18n";
+import { computed, ref } from "vue";
 
-const left = [
+const left = computed(() => [
     {
-        title: "Pre-Condition",
+        title: wTrans("public.landing.sixth_card_1").value,
         lists: [
-            "Attestation to be signed by Investor",
-            "Undertaking to be signed by ABS Agency",
+            wTrans("public.landing.sixth_card_1_desc_1").value,
+            wTrans("public.landing.sixth_card_1_desc_2").value,
         ],
     },
     {
-        title: "Buy Back Option",
+        title: wTrans("public.landing.sixth_card_2").value,
         lists: [
-            "Right of first refusal provision",
-            "Purchase price",
-            "Duration to consider buy back option - 3 months Conditions for buy back option",
-            "Free from any encumbrances",
-            "Property in good condition subject to site visit by developers representative",
-            "Cost of SPA, MOT and stamp duty by Investor",
+            wTrans("public.landing.sixth_card_2_desc_1").value,
+            wTrans("public.landing.sixth_card_2_desc_2").value,
+            wTrans("public.landing.sixth_card_2_desc_3").value,
+            wTrans("public.landing.sixth_card_2_desc_4").value,
+            wTrans("public.landing.sixth_card_2_desc_5").value,
+            wTrans("public.landing.sixth_card_2_desc_6").value,
         ],
     },
     {
-        title: "Lease and Right to Use",
+        title: wTrans("public.landing.sixth_card_3").value,
         lists: [
-            "ABS reserve the right to use including but limited to leasing the property",
-            "POA to be signed",
+            wTrans("public.landing.sixth_card_3_desc_1").value,
+            wTrans("public.landing.sixth_card_3_desc_2").value,
         ],
     },
-];
-const right = [
+]);
+const right = computed(() => [
     {
-        title: "Profit Sharing Clause",
-        lists: ["Detailing the pay out percentage", "ROI", "Monthly"],
-    },
-    {
-        title: "Duration",
-        lists: ["Lock for 1 year with option to renew"],
-    },
-    {
-        title: "Investment",
+        title: wTrans("public.landing.sixth_card_4").value,
         lists: [
-            "The Investors shall unconditionally grant ABS the full and legal right to invest in the funds in any program as they deemed most profitable",
+            wTrans("public.landing.sixth_card_4_desc_1").value,
+            wTrans("public.landing.sixth_card_4_desc_2").value,
+            wTrans("public.landing.sixth_card_4_desc_3").value,
         ],
     },
     {
-        title: "Withdrawal of Funds",
-        lists: ["Locking period", "Conditions for withdrawal"],
+        title: wTrans("public.landing.sixth_card_5").value,
+        lists: [wTrans("public.landing.sixth_card_5_desc_1").value],
     },
-];
+    {
+        title: wTrans("public.landing.sixth_card_6").value,
+        lists: [wTrans("public.landing.sixth_card_6_desc_1").value],
+    },
+    {
+        title: wTrans("public.landing.sixth_card_7").value,
+        lists: [
+            wTrans("public.landing.sixth_card_7_desc_1").value,
+            wTrans("public.landing.sixth_card_7_desc_2").value,
+        ],
+    },
+]);
 </script>
 <template>
-    <AppLayoutNew title="About ABS">
+    <AppLayoutNew :title="$t('public.about_ABS')">
         <div
             class="bg-[url('/images/BG-02.png')] bg-no-repeat bg-[length:100%]"
         >
@@ -60,17 +67,12 @@ const right = [
                     class="bg-[url('/images/Landing/Landing-01.png')] bg-no-repeat bg-[length:280%_400px] bg-top pt-[350px] md:bg-[length:100%_500px] md:pt-[380px] px-[20px] md:bg-center"
                 >
                     <div class="bottom-0 text-primary space-y-4 md:text-center">
-                        <h1>About ABS</h1>
+                        <h1>{{ $t("public.landing.secomd_title_1") }}</h1>
                         <h3>
-                            We strongly believe that combination between the
-                            real estate, property & homes with decentralized
-                            finance will be integrated into our lives and norm.
+                            {{ $t("public.landing.secomd_title_2") }}
                         </h3>
                         <p class="px-4">
-                            Operated by crypto fund management team with
-                            expertise & experienced in field of Decentralized
-                            Finance to invest on Decentralized Finance related
-                            projects and businesses to generate the returns.
+                            {{ $t("public.landing.secomd_desc_1") }}
                         </p>
                     </div>
                 </section>
@@ -84,7 +86,7 @@ const right = [
                                     class="pi pi-star !text-5xl text-[#89bfff] my-2"
                                 ></i>
                                 <p class="text-xs">
-                                    Target returns up to 60% per annum
+                                    {{ $t("public.landing.second_box_1") }}
                                 </p>
                             </template>
                         </Card>
@@ -96,7 +98,7 @@ const right = [
                                     class="pi pi-home !text-5xl text-[#89bfff] my-2"
                                 ></i>
                                 <p class="text-xs">
-                                    Legal Agreement 03 (S&P / Trust Deed)
+                                    {{ $t("public.landing.second_box_2") }}
                                 </p>
                             </template>
                         </Card>
@@ -108,7 +110,7 @@ const right = [
                                     class="pi pi-server !text-5xl text-[#89bfff] my-2"
                                 ></i>
                                 <p class="text-xs">
-                                    Asset-backed (Mitigated risk)
+                                    {{ $t("public.landing.second_box_3") }}
                                 </p>
                             </template>
                         </Card>
@@ -120,7 +122,7 @@ const right = [
                                     class="pi pi-sync !text-5xl text-[#89bfff] my-2"
                                 ></i>
                                 <p class="text-xs">
-                                    Weekly returns distribution
+                                    {{ $t("public.landing.second_box_4") }}
                                 </p>
                             </template>
                         </Card>
@@ -130,83 +132,86 @@ const right = [
                     class="bg-[url('/images/Landing/Landing-02.png')] bg-no-repeat bg-[length:100%_281.3px] md:bg-cover md:bg-[position:50%] -mt-[40px] md:-mt-[79px] p-[317px_20px_0] md:p-[262px_10%_262px_50%] min-h-[900px] text-primary space-y-4"
                 >
                     <i class="pi pi-check-circle !text-5xl text-[#89bfff]"></i>
-                    <h1>Vision & Mission</h1>
+                    <h1>{{ $t("public.landing.vision_mission") }}</h1>
                     <p>
-                        We strongly believe that by combining real estate with
-                        blockchain decentralized finance will largely integrate
-                        as well as enhance our quality of life and emerge from
-                        the post-epidemic era.
+                        {{ $t("public.landing.vision_mission_desc") }}
                     </p>
 
-                    <h3>Our Vision</h3>
+                    <h3>{{ $t("public.landing.our_vision") }}</h3>
                     <p>
-                        ABS concept are to progress the decentralized finance
-                        investment to become one of the general investment
+                        {{ $t("public.landing.vision_desc") }}
                     </p>
-                    <h3>Our Mission</h3>
+                    <h3>{{ $t("public.landing.our_mission") }}</h3>
                     <p>
-                        Provide Asset-Backed (mitigated risk) investment by ABS
-                        concept in Decentralized Finance which are statistically
-                        and historically proven to be able and stable to
-                        generate returns up to 180% per annum.
+                        {{ $t("public.landing.mission_desc") }}
                     </p>
                 </section>
                 <section
                     class="bg-[url('/images/Landing/Landing-03.png')] bg-no-repeat bg-[length:150%_281.3px] bg-top md:bg-cover md:bg-[position:50%] -mt-[125px] md:mt-0 p-[261px_20px_0] md:p-[38px_50%_38px_0] min-h-[900px] space-y-8 md:space-y-12"
                 >
                     <i class="pi pi-check-circle !text-5xl text-[#89bfff]"></i>
-                    <h1 class="text-primary">How to Start ABS</h1>
+                    <h1 class="text-primary">
+                        {{ $t("public.landing.fourth_title") }}
+                    </h1>
 
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">01</div>
                         <div>
-                            <p>Step One</p>
-                            <p class="font-bold">Choose Amount</p>
+                            <p>{{ $t("public.landing.fourth_step_1") }}</p>
+                            <p class="font-bold">
+                                {{ $t("public.landing.fourth_step_1_desc") }}
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">02</div>
                         <div>
-                            <p>Step Two</p>
-                            <p class="font-bold">Loan Application / Funding</p>
+                            <p>{{ $t("public.landing.fourth_step_2") }}</p>
+                            <p class="font-bold">
+                                {{ $t("public.landing.fourth_step_2_desc") }}
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">03</div>
                         <div>
-                            <p>Step Three</p>
-                            <p class="font-bold">Sign S&P / Trust Deed</p>
+                            <p>{{ $t("public.landing.fourth_step_3") }}</p>
+                            <p class="font-bold">
+                                {{ $t("public.landing.fourth_step_3_desc") }}
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">04</div>
                         <div>
-                            <p>Step Four</p>
+                            <p>{{ $t("public.landing.fourth_step_4") }}</p>
                             <p class="font-bold">
-                                Process Period (7 – 20 working days)
+                                {{ $t("public.landing.fourth_step_4_desc") }}
                             </p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">05</div>
                         <div>
-                            <p>Step Five</p>
-                            <p class="font-bold">Enjoy Weekly Profit</p>
+                            <p>{{ $t("public.landing.fourth_step_5") }}</p>
+                            <p class="font-bold">
+                                {{ $t("public.landing.fourth_step_5_desc") }}
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="text-5xl font-bold text-[#89bfff]">06</div>
                         <div>
-                            <p>Step Six</p>
+                            <p>{{ $t("public.landing.fourth_step_6") }}</p>
                             <p class="font-bold">
-                                Join/share Affiliate Program
+                                {{ $t("public.landing.fourth_step_6_desc") }}
                             </p>
                         </div>
                     </div>
                 </section>
                 <section class="space-y-4">
                     <h1 class="text-center text-primary">
-                        Introduction of Property
+                        {{ $t("public.landing.fifth_title") }}
                     </h1>
                     <div class="w-full p-8">
                         <Card class="md:w-1/3 mx-auto">
@@ -242,7 +247,9 @@ const right = [
                     </div>
                 </section>
                 <section class="space-y-4 p-8">
-                    <h1 class="text-center text-primary">ABS Agreement</h1>
+                    <h1 class="text-center text-primary">
+                        {{ $t("public.landing.sixth_title") }}
+                    </h1>
                     <div class="w-full">
                         <div
                             class="md:flex justify-items-stretch justify-around md:space-x-4"

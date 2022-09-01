@@ -14,48 +14,71 @@ const submit = () => {
 };
 </script>
 <template>
-    <AppLayoutNew title="Feedback Center">
+    <AppLayoutNew :title="$t('public.feedback_center')">
         <div class="h-full p-8">
-            <h1>Feedback Center</h1>
+            <h1>{{ $t("public.feedback_center") }}</h1>
             <Banner />
             <ValidationErrors />
             <form @submit.prevent="submit" class="flex-grow-1 space-y-4">
                 <div>
-                    <h5 class="text-primary">Phone No.</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.phone_number") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.phone"
-                        placeholder="Type Phone No."
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.phone_number'),
+                            })
+                        "
                     />
                 </div>
                 <div>
-                    <h5 class="text-primary">Email</h5>
+                    <h5 class="text-primary">{{ $t("public.email") }}</h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.email"
-                        placeholder="Type Email"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.email'),
+                            })
+                        "
                     />
                 </div>
                 <div>
-                    <h5 class="text-primary">Title</h5>
+                    <h5 class="text-primary">{{ $t("public.title") }}</h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.title"
-                        placeholder="Type Title"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.title'),
+                            })
+                        "
                     />
                 </div>
                 <div>
-                    <Textarea v-model="form.content" rows="5" class="w-full" />
+                    <Textarea
+                        v-model="form.content"
+                        rows="5"
+                        class="w-full"
+                        :placeholder="
+                            $t('public.placeholder_here', {
+                                attribute: $t('public.content'),
+                            })
+                        "
+                    />
                 </div>
                 <div class="text-center">
                     <Button
                         class="mt-5"
                         :type="submit"
                         :disabled="form.processing"
-                        >Submit</Button
+                        >{{ $t("public.submit") }}</Button
                     >
                 </div>
             </form>

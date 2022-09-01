@@ -27,39 +27,55 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Reset Password">
+    <AuthLayout :title="$t('public.confirm_password')">
         <div class="w-3/4 mx-auto space-y-4 m-8">
-            <h1>Reset Password</h1>
+            <h1>{{ $t("public.confirm_password") }}</h1>
 
             <ValidationErrors />
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="field">
-                    <h5 class="text-primary">Email</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.email") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.email"
-                        placeholder="Type Email"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.email'),
+                            })
+                        "
                     />
                 </div>
                 <div>
-                    <h5 class="text-primary">Password</h5>
+                    <h5 class="text-primary">{{ $t("public.password") }}</h5>
                     <Password
                         class="w-full"
                         v-model="form.password"
                         toggleMask
                         :feedback="false"
-                        placeholder="Type Password"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.password'),
+                            })
+                        "
                     />
                 </div>
                 <div>
-                    <h5 class="text-primary">Confirm Password</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.confirm_password") }}
+                    </h5>
                     <Password
                         class="w-full"
                         v-model="form.password_confirmation"
                         toggleMask
                         :feedback="false"
-                        placeholder="Confirm Password"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.confirm_password'),
+                            })
+                        "
                     />
                 </div>
                 <div class="text-center">
@@ -68,7 +84,7 @@ const submit = () => {
                         :type="submit"
                         :disabled="form.processing"
                     >
-                        Email Password Reset Link</Button
+                        {{ $t("public.submit") }}</Button
                     >
                 </div>
             </form>

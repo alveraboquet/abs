@@ -13,7 +13,12 @@ class NotificationController extends Controller
     //
     public function index()
     {
-        $lists = Notification::latest()->get();
+        $lists = Notification::query()
+            ->where('status', 'Active')
+            ->where('start_date', '<=', today())
+            ->where('end_date', '>=', today())
+            ->latest()
+            ->get();
         return Inertia::render('Notifications', compact('lists'));
     }
 
@@ -34,8 +39,10 @@ class NotificationController extends Controller
 
         $request->validate([
             'id' => ['required'],
-            'title' => ['required'],
-            'content' => ['required'],
+            'title_en' => ['required'],
+            'content_en' => ['required'],
+            'title_cn' => ['required'],
+            'content_cn' => ['required'],
             'image' => ['nullable'],
             'start_date' => ['required'],
             'status' => ['required'],
@@ -68,8 +75,10 @@ class NotificationController extends Controller
     {
         //  dd(Carbon::parse($request->start_date, 'UTC')->addHour(($request->timezone / 60) * -1)->format('Y-m-d'));
         $request->validate([
-            'title' => ['required'],
-            'content' => ['required'],
+            'title_en' => ['required'],
+            'content_en' => ['required'],
+            'title_cn' => ['required'],
+            'content_cn' => ['required'],
             'image' => ['required'],
             'start_date' => ['required'],
             'end_date' => ['required'],
@@ -82,8 +91,10 @@ class NotificationController extends Controller
         $image->move("uploads/announcements", $image_name);
 
         Notification::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title_en' => $request->title_en,
+            'content_en' => $request->content_en,
+            'title_cn' => $request->title_cn,
+            'content_cn' => $request->content_cn,
             'image' => $image_name,
             'start_date' => Carbon::parse($request->start_date, 'UTC')->addHour(($request->timezone / 60) * -1)->format('Y-m-d'),
             'end_date' => Carbon::parse($request->end_date, 'UTC')->addHour(($request->timezone / 60) * -1)->format('Y-m-d'),

@@ -51,7 +51,7 @@ const closeModal = () => {
                         :active="route().current('home')"
                     >
                         <i class="pi pi-home mr-3"></i>
-                        <span class="font-bold">Home</span>
+                        <span class="font-bold">{{ $t("public.home") }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -60,7 +60,9 @@ const closeModal = () => {
                         :active="route().current('projects')"
                     >
                         <i class="pi pi-chart-bar mr-3"></i>
-                        <span class="font-bold">Project</span>
+                        <span class="font-bold">{{
+                            $t("public.projects")
+                        }}</span>
                     </NavLink>
                 </li>
 
@@ -70,7 +72,9 @@ const closeModal = () => {
                         :active="route().current('abs')"
                     >
                         <i class="pi pi-info-circle mr-3"></i>
-                        <span class="font-bold">About ABS</span>
+                        <span class="font-bold">{{
+                            $t("public.about_ABS")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -81,7 +85,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">My Agency</span>
+                        <span class="font-bold">{{
+                            $t("public.my_agency")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -90,7 +96,9 @@ const closeModal = () => {
                         :active="route().current('admin.manage-member')"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">Manage Member</span>
+                        <span class="font-bold">{{
+                            $t("public.manage", { name: $t("public.member") })
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -99,7 +107,9 @@ const closeModal = () => {
                         :active="route().current('admin.manage-topup')"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">Manage Topup</span>
+                        <span class="font-bold">{{
+                            $t("public.manage", { name: $t("public.topup") })
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -108,7 +118,9 @@ const closeModal = () => {
                         :active="route().current('admin.manage-order')"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">Manage Order</span>
+                        <span class="font-bold">{{
+                            $t("public.manage", { name: $t("public.order") })
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -117,7 +129,11 @@ const closeModal = () => {
                         :active="route().current('admin.manage-notification')"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">Manage Notification</span>
+                        <span class="font-bold">{{
+                            $t("public.manage", {
+                                name: $t("public.notification"),
+                            })
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -128,7 +144,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-cog mr-3"></i>
-                        <span class="font-bold">Settings</span>
+                        <span class="font-bold">{{
+                            $t("public.settings")
+                        }}</span>
                     </NavLink>
                 </li>
             </ul>
@@ -139,7 +157,7 @@ const closeModal = () => {
                         :active="route().current('home')"
                     >
                         <i class="pi pi-home mr-3"></i>
-                        <span class="font-bold">Home</span>
+                        <span class="font-bold">{{ $t("public.home") }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -148,7 +166,9 @@ const closeModal = () => {
                         :active="route().current('projects')"
                     >
                         <i class="pi pi-chart-bar mr-3"></i>
-                        <span class="font-bold">Project</span>
+                        <span class="font-bold">{{
+                            $t("public.projects")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -159,7 +179,9 @@ const closeModal = () => {
                         @click.native.capture="openModal2"
                     >
                         <i class="pi pi-dollar mr-3"></i>
-                        <span class="font-bold">Staking</span>
+                        <span class="font-bold">{{
+                            $t("public.staking")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -168,7 +190,9 @@ const closeModal = () => {
                         :active="route().current('abs')"
                     >
                         <i class="pi pi-info-circle mr-3"></i>
-                        <span class="font-bold">About ABS</span>
+                        <span class="font-bold">{{
+                            $t("public.about_ABS")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -179,7 +203,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-users mr-3"></i>
-                        <span class="font-bold">My Agency</span>
+                        <span class="font-bold">{{
+                            $t("public.my_agency")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -190,7 +216,7 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-user-edit mr-3"></i>
-                        <span class="font-bold">KYC</span>
+                        <span class="font-bold">{{ $t("public.kyc") }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -201,7 +227,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-question-circle mr-3"></i>
-                        <span class="font-bold">Feedback Center</span>
+                        <span class="font-bold">{{
+                            $t("public.feedback_center")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -212,7 +240,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-share-alt mr-3"></i>
-                        <span class="font-bold">Invitation</span>
+                        <span class="font-bold">{{
+                            $t("public.invitation")
+                        }}</span>
                     </NavLink>
                 </li>
                 <li class="relative">
@@ -223,7 +253,9 @@ const closeModal = () => {
                         @click.native.capture="openModal"
                     >
                         <i class="pi pi-cog mr-3"></i>
-                        <span class="font-bold">Settings</span>
+                        <span class="font-bold">{{
+                            $t("public.settings")
+                        }}</span>
                     </NavLink>
                 </li>
             </ul>
@@ -239,20 +271,23 @@ const closeModal = () => {
             :modal="true"
         >
             <div v-if="!curUser">
-                <h1>Login Now</h1>
-                <p>Please login now for more action</p>
+                <h1>{{ $t("public.login_now") }}</h1>
+                <p>{{ $t("public.login_action") }}</p>
             </div>
             <div v-else-if="curUser.kyc_status != 'Approved'">
-                <h1>Pending KYC</h1>
-                <p>Please complete KYC for more action</p>
+                <h1>{{ $t("public.pending_kyc") }}</h1>
+                <p>{{ $t("public.kyc_action") }}</p>
             </div>
             <template #footer>
                 <div class="text-center">
                     <div v-if="!curUser">
-                        <Button label="Login Now" @click="closeModal" />
+                        <Button
+                            :label="$t('public.login_now')"
+                            @click="closeModal"
+                        />
                     </div>
                     <div v-else-if="curUser.kyc_status != 'Approved'">
-                        <Button label="Proceed KYC" @click="closeModal" />
+                        <Button :label="$t('public.kyc')" @click="closeModal" />
                     </div>
                 </div>
             </template>

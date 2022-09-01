@@ -1,19 +1,25 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import QrcodeVue from "qrcode.vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { getActiveLanguage, trans, wTrans } from "laravel-vue-i18n";
 const qrCode = usePage().props.value.user.invite_code;
 const qrValue = {
     value: route("register", { invite: qrCode }),
     size: 138,
 };
 
-const label = ref("Copy");
+const copyStatuses = {
+    copy: { en: "Copy", cn: "复制链接" },
+    copied: { en: "Copied", cn: "已复制" },
+};
+
+const label = ref(copyStatuses["copy"][getActiveLanguage()]);
+
 const onCopySuccess = () => {
-    label.value = "Copied";
-    console.log("success");
+    label.value = copyStatuses["copied"][getActiveLanguage()];
 };
 
 const onCopyError = () => {
@@ -22,9 +28,9 @@ const onCopyError = () => {
 </script>
 
 <template>
-    <AppLayoutNew title="Invitation">
+    <AppLayoutNew :title="$t('public.invitation')">
         <div class="md:m-8 main-con">
-            <h1>Invitation</h1>
+            <h1>{{ $t("public.invitation") }}</h1>
 
             <div class="layout_con_1">
                 <div class="logo_wrap">
@@ -38,9 +44,9 @@ const onCopyError = () => {
                         ></QrcodeVue>
                     </Link>
                 </div>
-                <div class="note_text">Scan this QR code to join ABS now!</div>
+                <div class="note_text">{{ $t("public.scan_qr") }}</div>
                 <div class="invite_code">
-                    <span> Invite Code</span>
+                    <span>{{ $t("public.invite_code") }}</span>
                     <div>{{ qrCode }}</div>
                 </div>
             </div>

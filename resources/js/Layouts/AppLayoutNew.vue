@@ -7,12 +7,13 @@ import TopNav from "@/Components/Layout/TopNav.vue";
 import LeftNav from "@/Components/Layout/LeftNav.vue";
 import RightNav from "@/Components/Layout/RightNav.vue";
 import BottomNav from "@/Components/Layout/BottomNav.vue";
+import { getActiveLanguage } from "laravel-vue-i18n";
 
 const props = defineProps({
     title: String,
 });
 const notifications = computed(() => usePage().props.value.notifications);
-const displayModal = ref(notifications.value ? true : false);
+const displayModal = ref(notifications.value?.length > 0 ? true : false);
 const closeModal = () => {
     Inertia.visit(route("notifications"));
     displayModal.value = false;
@@ -38,7 +39,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
     </div>
     <Teleport to="body">
         <Dialog
-            header="Notifications"
+            :header="$t('public.notification')"
             v-model:visible="displayModal"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :draggable="false"
@@ -47,15 +48,18 @@ const curUser = computed(() => usePage().props.value.auth.user);
         >
             <div class="my-8 space-y-8" v-for="item in notifications">
                 <Image :src="item.image" image-class="mx-auto" />
-                <h3>{{ item.title }}</h3>
+                <h3>{{ item[`title_${getActiveLanguage()}`] }}</h3>
                 <div
                     class="prose prose-sm w-full max-w-none"
-                    v-html="item.content"
+                    v-html="item[`content_${getActiveLanguage()}`]"
                 ></div>
             </div>
             <template #footer>
                 <div class="text-center">
-                    <Button label="View More" @click="closeModal" />
+                    <Button
+                        :label="$t('public.view_more')"
+                        @click="closeModal"
+                    />
                 </div>
             </template>
         </Dialog>

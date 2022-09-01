@@ -6,12 +6,18 @@ import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import QrcodeVue from "qrcode.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { getActiveLanguage } from "laravel-vue-i18n";
 
 const address = "TWCd1YieHXotjsBsVb4qi1KSCwvbHt7cDh";
-const label = ref("Copy");
+const copyStatuses = {
+    copy: { en: "Copy", cn: "复制地址" },
+    copied: { en: "Copied", cn: "已复制" },
+};
+
+const label = ref(copyStatuses["copy"][getActiveLanguage()]);
+
 const onCopySuccess = () => {
-    label.value = "Copied";
-    console.log("success");
+    label.value = copyStatuses["copied"][getActiveLanguage()];
 };
 
 const onCopyError = () => {
@@ -38,21 +44,23 @@ const testUpload = (e) => {
 };
 </script>
 <template>
-    <AppLayoutNew title="Topup">
+    <AppLayoutNew :title="$t('public.topup_now')">
         <div class="container p-8">
             <div class="flex justify-between">
-                <h1>Topup Now</h1>
-                <Link :href="route('usdt.topup-history')">Topup History</Link>
+                <h1>{{ $t("public.topup_now") }}</h1>
+                <Link :href="route('usdt.topup-history')">{{
+                    $t("public.topup_history")
+                }}</Link>
             </div>
 
             <Card>
                 <template #content>
                     <div class="flex flex-col items-center justify-between">
-                        <div>Chain Type: USDT(TRC20)</div>
+                        <div>{{ $t("public.chain_type") }}: USDT(TRC20)</div>
                         <div>
                             <QrcodeVue :value="address" :size="138"></QrcodeVue>
                         </div>
-                        <div>USDT Address</div>
+                        <div>{{ $t("public.usdt_address") }}</div>
                         <div>{{ address }}</div>
                         <div>
                             <Button
@@ -69,7 +77,7 @@ const testUpload = (e) => {
             <Card>
                 <template #content>
                     <Message v-if="form.wasSuccessful" severity="success">
-                        Success
+                        {{ $t("public.success") }}
                     </Message>
                     <ValidationErrors />
                     <form
@@ -77,7 +85,9 @@ const testUpload = (e) => {
                         class="flex-grow-1 space-y-4"
                     >
                         <div>
-                            <h5 class="text-primary">Amount</h5>
+                            <h5 class="text-primary">
+                                {{ $t("public.amount") }}
+                            </h5>
                             <InputNumber
                                 v-model="form.amount"
                                 mode="currency"
@@ -87,16 +97,24 @@ const testUpload = (e) => {
                             />
                         </div>
                         <div>
-                            <h5 class="text-primary">TxID</h5>
+                            <h5 class="text-primary">
+                                {{ $t("public.TxID") }}
+                            </h5>
                             <InputText
                                 class="w-full"
                                 type="text"
                                 v-model="form.TxID"
-                                placeholder="Type TxID"
+                                :placeholder="
+                                    $t('public.placeholder', {
+                                        attribute: $t('public.TxID'),
+                                    })
+                                "
                             />
                         </div>
                         <div>
-                            <h5 class="text-primary">Receipt</h5>
+                            <h5 class="text-primary">
+                                {{ $t("public.receipt") }}
+                            </h5>
                             <FileUpload
                                 ref="fileUp"
                                 name="demo[]"
@@ -104,6 +122,7 @@ const testUpload = (e) => {
                                 accept="image/*"
                                 custom-upload
                                 @select="testUpload($event)"
+                                :choose-label="$t('public.choose')"
                             ></FileUpload>
                         </div>
 
@@ -112,7 +131,7 @@ const testUpload = (e) => {
                                 class="mt-5"
                                 :type="submit"
                                 :disabled="form.processing"
-                                >Submit</Button
+                                >{{ $t("public.submit") }}</Button
                             >
                         </div>
                     </form>
@@ -120,18 +139,13 @@ const testUpload = (e) => {
             </Card>
             <ul class="list-disc list-inside text-sm text-slate-400 mt-5">
                 <li>
-                    Do not deposit any non-USDT(TRC20) assets to the above
-                    address, otherwise the assets will not be retrieved.
+                    {{ $t("public.topup_note-1") }}
                 </li>
                 <li>
-                    After you recharge to the above address, you need to confirm
-                    the entire network node, and it will be credited after 3
-                    network confirmations.
+                    {{ $t("public.topup_note-2") }}
                 </li>
                 <li>
-                    Minimum deposit amount: 0.1 USDT (TRC20), deposits less than
-                    the minimum amount will not be credited to the account and
-                    cannot be refunded.
+                    {{ $t("public.topup_note-3-1") }}
                 </li>
             </ul>
         </div>

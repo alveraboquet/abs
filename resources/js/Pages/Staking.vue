@@ -1,48 +1,68 @@
 <script setup>
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { getActiveLanguage } from "laravel-vue-i18n";
 defineProps({
     lists: Array,
 });
+const orderStatuses = {
+    Pending: { en: "Pending", cn: "处理中" },
+    Active: { en: "Active", cn: "活跃" },
+    Cancelled: { en: "Cancelled", cn: "已取消" },
+};
 </script>
 <template>
-    <AppLayoutNew title="Stacking">
+    <AppLayoutNew :title="$t('public.staking')">
         <div class="m-8">
             <div class="flex items-center justify-between">
-                <h1>Stacking</h1>
+                <h1>{{ $t("public.staking") }}</h1>
                 <Button>
-                    <Link :href="route('staking.add')"> Add New Order </Link>
+                    <Link :href="route('staking.add')">
+                        {{ $t("public.add_new_order") }}
+                    </Link>
                 </Button>
             </div>
-            <p class="text-sm">Summary of your investment details</p>
+            <p class="text-sm">{{ $t("public.staking_summary") }}</p>
 
             <div class="flex items-stretch space-x-4 mt-4">
                 <div>
-                    <span>Daily Profit</span>
+                    <span>{{ $t("public.daily_profit") }}</span>
 
                     <div>$0.0000</div>
                 </div>
                 <div>
-                    <span>Total Profit</span>
+                    <span>{{ $t("public.total_profit") }}</span>
                     <div>$0.0000</div>
                 </div>
             </div>
 
-            <Card class="drop-shadow-lg mt-5" v-for="item in lists">
+            <Card
+                class="drop-shadow-lg mt-5"
+                v-for="item in lists"
+                v-if="lists.length"
+            >
                 <template #header>
                     <div class="absolute top-0 right-0">
-                        <Tag severity="danger" v-if="item.status == 'Cancelled'"
-                            >Cancelled</Tag
+                        <Tag
+                            severity="danger"
+                            v-if="item.status == 'Cancelled'"
+                            >{{
+                                orderStatuses[item.status][getActiveLanguage()]
+                            }}</Tag
                         >
-                        <Tag severity="success" v-if="item.status == 'Active'"
-                            >Active</Tag
+                        <Tag
+                            severity="success"
+                            v-if="item.status == 'Active'"
+                            >{{
+                                orderStatuses[item.status][getActiveLanguage()]
+                            }}</Tag
                         >
-                        <Tag severity="info" v-if="item.status == 'Pending'"
-                            >Pending</Tag
-                        >
+                        <Tag severity="info" v-if="item.status == 'Pending'">{{
+                            orderStatuses[item.status][getActiveLanguage()]
+                        }}</Tag>
                     </div>
                     <div class="p-4">
-                        Order ID
+                        {{ $t("public.order_id") }}
                         <span class="font-bold">{{ item.order_id }}</span>
                     </div>
                 </template>
@@ -55,12 +75,12 @@ defineProps({
                                 size="xlarge"
                             />
                             <div class="flex-1">
-                                <h6>Staking</h6>
+                                <h6>{{ $t("public.staking") }}</h6>
                                 <p>$ {{ item.amount }}</p>
                                 <p>&#x2248;$ {{ item.float_amount }}</p>
                             </div>
                             <div class="text-right" v-if="profit">
-                                <h6>Profit/Loss</h6>
+                                <h6>{{ $t("public.profit_loss") }}</h6>
                                 <p class="text-green-500">
                                     +{{ item.total_percentage }}%
                                 </p>
@@ -69,32 +89,38 @@ defineProps({
 
                         <div class="py-8">
                             <div class="flex justify-between items-center">
-                                <div>Date Applied</div>
+                                <div>{{ $t("public.date_apply") }}</div>
                                 <div>{{ item.date_apply }}</div>
                             </div>
                             <div
                                 class="flex justify-between items-center"
                                 v-if="item.status != 'Pending'"
                             >
-                                <div>Date Activated</div>
+                                <div>{{ $t("public.date_activate") }}</div>
                                 <div>{{ item.date_activate }}</div>
                             </div>
                             <div
                                 class="flex justify-between items-center"
                                 v-if="item.status == 'Cancelled'"
                             >
-                                <div>Date Cancelled</div>
+                                <div>{{ $t("public.date_cancel") }}</div>
                                 <div>{{ item.date_cancel }}</div>
                             </div>
                         </div>
                         <div class="py-8" v-if="item.status == 'Active'">
                             <div class="flex items-center space-x-4">
                                 <div>
-                                    <p>Duration</p>
-                                    <p>{{ item.duration }} Days</p>
+                                    <p>{{ $t("public.duration") }}</p>
+                                    <p>
+                                        {{
+                                            $t("public.days", {
+                                                day: item.duration,
+                                            })
+                                        }}
+                                    </p>
                                 </div>
                                 <div class="flex-1">
-                                    <p>End Date</p>
+                                    <p>{{ $t("public.end_date") }}</p>
                                     <p>{{ item.date_end }}</p>
                                 </div>
                                 <div>
@@ -118,6 +144,7 @@ defineProps({
                     </div>
                 </template>
             </Card>
+            <Empty v-else />
         </div>
     </AppLayoutNew>
 </template>

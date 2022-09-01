@@ -5,6 +5,7 @@ import { computed } from "@vue/reactivity";
 import { ref, watch } from "vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import Banner from "@/Components/Banner.vue";
+import { getActiveLanguage, wTrans } from "laravel-vue-i18n";
 const curUser = computed(() => usePage().props.value.auth.user);
 const form = useForm({
     id_type: "",
@@ -20,11 +21,16 @@ const form = useForm({
 
 const id_type = ref(curUser.value.id_type ?? "ic");
 
-const id_text = ref("Identification Card");
+const idTypes = {
+    ic: { en: "Identification ", cn: "身份证" },
+    passport: { en: "Passport ", cn: "护照" },
+};
+
+const id_text = ref(idTypes[id_type.value][getActiveLanguage()]);
 
 watch(id_type, (value) => {
+    id_text.value = idTypes[id_type.value][getActiveLanguage()];
     if (value == "ic") {
-        id_text.value = "Identification Card";
         form.reset("passport_img", "hold_img", "utils_img");
         uploadedImg.value = {
             front_img: null,
@@ -34,7 +40,6 @@ watch(id_type, (value) => {
             passport_img: null,
         };
     } else if (value == "passport") {
-        id_text.value = "Passport";
         form.reset("front_image", "back_image", "hold_img", "utils_img");
         uploadedImg.value = {
             front_img: null,
@@ -46,49 +51,49 @@ watch(id_type, (value) => {
     }
 });
 
-const modalContent = [
+const modalContent = computed(() => [
     {
         image: "/images/BG-11.jpg",
-        text: `Upload Identification Card (Front)`,
+        text: wTrans("public.upload-front").value,
         target: "front_img",
     },
     {
         image: "/images/BG-12.jpg",
-        text: `Upload Identification Card (Back)`,
+        text: wTrans("public.upload-back").value,
         target: "back_img",
     },
     {
         image: "/images/BG-23.png",
-        text: `Upload holding Identification Card (ID must be clear)`,
+        text: wTrans("public.upload-hold").value,
         target: "hold_img",
     },
     {
         image: "/images/BG-22.png",
-        text: `Upload Utilities Bill (Name must same as ID / Passport)`,
+        text: wTrans("public.upload-utils").value,
         target: "utils_img",
     },
     {
         image: "/images/BG-21.png",
-        text: `Upload Passport`,
+        text: wTrans("public.upload-passport").value,
         target: "passport_img",
     },
     {
         image: "/images/BG-24.png",
-        text: `Upload holding Passport (Passport  must be clear)`,
+        text: wTrans("public.upload-hold-passport").value,
         target: "hold_img",
     },
     {
         image: "/images/BG-22.png",
-        text: `Upload Utilities Bill (Name must same as ID / Passport)`,
+        text: wTrans("public.upload-utils").value,
         target: "utils_img",
     },
-];
+]);
 
 const displayModal = ref(false);
 const content = ref(null);
 const openModal = (id) => {
     displayModal.value = true;
-    content.value = modalContent[id - 1];
+    content.value = modalContent["value"][id - 1];
 };
 const closeModal = () => {
     displayModal.value = false;
@@ -138,39 +143,48 @@ const disableInput = computed(
         curUser.value.kyc_status == "Pending" ||
         curUser.value.kyc_status == "Approved"
 );
+const kycStatuses = {
+    None: { en: "None", cn: "无" },
+    Pending: { en: "Pending", cn: "等待审核" },
+    Rejected: { en: "Rejected", cn: "已拒绝" },
+    Approved: { en: "Approved", cn: "已通过" },
+};
 </script>
 <template>
-    <AppLayoutNew title="KYC">
+    <AppLayoutNew :title="$t('public.kyc')">
         <div class="m-8">
             <div class="flex items-center justify-between">
-                <h1>KYC</h1>
+                <h1>{{ $t("public.kyc") }}</h1>
 
                 <div>
-                    KYC Status
+                    {{ $t("public.kyc_status") }}
                     <Tag
                         severity="info"
                         v-if="
                             curUser.kyc_status == 'Pending' ||
                             curUser.kyc_status == 'None'
                         "
-                        >{{ curUser.kyc_status }}</Tag
+                        >{{
+                            kycStatuses[curUser.kyc_status][getActiveLanguage()]
+                        }}</Tag
                     >
                     <Tag
                         severity="danger"
                         v-else-if="curUser.kyc_status == 'Rejected'"
-                        >{{ curUser.kyc_status }}</Tag
+                        >{{
+                            kycStatuses[curUser.kyc_status][getActiveLanguage()]
+                        }}</Tag
                     >
                     <Tag
                         severity="success"
                         v-else-if="curUser.kyc_status == 'Approved'"
-                        >{{ curUser.kyc_status }}</Tag
+                        >{{
+                            kycStatuses[curUser.kyc_status][getActiveLanguage()]
+                        }}</Tag
                     >
                 </div>
             </div>
-            <p class="text-sm my-4">
-                Reminder: If you wish to mo dify your KYC & wallet address,
-                kindly submit to support@abs.agency, estimate 5-7 working days.
-            </p>
+            <p class="text-sm my-4" v-html="$t('public.kyc_reminder')"></p>
 
             <Card
                 class="!shadow-lg shadow-black/50 my-5"
@@ -197,9 +211,9 @@ const disableInput = computed(
                     </div>
                 </template>
             </Card>
-            <div></div>
+
             <form @submit.prevent="submit" class="flex-grow-1 space-y-4">
-                <h3>Personal Details</h3>
+                <h3>{{ $t("public.personal_details") }}</h3>
                 <ValidationErrors />
                 <Banner />
                 <div class="field-radiobutton md:flex md:space-x-4">
@@ -213,7 +227,7 @@ const disableInput = computed(
                             :disabled="disableInput"
                         />
 
-                        <label for="idType1">Identification Card Number</label>
+                        <label for="idType1">{{ $t("public.id") }}</label>
                     </div>
                     <div class="flex items-center mb-4">
                         <RadioButton
@@ -224,38 +238,54 @@ const disableInput = computed(
                             v-model="id_type"
                             :disabled="disableInput"
                         />
-                        <label for="idType2">Passport</label>
+                        <label for="idType2">{{ $t("public.passport") }}</label>
                     </div>
                 </div>
 
                 <div>
-                    <h5 class="text-primary">ID Name</h5>
+                    <h5 class="text-primary">{{ $t("public.id_name") }}</h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.full_name"
-                        placeholder="Type ID Name"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.id_name'),
+                            })
+                        "
                         :disabled="disableInput"
                     />
                 </div>
                 <div>
-                    <h5 class="text-primary">{{ id_text }} Number</h5>
+                    <h5 class="text-primary">
+                        {{ id_text }}{{ $t("public.card_number") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.id_no"
-                        placeholder="Type ID No."
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.id_no'),
+                            })
+                        "
                         :disabled="disableInput"
                     />
                 </div>
 
                 <div>
-                    <h5 class="text-primary">Wallet Address TRC20</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.wallet_address_trc20") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.usdt_address"
-                        placeholder="Type Address"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.address'),
+                            })
+                        "
                         :disabled="disableInput"
                     />
                 </div>
@@ -263,7 +293,7 @@ const disableInput = computed(
                 <div class="grid md:grid-cols-2 gap-8" v-if="id_type == 'ic'">
                     <div>
                         <p class="text-bold">
-                            Upload Identification Card (Front)
+                            {{ $t("public.upload-front") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.front_img">
@@ -289,7 +319,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -297,7 +327,7 @@ const disableInput = computed(
                     </div>
                     <div>
                         <p class="text-bold">
-                            Upload Identification Card (Back)
+                            {{ $t("public.upload-back") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.back_img">
@@ -323,7 +353,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -331,8 +361,7 @@ const disableInput = computed(
                     </div>
                     <div>
                         <p class="text-bold">
-                            Upload holding Identification Card (ID must be
-                            clear)
+                            {{ $t("public.upload-hold") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.hold_img">
@@ -358,7 +387,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -367,8 +396,7 @@ const disableInput = computed(
 
                     <div>
                         <p class="text-bold">
-                            Upload Utilities Bill (Name must same as ID /
-                            Passport)
+                            {{ $t("public.upload-utils") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.utils_img">
@@ -394,7 +422,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -407,7 +435,9 @@ const disableInput = computed(
                     v-else-if="id_type == 'passport'"
                 >
                     <div>
-                        <p class="text-bold">Upload Passport</p>
+                        <p class="text-bold">
+                            {{ $t("public.upload-passport") }}
+                        </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.passport_img">
                                 <div
@@ -432,7 +462,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -440,7 +470,7 @@ const disableInput = computed(
                     </div>
                     <div>
                         <p class="text-bold">
-                            Upload holding Passport (Passport must be clear)
+                            {{ $t("public.upload-hold-passport") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.hold_img">
@@ -466,7 +496,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -474,8 +504,7 @@ const disableInput = computed(
                     </div>
                     <div>
                         <p class="text-bold">
-                            Upload Utilities Bill (Name must same as ID /
-                            Passport)
+                            {{ $t("public.upload-utils") }}
                         </p>
                         <div class="cursor-pointer">
                             <div v-if="uploadedImg.utils_img">
@@ -501,7 +530,7 @@ const disableInput = computed(
                                 <div class="my-auto">
                                     <i class="pi pi-upload"></i>
                                     <p class="text-xs">
-                                        Browse File ( JPEG/PNG/PDF, max 5MB)
+                                        {{ $t("public.browse_note") }}
                                     </p>
                                 </div>
                             </div>
@@ -514,7 +543,7 @@ const disableInput = computed(
                         class="mt-5"
                         :type="submit"
                         :disabled="disableInput || form.processing"
-                        >Submit</Button
+                        >{{ $t("public.submit") }}</Button
                     >
                 </div>
             </form>
@@ -535,8 +564,7 @@ const disableInput = computed(
                     image-class="h-40  mx-auto m-4"
                 ></Image>
                 <p class="text-sm text-slate-400">
-                    Make sure you upload a right image, attachment require as (
-                    JPEG/PNG/PDF, max 5MB)
+                    {{ $t("public.upload_confirm") }}
                 </p>
             </div>
             <template #footer>
@@ -545,7 +573,7 @@ const disableInput = computed(
                         @select="testUpload($event, content.target)"
                         mode="basic"
                         name="demo[]"
-                        choose-label="Proceed"
+                        :choose-label="$t('public.proceed')"
                         upload-icon="false"
                         accept="image/*"
                     ></FileUpload>

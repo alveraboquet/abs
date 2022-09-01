@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import Banner from "@/Components/Banner.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { getActiveLanguage } from "laravel-vue-i18n";
 const props = defineProps({
     lists: Array,
 });
@@ -47,11 +48,25 @@ function editItem(p) {
 function exportCSV() {
     dt.value.exportCSV();
 }
-const statuses = ref(["Pending", "Cancelled", "Active"]);
-const filterStatuses = ref(["Cancelled", "Active"]);
+
+const filterStatusesOption = [
+    /*   { value: "Pending", en: "Pending", cn: "处理中" }, */
+    { value: "Active", en: "Active", cn: "活跃" },
+    { value: "Cancelled", en: "Cancelled", cn: "已取消" },
+];
+const orderStatusesOption = [
+    { value: "Pending", en: "Pending", cn: "处理中" },
+    { value: "Active", en: "Active", cn: "活跃" },
+    { value: "Cancelled", en: "Cancelled", cn: "已取消" },
+];
+const orderStatuses = {
+    Pending: { en: "Pending", cn: "处理中" },
+    Active: { en: "Active", cn: "活跃" },
+    Cancelled: { en: "Cancelled", cn: "已取消" },
+};
 </script>
 <template>
-    <AppLayoutNew title="Manage Order">
+    <AppLayoutNew :title="$t('public.manage', { name: $t('public.order') })">
         <div class="h-full p-8">
             <Banner />
             <ValidationErrors />
@@ -86,57 +101,91 @@ const filterStatuses = ref(["Cancelled", "Active"]);
                     filterDisplay="menu"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    :currentPageReportTemplate="
+                        $t('public.pagination_template')
+                    "
                     responsiveLayout="scroll"
                 >
                     <template #header>
                         <div
                             class="table-header flex flex-col md:flex-row md:justify-between"
                         >
-                            <h5 class="mb-2 md:m-0">Manage Order</h5>
+                            <h5 class="mb-2 md:m-0">
+                                {{
+                                    $t("public.manage", {
+                                        name: $t("public.order"),
+                                    })
+                                }}
+                            </h5>
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search" />
                                 <InputText
                                     v-model="filters['global'].value"
-                                    placeholder="Search..."
+                                    :placeholder="
+                                        $t('public.search', {
+                                            attribute: '',
+                                        })
+                                    "
                                 />
                             </span>
                         </div>
                     </template>
                     <Column
                         field="order_id"
-                        header="Order ID"
+                        :header="$t('public.order_id')"
                         sortable
                     ></Column>
                     <Column
                         field="user.full_name"
-                        header="User"
+                        :header="$t('public.user')"
                         sortable
                     ></Column>
 
-                    <Column field="amount" header="Amount" sortable></Column>
-                    <Column field="status" header="Status" sortable>
+                    <Column
+                        field="amount"
+                        :header="$t('public.amount')"
+                        sortable
+                    ></Column>
+                    <Column
+                        field="status"
+                        :header="$t('public.status')"
+                        sortable
+                    >
                         <template #body="{ data }">
                             <Tag
                                 v-if="data.status == 'Pending'"
                                 severity="info"
-                                >{{ data.status }}</Tag
+                                >{{
+                                    orderStatuses[data.status][
+                                        getActiveLanguage()
+                                    ]
+                                }}</Tag
                             >
                             <Tag
                                 v-else-if="data.status == 'Cancelled'"
                                 severity="danger"
-                                >{{ data.status }}</Tag
+                                >{{
+                                    orderStatuses[data.status][
+                                        getActiveLanguage()
+                                    ]
+                                }}</Tag
                             >
                             <Tag
                                 v-else-if="data.status == 'Active'"
                                 severity="success"
-                                >{{ data.status }}</Tag
+                                >{{
+                                    orderStatuses[data.status][
+                                        getActiveLanguage()
+                                    ]
+                                }}</Tag
                             >
                         </template>
                         <template #filter="{ filterModel }">
                             <Dropdown
                                 v-model="filterModel.value"
-                                :options="statuses"
+                                :options="orderStatusesOption"
+                                :optionLabel="getActiveLanguage()"
+                                optionValue="value"
                                 placeholder="Any"
                                 class="p-column-filter"
                                 showClear
@@ -146,7 +195,7 @@ const filterStatuses = ref(["Cancelled", "Active"]);
                     </Column>
 
                     <Column
-                        header="Action"
+                        :header="$t('public.action')"
                         :exportable="false"
                         style="min-width: 8rem"
                     >
@@ -165,32 +214,35 @@ const filterStatuses = ref(["Cancelled", "Active"]);
             <Dialog
                 v-model:visible="viewDialog"
                 :style="{ width: '450px' }"
-                header="Payment Details"
+                :header="$t('public.details', { name: $t('public.order') })"
                 :modal="true"
                 :draggable="false"
                 :closeOnEscape="false"
                 class="p-fluid"
             >
                 <div class="field">
-                    <label for="ranking" class="mb-3">Status</label>
+                    <label for="ranking" class="mb-3">{{
+                        $t("public.status")
+                    }}</label>
                     <Dropdown
                         id="ranking"
                         v-model="item.status"
-                        :options="filterStatuses"
-                        placeholder="Select a Status"
+                        :options="filterStatusesOption"
+                        :optionLabel="getActiveLanguage()"
+                        optionValue="value"
                     >
                     </Dropdown>
                 </div>
 
                 <template #footer>
                     <Button
-                        label="Cancel"
+                        :label="$t('public.cancel')"
                         icon="pi pi-times"
                         class="p-button-text"
                         @click="hideDialog"
                     />
                     <Button
-                        label="Save"
+                        :label="$t('public.save')"
                         icon="pi pi-check"
                         class="p-button-text"
                         @click="saveItem"

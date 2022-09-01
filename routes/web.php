@@ -8,7 +8,9 @@ use App\Http\Controllers\ProfitController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 /*
@@ -150,8 +152,9 @@ Route::post('email/verify', [EmailOtpController::class, 'create'])->name('email.
 Route::get('email/confirm-verify', [EmailOtpController::class, 'verify'])->name('email.verify.confirm');
 Route::get('/test',  [ProfitController::class, 'calculateProfit']);
 Route::get('locale/{lang}', function ($lang) {
-    session()->put('locale', $lang);
-    return redirect()->back();
+    App::setLocale($lang);
+    Session::put('locale', $lang);
+    return back();
 });
 Route::fallback(function () {
     return  redirect('home');

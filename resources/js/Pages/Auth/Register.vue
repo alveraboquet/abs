@@ -12,6 +12,7 @@ import { ref, computed } from "vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { Inertia } from "@inertiajs/inertia";
 import route from "../../../../vendor/tightenco/ziggy/src/js";
+import { getActiveLanguage } from "laravel-vue-i18n";
 
 const form = useForm({
     country: 1,
@@ -32,82 +33,97 @@ const form = useForm({
 });
 
 const countries = [
-    { name: "Malaysia", code: 1, mobile: "60" },
-    { name: "Japan", code: 2, mobile: "81" },
-    { name: "China", code: 3, mobile: "86" },
-    { name: "Taiwan", code: 4, mobile: "886" },
-    { name: "Singapore", code: 5, mobile: "65" },
-    { name: "Thailand", code: 6, mobile: "66" },
-    { name: "Indonesia", code: 7, mobile: "62" },
-    { name: "Vietnam", code: 8, mobile: "84" },
-    { name: "Korea", code: 9, mobile: "82" },
-    { name: "United States", code: 10, mobile: "1" },
-    { name: "Hong Kong", code: 1, mobile: "852" },
-    { name: "United Kingdom", code: 12, mobile: "44" },
-    { name: "Myanmar (Burma)", code: 13, mobile: "95" },
-    { name: "Philippines", code: 14, mobile: "63" },
-    { name: "Cambodia", code: 15, mobile: "855" },
-    { name: "India", code: 16, mobile: "62" },
-    { name: "Australia", code: 17, mobile: "61" },
-    { name: "Brunei", code: 18, mobile: "673" },
-    { name: "Sri Lanka", code: 19, mobile: "95" },
-    { name: "Maldives", code: 20, mobile: "960" },
-    { name: "Laos", code: 21, mobile: "856" },
-    { name: "Kazakhstan", code: 22, mobile: "7" },
-    { name: "Russia", code: 23, mobile: "7" },
-    { name: "Canada", code: 24, mobile: "1" },
+    { name_en: "Malaysia", name_cn: "马来西亚", code: 1, mobile: "60" },
+    { name_en: "Japan", name_cn: "日本", code: 2, mobile: "81" },
+    { name_en: "China", name_cn: "中国", code: 3, mobile: "86" },
+    { name_en: "Taiwan", name_cn: "台湾", code: 4, mobile: "886" },
+    { name_en: "Singapore", name_cn: "新加坡", code: 5, mobile: "65" },
+    { name_en: "Thailand", name_cn: "泰国", code: 6, mobile: "66" },
+    { name_en: "Indonesia", name_cn: "印尼", code: 7, mobile: "62" },
+    { name_en: "Vietnam", name_cn: "越南", code: 8, mobile: "84" },
+    { name_en: "Korea", name_cn: "韩国", code: 9, mobile: "82" },
+    { name_en: "United States", name_cn: "美国", code: 10, mobile: "1" },
+    { name_en: "Hong Kong", name_cn: "香港", code: 1, mobile: "852" },
+    { name_en: "United Kingdom", name_cn: "英国", code: 12, mobile: "44" },
+    { name_en: "Myanmar (Burma)", name_cn: "缅甸", code: 13, mobile: "95" },
+    { name_en: "Philippines", name_cn: "菲利宾", code: 14, mobile: "63" },
+    { name_en: "Cambodia", name_cn: "柬埔寨", code: 15, mobile: "855" },
+    { name_en: "India", name_cn: "印度", code: 16, mobile: "62" },
+    { name_en: "Australia", name_cn: "澳大利亚", code: 17, mobile: "61" },
+    { name_en: "Brunei", name_cn: "汶莱", code: 18, mobile: "673" },
+    { name_en: "Sri Lanka", name_cn: "斯里兰卡", code: 19, mobile: "95" },
+    { name_en: "Maldives", name_cn: "马尔代夫", code: 20, mobile: "960" },
+    { name_en: "Laos", name_cn: "老挝", code: 21, mobile: "856" },
+    { name_en: "Kazakhstan", name_cn: "哈萨克斯坦", code: 22, mobile: "7" },
+    { name_en: "Russia", name_cn: "俄罗斯", code: 23, mobile: "7" },
+    { name_en: "Canada", name_cn: "加拿大", code: 24, mobile: "1" },
 ];
 
 const provinces = [
-    { name: "Johor", code: 1, country: 1 },
-    { name: "Kedah", code: 2, country: 1 },
-    { name: "Kelantan", code: 3, country: 1 },
-    { name: "Malacca", code: 4, country: 1 },
-    { name: "Negeri Sembilan", code: 5, country: 1 },
-    { name: "Pahang", code: 6, country: 1 },
-    { name: "Penang", code: 7, country: 1 },
-    { name: "Perak", code: 8, country: 1 },
-    { name: "Perlis", code: 9, country: 1 },
-    { name: "Kuala Lumpur", code: 10, country: 1 },
-    { name: "Selangor", code: 11, country: 1 },
-    { name: "Terengganu", code: 12, country: 1 },
-    { name: "Sabah", code: 13, country: 1 },
-    { name: "Sarawak", code: 14, country: 1 },
-    { name: "Labuan", code: 15, country: 1 },
-    { name: "Beijing/BJ", code: 16, country: 3 },
-    { name: "Shanghai/SH", code: 17, country: 3 },
-    { name: "Tianjing/TJ", code: 18, country: 3 },
-    { name: "Chongqing/CQ", code: 19, country: 3 },
-    { name: "Heilongjiang/HL", code: 20, country: 3 },
-    { name: "Liaoning/LN", code: 21, country: 3 },
-    { name: "Jilin/JL", code: 22, country: 3 },
-    { name: "Hebei/HB", code: 23, country: 3 },
-    { name: "Henan/HN", code: 24, country: 3 },
-    { name: "Hubei/HB2", code: 25, country: 3 },
-    { name: "Hunan/HN", code: 26, country: 3 },
-    { name: "Shandong/SD", code: 27, country: 3 },
-    { name: "Shanxi/SX", code: 28, country: 3 },
-    { name: "Shaanxi/SN", code: 29, country: 3 },
-    { name: "Anhui/AH", code: 30, country: 3 },
-    { name: "Zhejiang/ZJ", code: 31, country: 3 },
-    { name: "Jiangsu/JS", code: 32, country: 3 },
-    { name: "Fujian/FJ", code: 33, country: 3 },
-    { name: "Guangdong/GD", code: 34, country: 3 },
-    { name: "Hainan/HN", code: 35, country: 3 },
-    { name: "Sichuan/SC", code: 36, country: 3 },
-    { name: "Yunnan/YN", code: 37, country: 3 },
-    { name: "Guizhou/GZ", code: 38, country: 3 },
-    { name: "Qinghai/QH", code: 39, country: 3 },
-    { name: "Gansui/GS", code: 40, country: 3 },
-    { name: "Jiangxi/KX", code: 41, country: 3 },
-    { name: "Taiwan/TW", code: 42, country: 3 },
-    { name: "Inner Mongolia/IM/NM", code: 43, country: 3 },
-    { name: "Ningxia/NX", code: 44, country: 3 },
-    { name: "Xinjiang/XJ", code: 45, country: 3 },
-    { name: "Tibet/XZ", code: 46, country: 3 },
-    { name: "Guangxi/GX", code: 47, country: 3 },
-    { name: "Hong Kong/HK", code: 48, country: 3 },
-    { name: "Macao/MO", code: 49, country: 3 },
+    { name_en: "Johor", name_cn: "柔佛", code: 1, country: 1 },
+    { name_en: "Kedah", name_cn: "吉打", code: 2, country: 1 },
+    { name_en: "Kelantan", name_cn: "吉兰丹", code: 3, country: 1 },
+    { name_en: "Malacca", name_cn: "马六甲", code: 4, country: 1 },
+    { name_en: "Negeri Sembilan", name_cn: "森美兰", code: 5, country: 1 },
+    { name_en: "Pahang", name_cn: "彭亨", code: 6, country: 1 },
+    { name_en: "Penang", name_cn: "槟城", code: 7, country: 1 },
+    { name_en: "Perak", name_cn: "霹雳", code: 8, country: 1 },
+    { name_en: "Perlis", name_cn: "玻璃市", code: 9, country: 1 },
+    { name_en: "Kuala Lumpur", name_cn: "吉隆坡", code: 10, country: 1 },
+    { name_en: "Selangor", name_cn: "雪兰莪", code: 11, country: 1 },
+    { name_en: "Terengganu", name_cn: "登嘉楼", code: 12, country: 1 },
+    { name_en: "Sabah", name_cn: "沙巴", code: 13, country: 1 },
+    { name_en: "Sarawak", name_cn: "砂拉越", code: 14, country: 1 },
+    { name_en: "Labuan", name_cn: "纳闽", code: 15, country: 1 },
+    { name_en: "Beijing/BJ", name_cn: "北京市", code: 16, country: 3 },
+    { name_en: "Shanghai/SH", name_cn: "上海市", code: 17, country: 3 },
+    { name_en: "Tianjing/TJ", name_cn: "天津市", code: 18, country: 3 },
+    { name_en: "Chongqing/CQ", name_cn: "重庆市", code: 19, country: 3 },
+    { name_en: "Heilongjiang/HL", name_cn: "黑龙江省", code: 20, country: 3 },
+    { name_en: "Liaoning/LN", name_cn: "辽宁省", code: 21, country: 3 },
+    { name_en: "Jilin/JL", name_cn: "吉林省", code: 22, country: 3 },
+    { name_en: "Hebei/HB", name_cn: "河北省", code: 23, country: 3 },
+    { name_en: "Henan/HN", name_cn: "河南省", code: 24, country: 3 },
+    { name_en: "Hubei/HB2", name_cn: "湖北省", code: 25, country: 3 },
+    { name_en: "Hunan/HN", name_cn: "湖南省", code: 26, country: 3 },
+    { name_en: "Shandong/SD", name_cn: "山东省", code: 27, country: 3 },
+    { name_en: "Shanxi/SX", name_cn: "山西省", code: 28, country: 3 },
+    { name_en: "Shaanxi/SN", name_cn: "陕西省", code: 29, country: 3 },
+    { name_en: "Anhui/AH", name_cn: "安徽省", code: 30, country: 3 },
+    { name_en: "Zhejiang/ZJ", name_cn: "浙江省", code: 31, country: 3 },
+    { name_en: "Jiangsu/JS", name_cn: "江苏省", code: 32, country: 3 },
+    { name_en: "Fujian/FJ", name_cn: "福建省", code: 33, country: 3 },
+    { name_en: "Guangdong/GD", name_cn: "广东省", code: 34, country: 3 },
+    { name_en: "Hainan/HN", name_cn: "海南省", code: 35, country: 3 },
+    { name_en: "Sichuan/SC", name_cn: "四川省", code: 36, country: 3 },
+    { name_en: "Yunnan/YN", name_cn: "云南省", code: 37, country: 3 },
+    { name_en: "Guizhou/GZ", name_cn: "贵州省", code: 38, country: 3 },
+    { name_en: "Qinghai/QH", name_cn: "青海省", code: 39, country: 3 },
+    { name_en: "Gansui/GS", name_cn: "甘肃省", code: 40, country: 3 },
+    { name_en: "Jiangxi/KX", name_cn: "江西省", code: 41, country: 3 },
+    { name_en: "Taiwan/TW", name_cn: "台湾省", code: 42, country: 3 },
+    {
+        name_en: "Inner Mongolia/IM/NM",
+        name_cn: "内蒙古自治区",
+        code: 43,
+        country: 3,
+    },
+    { name_en: "Ningxia/NX", name_cn: "宁夏回族自治区", code: 44, country: 3 },
+    {
+        name_en: "Xinjiang/XJ",
+        name_cn: "新疆维吾尔自治区",
+        code: 45,
+        country: 3,
+    },
+    { name_en: "Tibet/XZ", name_cn: "西藏自治区", code: 46, country: 3 },
+    { name_en: "Guangxi/GX", name_cn: "广西壮族自治区", code: 47, country: 3 },
+    {
+        name_en: "Hong Kong/HK",
+        name_cn: "香港特别行政区",
+        code: 48,
+        country: 3,
+    },
+    { name_en: "Macao/MO", name_cn: "澳门特别行政区", code: 49, country: 3 },
 ];
 
 const filteredProvinces = computed(() =>
@@ -167,48 +183,52 @@ const sendVerifyEmail = () => {
 </script>
 
 <template>
-    <AuthLayout title="Register">
+    <AuthLayout :title="$t('public.register')">
         <div class="w-3/4 mx-auto space-y-4 m-8 p-8">
-            <h1>Register</h1>
+            <h1>{{ $t("public.register") }}</h1>
             <p class="text-sm">
-                Please insert personal details to create an account
+                {{ $t("public.input_personal_detail") }}
             </p>
             <Banner />
             <ValidationErrors />
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="field">
-                    <h5 class="text-primary">Country</h5>
+                    <h5 class="text-primary">{{ $t("public.country") }}</h5>
                     <Dropdown
                         class="w-full"
                         v-model="form.country"
                         :options="countries"
-                        optionLabel="name"
+                        :optionLabel="`name_${getActiveLanguage()}`"
                         optionValue="code"
-                        placeholder="Select a Country"
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Provinces</h5>
+                    <h5 class="text-primary">{{ $t("public.province") }}</h5>
                     <Dropdown
                         class="w-full"
                         v-model="form.province"
                         :options="filteredProvinces"
-                        optionLabel="name"
+                        :optionLabel="`name_${getActiveLanguage()}`"
                         optionValue="code"
-                        placeholder="Select a Province"
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Full Name</h5>
+                    <h5 class="text-primary">{{ $t("public.full_name") }}</h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.full_name"
-                        placeholder="Type Full Name"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.full_name'),
+                            })
+                        "
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Phone Number</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.phone_number") }}
+                    </h5>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon">
                             +{{ phonePrefix }}
@@ -216,61 +236,89 @@ const sendVerifyEmail = () => {
                         <InputText
                             v-model="form.phone"
                             @keydown="validateNumbers"
-                            placeholder="Type Phone Number"
+                            :placeholder="
+                                $t('public.placeholder', {
+                                    attribute: $t('public.phone_number'),
+                                })
+                            "
                         />
                     </div>
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Username</h5>
+                    <h5 class="text-primary">{{ $t("public.username") }}</h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.username"
-                        placeholder="Type Username"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.username'),
+                            })
+                        "
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Invitation Code</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.invitation_code") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.invite_code"
-                        placeholder="Type Invitation"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.invitation_code'),
+                            })
+                        "
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Password</h5>
+                    <h5 class="text-primary">{{ $t("public.password") }}</h5>
                     <Password
                         class="w-full"
                         v-model="form.password"
                         toggleMask
                         :feedback="false"
-                        placeholder="Type Password"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.password'),
+                            })
+                        "
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Security Pin</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.security_pin") }}
+                    </h5>
                     <Password
                         class="w-full"
                         v-model="form.security_pin"
                         toggleMask
                         :feedback="false"
-                        placeholder="At least 6 digit Security PIN"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.security_pin'),
+                            })
+                        "
                     />
                 </div>
                 <div class="field">
-                    <h5 class="text-primary">Email</h5>
+                    <h5 class="text-primary">{{ $t("public.email") }}</h5>
                     <div class="p-inputgroup">
                         <InputText
                             class="w-full"
                             :class="{ 'p-invalid': form.errors.email }"
                             type="email"
                             v-model="form.email"
-                            placeholder="Type Email"
+                            :placeholder="
+                                $t('public.placeholder', {
+                                    attribute: $t('public.email'),
+                                })
+                            "
                         />
 
                         <Button
-                            label="Send Now"
+                            :label="$t('public.send_now')"
                             @click="sendVerifyEmail"
                             :disabled="false"
                         />
@@ -282,12 +330,18 @@ const sendVerifyEmail = () => {
                 </div>
 
                 <div class="field">
-                    <h5 class="text-primary">Verification Code</h5>
+                    <h5 class="text-primary">
+                        {{ $t("public.verification_code") }}
+                    </h5>
                     <InputText
                         class="w-full"
                         type="text"
                         v-model="form.verification_code"
-                        placeholder="Type Verification Code"
+                        :placeholder="
+                            $t('public.placeholder', {
+                                attribute: $t('public.verification_code'),
+                            })
+                        "
                         :disabled="!verifyEmailSent"
                     />
                 </div>
@@ -296,14 +350,16 @@ const sendVerifyEmail = () => {
                         class="mt-5"
                         :type="submit"
                         :disabled="!form.verification_code || form.processing"
-                        >Register</Button
+                        >{{ $t("public.register") }}</Button
                     >
                 </div>
             </form>
             <div class="text-center">
                 <p>
-                    I have an account.
-                    <Link :href="route('login')">Login Now</Link>
+                    {{ $t("public.have_acc") }}
+                    <Link :href="route('login')">{{
+                        $t("public.login_now")
+                    }}</Link>
                 </p>
             </div>
         </div>

@@ -6,6 +6,6 @@
             src="/images/logo/logo-03.png"
             image-class="w-20 opacity-40 mx-auto"
         />
-        <p class="text-primary">No Data Now</p>
+        <p class="text-primary">{{ $t("public.no_data") }}</p>
     </div>
 </template>

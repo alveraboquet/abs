@@ -2,6 +2,7 @@
 import { ref, watch } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { trans, wTrans } from "laravel-vue-i18n";
 
 const props = defineProps({
     yesterdayProfit: Object,
@@ -34,11 +35,11 @@ const chartOptions = {
     },
 
     title: {
-        text: "Investor Profit",
+        text: wTrans("public.investor_profit").value,
         align: "left",
     },
     subtitle: {
-        text: "Performance",
+        text: wTrans("public.performance").value,
         align: "left",
     },
     labels: props.lastWeekProfit.date /*
@@ -61,20 +62,22 @@ const chartOptions = {
             <div class="h-1/2"></div>
             <div class="h-screen mx-auto space-y-5">
                 <div class="text-center">
-                    <h4>Total Profit Per Day</h4>
+                    <h4>{{ $t("public.total_profit_per_day") }}</h4>
                     <p>{{ yesterdayProfit.date }}</p>
-                    <h1 class="py-5">{{ yesterdayProfit.total_profit }}%</h1>
-                    <div class="grid grid-cols-12">
+                    <h1 class="py-5 text-primary">
+                        {{ yesterdayProfit.total_profit }}%
+                    </h1>
+                    <div class="grid grid-cols-12 text-primary">
                         <div class="col-span-full md:col-span-4">
-                            <p>Investor Profit</p>
+                            <p>{{ $t("public.investor_profit") }}</p>
                             <p>{{ yesterdayProfit.profit_1 }}%</p>
                         </div>
                         <div class="col-span-full md:col-span-4">
-                            <p>Developer Fund House</p>
+                            <p>{{ $t("public.developer_fund_house") }}</p>
                             <p>{{ yesterdayProfit.profit_2 }}%</p>
                         </div>
                         <div class="col-span-full md:col-span-4">
-                            <p>ABS Agency</p>
+                            <p>{{ $t("public.abs_agency") }}</p>
                             <p>{{ yesterdayProfit.profit_3 }}%</p>
                         </div>
                     </div>
@@ -90,10 +93,10 @@ const chartOptions = {
                         ></apexchart>
                     </div>
                     <div class="flex justify-between">
-                        <div>Return</div>
+                        <div>{{ $t("public.return") }}</div>
                         <div class="flex">
                             <div>
-                                Daily
+                                {{ $t("public.daily_return") }}
                                 <span class="font-bold">
                                     {{ yesterdayProfit.profit_1 }}%
                                 </span>
@@ -103,7 +106,7 @@ const chartOptions = {
                                 class="before:!border-solid before:!border-l-black before:!border-l"
                             />
                             <div>
-                                Monthly
+                                {{ $t("public.montly_return") }}
                                 <span class="font-bold">
                                     {{ monthlyProfit.toFixed(4) }}%
                                 </span>
@@ -113,7 +116,7 @@ const chartOptions = {
                                 class="before:!border-solid before:!border-l-black before:!border-l"
                             />
                             <div>
-                                Accumulate
+                                {{ $t("public.accumulate_return") }}
                                 <span class="font-bold">
                                     {{ accumulateProfit.toFixed(4) }}%
                                 </span>

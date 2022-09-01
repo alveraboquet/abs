@@ -1,0 +1,492 @@
+[
+    {
+        "id": 1,
+        "countryid": 1,
+        "name": "Johor",
+        "name_cn": "柔佛",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 2,
+        "countryid": 1,
+        "name": "Kedah",
+        "name_cn": "吉打",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 3,
+        "countryid": 1,
+        "name": "Kelantan",
+        "name_cn": "吉兰丹",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 4,
+        "countryid": 1,
+        "name": "Malacca",
+        "name_cn": "马六甲",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 5,
+        "countryid": 1,
+        "name": "Negeri Sembilan",
+        "name_cn": "森美兰",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 6,
+        "countryid": 1,
+        "name": "Pahang",
+        "name_cn": "彭亨",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 7,
+        "countryid": 1,
+        "name": "Penang",
+        "name_cn": "槟城",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 8,
+        "countryid": 1,
+        "name": "Perak",
+        "name_cn": "霹雳",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 9,
+        "countryid": 1,
+        "name": "Perlis",
+        "name_cn": "玻璃市",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 10,
+        "countryid": 1,
+        "name": "Kuala Lumpur",
+        "name_cn": "吉隆坡",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 11,
+        "countryid": 1,
+        "name": "Selangor",
+        "name_cn": "雪兰莪",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 12,
+        "countryid": 1,
+        "name": "Terengganu",
+        "name_cn": "登嘉楼",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 13,
+        "countryid": 1,
+        "name": "Sabah",
+        "name_cn": "沙巴",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 14,
+        "countryid": 1,
+        "name": "Sarawak",
+        "name_cn": "砂拉越",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 15,
+        "countryid": 1,
+        "name": "Labuan",
+        "name_cn": "纳闽",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 16,
+        "countryid": 3,
+        "name": "Beijing/BJ",
+        "name_cn": "北京市",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 17,
+        "countryid": 3,
+        "name": "Shanghai/SH",
+        "name_cn": "上海市",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 18,
+        "countryid": 3,
+        "name": "Tianjing/TJ",
+        "name_cn": "天津市",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 19,
+        "countryid": 3,
+        "name": "Chongqing/CQ",
+        "name_cn": "重庆市",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 20,
+        "countryid": 3,
+        "name": "Heilongjiang/HL",
+        "name_cn": "黑龙江省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 21,
+        "countryid": 3,
+        "name": "Liaoning/LN",
+        "name_cn": "辽宁省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 22,
+        "countryid": 3,
+        "name": "Jilin/JL",
+        "name_cn": "吉林省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 23,
+        "countryid": 3,
+        "name": "Hebei/HB",
+        "name_cn": "河北省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 24,
+        "countryid": 3,
+        "name": "Henan/HN",
+        "name_cn": "河南省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 25,
+        "countryid": 3,
+        "name": "Hubei/HB2",
+        "name_cn": "湖北省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 26,
+        "countryid": 3,
+        "name": "Hunan/HN",
+        "name_cn": "湖南省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 27,
+        "countryid": 3,
+        "name": "Shandong/SD",
+        "name_cn": "山东省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 28,
+        "countryid": 3,
+        "name": "Shanxi/SX",
+        "name_cn": "山西省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 29,
+        "countryid": 3,
+        "name": "Shaanxi/SN",
+        "name_cn": "陕西省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 30,
+        "countryid": 3,
+        "name": "Anhui/AH",
+        "name_cn": "安徽省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 31,
+        "countryid": 3,
+        "name": "Zhejiang/ZJ",
+        "name_cn": "浙江省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 32,
+        "countryid": 3,
+        "name": "Jiangsu/JS",
+        "name_cn": "江苏省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 33,
+        "countryid": 3,
+        "name": "Fujian/FJ",
+        "name_cn": "福建省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 34,
+        "countryid": 3,
+        "name": "Guangdong/GD",
+        "name_cn": "广东省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 35,
+        "countryid": 3,
+        "name": "Hainan/HN",
+        "name_cn": "海南省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 36,
+        "countryid": 3,
+        "name": "Sichuan/SC",
+        "name_cn": "四川省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 37,
+        "countryid": 3,
+        "name": "Yunnan/YN",
+        "name_cn": "云南省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 38,
+        "countryid": 3,
+        "name": "Guizhou/GZ",
+        "name_cn": "贵州省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 39,
+        "countryid": 3,
+        "name": "Qinghai/QH",
+        "name_cn": "青海省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 40,
+        "countryid": 3,
+        "name": "Gansui/GS",
+        "name_cn": "甘肃省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 41,
+        "countryid": 3,
+        "name": "Jiangxi/KX",
+        "name_cn": "江西省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 42,
+        "countryid": 3,
+        "name": "Taiwan/TW",
+        "name_cn": "台湾省",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 43,
+        "countryid": 3,
+        "name": "Inner Mongolia/IM/NM",
+        "name_cn": "内蒙古自治区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 44,
+        "countryid": 3,
+        "name": "Ningxia/NX",
+        "name_cn": "宁夏回族自治区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 45,
+        "countryid": 3,
+        "name": "Xinjiang/XJ",
+        "name_cn": "新疆维吾尔自治区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 46,
+        "countryid": 3,
+        "name": "Tibet/XZ",
+        "name_cn": "西藏自治区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 47,
+        "countryid": 3,
+        "name": "Guangxi/GX",
+        "name_cn": "广西壮族自治区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 48,
+        "countryid": 3,
+        "name": "Hong Kong/HK",
+        "name_cn": "香港特别行政区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 49,
+        "countryid": 3,
+        "name": "Macao/MO",
+        "name_cn": "澳门特别行政区",
+        "pic_userid": 0,
+        "status": 1,
+        "created_at": null,
+        "updated_at": null
+    }
+]

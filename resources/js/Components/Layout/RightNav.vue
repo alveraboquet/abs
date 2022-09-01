@@ -2,6 +2,7 @@
 import { usePage } from "@inertiajs/inertia-vue3";
 import { computed } from "vue";
 import NavLink from "@/Components/NavLink.vue";
+import { getActiveLanguage } from "laravel-vue-i18n";
 const curUser = computed(() => usePage().props.value.auth.user);
 </script>
 <template>
@@ -22,8 +23,13 @@ const curUser = computed(() => usePage().props.value.auth.user);
                         <Avatar :image="curUser.user_ranking.image" />
                     </div>
                     <p class="text-xs text-center">
-                        Agency Level:
-                        {{ curUser.user_ranking.name_en }}
+                        {{
+                            $t("public.agency_level", {
+                                level: curUser.user_ranking[
+                                    `name_${getActiveLanguage()}`
+                                ],
+                            })
+                        }}
                     </p>
                 </div>
                 <ul class="relative px-1 divide-solid divide-y text-xs">
@@ -32,7 +38,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                             :href="route('usdt.asset')"
                             :active="route().current('usdt.asset')"
                         >
-                            <div>USDT Assets</div>
+                            <div>{{ $t("public.usdt_assets") }}</div>
                             <template #right>
                                 <div>${{ curUser.usdt_wallet }}</div>
                             </template>
@@ -43,7 +49,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                             :href="route('roi.asset')"
                             :active="route().current('roi.asset')"
                         >
-                            <div>ROI Assets</div>
+                            <div>{{ $t("public.roi_assets") }}</div>
                             <template #right>
                                 <div>${{ curUser.roi_wallet }}</div>
                             </template>
@@ -58,7 +64,9 @@ const curUser = computed(() => usePage().props.value.auth.user);
                             :active="route().current('usdt.topup')"
                         >
                             <i class="pi pi-money-bill mr-3"></i>
-                            <span class="font-bold">Topup Now</span>
+                            <span class="font-bold">
+                                {{ $t("public.topup_now") }}</span
+                            >
                         </NavLink>
                     </li>
                 </ul>
@@ -71,8 +79,12 @@ const curUser = computed(() => usePage().props.value.auth.user);
                         >
                             <i class="pi pi-book mr-3"></i>
                             <span>
-                                <p class="font-bold">Auto Receipt Record</p>
-                                <p>Weekly Auto Distribution</p>
+                                <p class="font-bold">
+                                    {{ $t("public.auto_receipt_record") }}
+                                </p>
+                                <p>
+                                    {{ $t("public.weekly_auto_distribution") }}
+                                </p>
                             </span>
                         </NavLink>
                     </li>
@@ -85,7 +97,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                         >
                             <i class="pi pi-money-bill mr-3"></i>
                             <span class="leading-none">
-                                Agency Total Invest
+                                {{ $t("public.agency_total_invest") }}
                             </span>
 
                             <span class="font-bold">$475,000.0000</span>
@@ -97,7 +109,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                         >
                             <i class="pi pi-money-bill mr-3"></i>
                             <span class="leading-none">
-                                Agency Total Sharing
+                                {{ $t("public.agency_total_sharing") }}
                             </span>
 
                             <span class="font-bold">$475,000.0000</span>
@@ -109,7 +121,7 @@ const curUser = computed(() => usePage().props.value.auth.user);
                         >
                             <i class="pi pi-money-bill mr-3"></i>
                             <span class="leading-none">
-                                Agency Weekly Sharing
+                                {{ $t("public.agency_weekly_sharing") }}
                             </span>
                             <span class="font-bold">$475,000.0000</span>
                         </div>

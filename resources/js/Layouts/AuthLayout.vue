@@ -9,6 +9,7 @@ import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 import ValidationErrors from "@/Components/ValidationErrors.vue";
 import { getActiveLanguage, loadLanguageAsync } from "laravel-vue-i18n";
+import { Inertia } from "@inertiajs/inertia";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -28,10 +29,10 @@ const languages = [
     { name: "English", value: "en" },
     { name: "简体中文", value: "cn" },
 ];
-
 const lang = ref(getActiveLanguage());
 watch(lang, async function (newLang) {
-    console.log(newLang);
+    Inertia.visit(`/locale/${newLang}`, { preserveState: true });
+    ///console.log(newLang);
     await loadLanguageAsync(newLang);
 });
 
@@ -72,7 +73,7 @@ const changeLang = function (l) {
     </div>
     <Teleport to="body">
         <Dialog
-            header="Filter"
+            :header="$t('public.language_settings')"
             v-model:visible="displayModal"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :draggable="false"
@@ -87,7 +88,11 @@ const changeLang = function (l) {
             ></Listbox>
             <template #footer>
                 <div class="text-center">
-                    <Button label="Confirm" @click="closeModal" autofocus />
+                    <Button
+                        :label="$t('public.confirm')"
+                        @click="closeModal"
+                        autofocus
+                    />
                 </div>
             </template>
         </Dialog>

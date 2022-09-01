@@ -45,23 +45,23 @@ const submitForm = () => {
 };
 </script>
 <template>
-    <AppLayoutNew title="Add New Order">
+    <AppLayoutNew :title="$t('public.add_new_order')">
         <div class="h-full p-8">
-            <h1>Add New Order</h1>
+            <h1>{{ $t("public.add_new_order") }}</h1>
             <Banner />
             <ValidationErrors />
 
-            <p>Please insert amount to create new order</p>
+            <p>{{ $t("public.insert_amount") }}</p>
 
             <Card>
                 <template #content>
                     <div class="flex justify-between">
-                        <p>Wallet Balance</p>
+                        <p>{{ $t("public.wallet_balance") }}</p>
                         <p>${{ curUser.usdt_wallet }}</p>
                     </div>
                     <hr />
                     <div class="text-center">
-                        <p>Amount</p>
+                        <p>{{ $t("public.amount") }}</p>
                         <InputNumber
                             class=""
                             inputId="horizontal"
@@ -73,7 +73,7 @@ const submitForm = () => {
                             incrementButtonIcon="pi pi-plus"
                             decrementButtonIcon="pi pi-minus"
                         />
-                        <p>Min Amount: $1000.00</p>
+                        <p>{{ $t("public.min_amount") }}: $1000.00</p>
                     </div>
                 </template>
             </Card>
@@ -86,11 +86,11 @@ const submitForm = () => {
                         class="mr-4"
                     />
                     <label for="binary1"
-                        >Agree with
+                        >{{ $t("public.agree_with") }}
                         <span
                             class="font-bold cursor-pointer"
                             @click.prevent="openModal(1)"
-                            >Understanding of ABS</span
+                            >{{ $t("public.understanding_of_abs") }}</span
                         ></label
                     >
                 </div>
@@ -103,11 +103,13 @@ const submitForm = () => {
                         class="mr-4"
                     />
                     <label for="binary2"
-                        >Agree with
+                        >{{ $t("public.agree_with") }}
                         <span
                             class="font-bold cursor-pointer"
                             @click.prevent="openModal(2)"
-                            >Summarise of Mutual Agreement</span
+                            >{{
+                                $t("public.summarise_of_mutual_agreement")
+                            }}</span
                         ></label
                     >
                 </div>
@@ -120,11 +122,11 @@ const submitForm = () => {
                         class="mr-4"
                     />
                     <label for="binary3"
-                        >Agree with
+                        >{{ $t("public.agree_with") }}
                         <span
                             class="font-bold cursor-pointer"
                             @click.prevent="openModal(2)"
-                            >Term & Condition</span
+                            >{{ $t("public.terms_n_condition") }}</span
                         ></label
                     >
                 </div>
@@ -132,13 +134,13 @@ const submitForm = () => {
             </div>
 
             <div class="text-center">
-                <Button @click="submitForm">Submit</Button>
+                <Button @click="submitForm">{{ $t("public.submit") }}</Button>
             </div>
         </div>
     </AppLayoutNew>
     <Teleport to="body">
         <Dialog
-            header="Understanding of ABS"
+            :header="$t('public.understanding_of_abs')"
             v-model:visible="displayModal1"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :style="{ width: '50vw' }"
@@ -172,7 +174,7 @@ const submitForm = () => {
                 <br />
                 <span
                     >1. Please download the ABS Application on
-                    https://abs.agency</span
+                    http://absglobal.asia/</span
                 >
                 <br />
                 <span
@@ -242,7 +244,7 @@ const submitForm = () => {
                 <br />
                 <span
                     >1. Please download the ABS Application on
-                    https://abs.agency</span
+                    http://absglobal.asia/</span
                 >
                 <br />
                 <span
@@ -311,7 +313,7 @@ const submitForm = () => {
             <template #footer>
                 <div class="text-center mt-4">
                     <Button
-                        label="Confirm"
+                        :label="$t('public.confirm')"
                         icon="pi pi-check"
                         @click="closeModal(1)"
                     />
@@ -320,7 +322,7 @@ const submitForm = () => {
         </Dialog>
 
         <Dialog
-            header="Summarise of Mutual Agreement"
+            :header="$t('public.summarise_of_mutual_agreement')"
             v-model:visible="displayModal2"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :style="{ width: '50vw' }"
@@ -533,7 +535,7 @@ const submitForm = () => {
         </Dialog>
 
         <Dialog
-            header="Term & Condition"
+            :header="$t('public.terms_n_condition')"
             v-model:visible="displayModal3"
             :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
             :style="{ width: '50vw' }"

@@ -54,35 +54,49 @@ const displayModal = ref(false);
                     >
                         <ValidationErrors />
                         <div class="text-center">
-                            <h1 class="hidden md:block">Login</h1>
-                            <p>Please login to continue</p>
+                            <h1 class="hidden md:block">
+                                {{ $t("public.login_now") }}
+                            </h1>
+                            <p>{{ $t("public.login_to_continue") }}</p>
                         </div>
                         <form
                             @submit.prevent="submit"
                             class="flex-grow-1 space-y-4"
                         >
                             <div>
-                                <h5 class="text-primary">Username</h5>
+                                <h5 class="text-primary">
+                                    {{ $t("public.username") }}
+                                </h5>
                                 <InputText
                                     class="w-full"
                                     type="text"
                                     v-model="form.username"
-                                    placeholder="Type Username"
+                                    :placeholder="
+                                        $t('public.placeholder', {
+                                            attribute: $t('public.username'),
+                                        })
+                                    "
                                 />
                             </div>
                             <div>
-                                <h5 class="text-primary">Password</h5>
+                                <h5 class="text-primary">
+                                    {{ $t("public.password") }}
+                                </h5>
                                 <Password
                                     class="w-full"
                                     v-model="form.password"
                                     toggleMask
                                     :feedback="false"
-                                    placeholder="Type Password"
+                                    :placeholder="
+                                        $t('public.placeholder', {
+                                            attribute: $t('public.password'),
+                                        })
+                                    "
                                 />
                             </div>
                             <div class="text-right">
-                                <Link :href="route('password.request')"
-                                    >Forget Password</Link
+                                <Link :href="route('password.request')">
+                                    {{ $t("public.forget_password") }}</Link
                                 >
                             </div>
 
@@ -91,16 +105,16 @@ const displayModal = ref(false);
                                     class="mt-5"
                                     :type="submit"
                                     :disabled="form.processing"
-                                    >Login Now</Button
+                                    >{{ $t("public.login_now") }}</Button
                                 >
                             </div>
                         </form>
-                        <div class="text-center">
+                        <div class="text-center space-y-4">
                             <p>
-                                Don't have an account?
-                                <Link :href="route('register')"
-                                    >Register Now</Link
-                                >
+                                {{ $t("public.dont_have_acc") }}
+                                <Link :href="route('register')">{{
+                                    $t("public.register_now")
+                                }}</Link>
                             </p>
                             <p>&#169;2021.ABS.All Rights Reserved</p>
                         </div>
