@@ -251,6 +251,7 @@ return [
     'end_date' => '结束日期',
     'image' => '照片',
     'popup' => '弹出',
+    'accumulated_profit' => '累计利润',
 
 
 

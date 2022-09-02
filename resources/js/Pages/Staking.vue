@@ -2,6 +2,7 @@
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { getActiveLanguage } from "laravel-vue-i18n";
+import dayjs from "dayjs";
 defineProps({
     lists: Array,
 });
@@ -9,6 +10,13 @@ const orderStatuses = {
     Pending: { en: "Pending", cn: "处理中" },
     Active: { en: "Active", cn: "活跃" },
     Cancelled: { en: "Cancelled", cn: "已取消" },
+};
+
+const dateDiff = (item) => {
+    if (dayjs().isBefore(dayjs(item.date_end))) {
+        return item.duration - dayjs(item.date_end).diff(dayjs(), "days");
+    }
+    return item.duration;
 };
 </script>
 <template>
@@ -79,7 +87,7 @@ const orderStatuses = {
                                 <p>$ {{ item.amount }}</p>
                                 <p>&#x2248;$ {{ item.float_amount }}</p>
                             </div>
-                            <div class="text-right" v-if="profit">
+                            <div class="text-right">
                                 <h6>{{ $t("public.profit_loss") }}</h6>
                                 <p class="text-green-500">
                                     +{{ item.total_percentage }}%
@@ -88,6 +96,13 @@ const orderStatuses = {
                         </div>
 
                         <div class="py-8">
+                            <div
+                                class="flex justify-between items-center"
+                                v-if="item.status != 'Pending'"
+                            >
+                                <div>{{ $t("public.accumulated_profit") }}</div>
+                                <div>${{ item.total_profit }}</div>
+                            </div>
                             <div class="flex justify-between items-center">
                                 <div>{{ $t("public.date_apply") }}</div>
                                 <div>{{ item.date_apply }}</div>
@@ -126,9 +141,7 @@ const orderStatuses = {
                                 <div>
                                     <radial-progress-bar
                                         :diameter="75"
-                                        :completed-steps="
-                                            item.date_end - item.date_apply
-                                        "
+                                        :completed-steps="dateDiff(item)"
                                         :total-steps="item.duration"
                                         startColor="#95bbf7"
                                         stopColor="#95bbf7"
@@ -136,7 +149,11 @@ const orderStatuses = {
                                         :strokeWidth="5"
                                         :innerStrokeWidth="5"
                                     >
-                                        {{ item.date_end - item.date_apply }}
+                                        {{
+                                            $t("public.days", {
+                                                day: dateDiff(item),
+                                            })
+                                        }}
                                     </radial-progress-bar>
                                 </div>
                             </div>

@@ -251,6 +251,7 @@ return [
     'end_date' => 'End Date',
     'image' => 'Image',
     'popup' => 'Popup',
+    'accumulated_profit' => 'Accumulated Profit',
 
 
 
