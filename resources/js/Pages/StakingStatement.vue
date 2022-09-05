@@ -3,6 +3,8 @@ import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { getActiveLanguage } from "laravel-vue-i18n";
 defineProps({
+    daily_profit: Number,
+    total_profit: Number,
     lists: Array,
 });
 const orderStatuses = {
@@ -20,11 +22,11 @@ const orderStatuses = {
                 <div>
                     <span>{{ $t("public.daily_profit") }}</span>
 
-                    <div>$0.0000</div>
+                    <div>${{ daily_profit.toFixed(4) }}</div>
                 </div>
                 <div>
                     <span>{{ $t("public.total_profit") }}</span>
-                    <div>$0.0000</div>
+                    <div>$ {{ total_profit.toFixed(4) }}</div>
                 </div>
             </div>
 
@@ -37,14 +39,16 @@ const orderStatuses = {
                             class="mr-3"
                         />
                         <span class="flex-1"
-                            >{{ $t("public.profit") }} : {{ item.amount }}</span
+                            >{{ $t("public.profit") }} : ${{
+                                item.net_bonus
+                            }}</span
                         >
 
-                        <span class="text-green-500">{{
-                            item.bonus_percentage
-                        }}</span>
+                        <span class="text-green-500"
+                            >{{ item.bonus_percentage }}%</span
+                        >
                     </div>
-                    <p>{{ item.created_at }}</p>
+                    <p>{{ item.date_entitle }}</p>
                 </div>
                 <hr />
             </div>

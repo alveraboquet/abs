@@ -255,6 +255,7 @@ return [
     "staking-statement" => "质押记录",
     'profit' => '盈利',
     'profile' => '个人资料',
+    'withdraw' => '提现',
 
 
 

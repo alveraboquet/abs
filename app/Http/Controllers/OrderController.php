@@ -40,7 +40,7 @@ class OrderController extends Controller
         WalletLog::create([
             'user_id' => $user->id,
             'wallet_type' => 'usdt',
-            'type' => 'stacking',
+            'type' => 'staking',
             'opening_balance' => $user->usdt_wallet,
             'amount' => -1 * $amount,
             'closing_balance' => $user->usdt_wallet - $amount
@@ -73,6 +73,10 @@ class OrderController extends Controller
     public function getOrder(Request $request, $id)
     {
         $lists = BonusHistory::where('order_id', $id)->where('user_id', Auth::id())->latest()->get();
-        return Inertia::render('StakingStatement', compact('lists'));
+        $daily_profit = $lists->first()?->net_bonus ?? 0;
+        $total_profit = $lists->sum('net_bonus');
+
+
+        return Inertia::render('StakingStatement', compact('lists', 'daily_profit', 'total_profit'));
     }
 }

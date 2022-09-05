@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\BonusHistory;
 use App\Models\Notification;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -40,9 +42,17 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             //
-            'auth.user' => fn () => auth()->id()
-                ? User::with('userRanking')->find(auth()->id())
-                : null,
+            'auth.user' => function () {
+                if (auth()->id()) {
+                    $ids = User::where('hierarchyList', 'like', '%-' . auth()->id() . '-%')->pluck('id')->push(auth()->id());
+                    $total_sharing = Order::whereIn('user_id', $ids)->sum('total_profit');
+                    $weekly_sharing = BonusHistory::whereIn('user_id', $ids)->where('date_entitle', '>=', today())
+                        ->where('date_entitle', '<=', today()->endOfWeek())->sum('net_bonus');
+
+                    return collect(User::with('userRanking')->find(auth()->id()))->merge(['total_sharing' => $total_sharing, 'weekly_sharing' => $weekly_sharing]);
+                }
+                return null;
+            },
             'notifications' => fn () => session('login_success')
                 ? Notification::query()
                 ->where('status', 'Active')

@@ -255,7 +255,7 @@ return [
     'staking-statement' => 'Staking Statement',
     'profit' => 'Profit',
     'profile' => 'Profile',
-
+    'withdraw' => 'Withdraw',
 
 
 

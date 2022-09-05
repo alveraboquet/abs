@@ -73,9 +73,7 @@ Route::middleware([
         })->name('profile');
 
         Route::prefix('1')->name('usdt.')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('USDTAsset');
-            })->name('asset');
+            Route::match(['get', 'post'], '/', [UserController::class, 'getUSDTAsset'])->name('asset');
 
             Route::get('/topup', function () {
                 return Inertia::render('Topup');
@@ -84,13 +82,9 @@ Route::middleware([
             Route::get('/topup-history', [UserController::class, 'topupHistory'])->name('topup-history');
         });
         Route::prefix('2')->name('roi.')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('ROIAsset');
-            })->name('asset');
+            Route::match(['get', 'post'], '/', [UserController::class, 'getROIAsset'])->name('asset');
 
-            Route::get('/withdrawal-history', function () {
-                return Inertia::render('WithdrawalHistory');
-            })->name('withdrawal-history');
+            Route::get('/withdrawal-history', [UserController::class, 'withdrawalHistory'])->name('withdrawal-history');
         });
 
         Route::get('/my-team', [UserController::class, 'getDownline'])->name('my-team');
@@ -127,9 +121,11 @@ Route::middleware([
 
         Route::get('/manage-member', [UserController::class, 'manageMember'])->name('manage-member');
         Route::get('/manage-topup', [UserController::class, 'manageTopup'])->name('manage-topup');
+        Route::get('/manage-withdraw', [UserController::class, 'manageWithdraw'])->name('manage-withdraw');
         Route::get('/manage-order', [UserController::class, 'manageOrder'])->name('manage-order');
         Route::post('/orders/update', [UserController::class, 'updateOrder'])->name('update-order');
         Route::post('/topup/update', [UserController::class, 'updateTopup'])->name('update-topup');
+        Route::post('/withdraw/update', [UserController::class, 'updateWithdraw'])->name('update-withdraw');
         Route::get('/manage-notification', [NotificationController::class, 'manageNotification'])->name('manage-notification');
         Route::post('/notification/update', [NotificationController::class, 'updateNotification'])->name('update-notification');
         Route::post('/notification/create', [NotificationController::class, 'createNotification'])->name('create-notification');

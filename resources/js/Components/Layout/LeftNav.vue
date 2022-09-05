@@ -114,6 +114,17 @@ const closeModal = () => {
                 </li>
                 <li class="relative">
                     <NavLink
+                        :href="route('admin.manage-withdraw')"
+                        :active="route().current('admin.manage-withdraw')"
+                    >
+                        <i class="pi pi-users mr-3"></i>
+                        <span class="font-bold">{{
+                            $t("public.manage", { name: $t("public.withdraw") })
+                        }}</span>
+                    </NavLink>
+                </li>
+                <li class="relative">
+                    <NavLink
                         :href="route('admin.manage-order')"
                         :active="route().current('admin.manage-order')"
                     >

@@ -4,6 +4,8 @@ import { Link } from "@inertiajs/inertia-vue3";
 import { getActiveLanguage } from "laravel-vue-i18n";
 import dayjs from "dayjs";
 defineProps({
+    total_profit: Number,
+    daily_profit: Number,
     lists: Array,
 });
 const orderStatuses = {
@@ -36,11 +38,11 @@ const dateDiff = (item) => {
                 <div>
                     <span>{{ $t("public.daily_profit") }}</span>
 
-                    <div>$0.0000</div>
+                    <div>${{ daily_profit.toFixed(4) }}</div>
                 </div>
                 <div>
                     <span>{{ $t("public.total_profit") }}</span>
-                    <div>$0.0000</div>
+                    <div>${{ total_profit.toFixed(4) }}</div>
                 </div>
             </div>
 

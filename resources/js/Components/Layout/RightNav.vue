@@ -100,7 +100,9 @@ const curUser = computed(() => usePage().props.value.auth.user);
                                 {{ $t("public.agency_total_invest") }}
                             </span>
 
-                            <span class="font-bold">${{ "0.0000" }}</span>
+                            <span class="font-bold"
+                                >${{ curUser.group_sales }}</span
+                            >
                         </div>
                     </li>
                     <li class="relative">
@@ -112,7 +114,9 @@ const curUser = computed(() => usePage().props.value.auth.user);
                                 {{ $t("public.agency_total_sharing") }}
                             </span>
 
-                            <span class="font-bold">${{ "0.0000" }}</span>
+                            <span class="font-bold"
+                                >${{ curUser.total_sharing.toFixed(4) }}</span
+                            >
                         </div>
                     </li>
                     <li class="relative">
@@ -123,7 +127,9 @@ const curUser = computed(() => usePage().props.value.auth.user);
                             <span class="leading-none">
                                 {{ $t("public.agency_weekly_sharing") }}
                             </span>
-                            <span class="font-bold"> ${{ "0.0000" }} </span>
+                            <span class="font-bold">
+                                ${{ curUser.weekly_sharing.toFixed(4) }}
+                            </span>
                         </div>
                     </li>
                 </ul>

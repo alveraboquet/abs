@@ -50,7 +50,7 @@ const logout = () => {
                                     {{ $t("public.agency_total_invest") }}
                                 </p>
                                 <p class="text-primary font-bold">
-                                    ${{ "0.0000" }}
+                                    ${{ curUser.group_sales }}
                                 </p>
                             </div>
                             <div class="col-span-3 md:col-span-1 text-center">
@@ -59,7 +59,7 @@ const logout = () => {
                                     {{ $t("public.agency_total_sharing") }}
                                 </p>
                                 <p class="text-primary font-bold">
-                                    ${{ "0.0000" }}
+                                    ${{ curUser.total_sharing.toFixed(4) }}
                                 </p>
                             </div>
                             <div class="col-span-3 md:col-span-1 text-center">
@@ -68,7 +68,7 @@ const logout = () => {
                                     {{ $t("public.agency_weekly_sharing") }}
                                 </p>
                                 <p class="text-primary font-bold">
-                                    ${{ "0.0000" }}
+                                    ${{ curUser.weekly_sharing.toFixed(4) }}
                                 </p>
                             </div>
                         </div>

@@ -1,8 +1,13 @@
 <script setup>
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { usePage } from "@inertiajs/inertia-vue3";
 import { getActiveLanguage } from "laravel-vue-i18n";
 import { computed, ref, watch } from "vue";
+const props = defineProps({
+    lists: Array,
+    filters: Object,
+});
 const curUser = computed(() => usePage().props.value.auth.user);
 const selectionModal = ref(false);
 
@@ -20,15 +25,24 @@ const selection = [
     { name_en: "Staking Refund", name_cn: "质押退款", value: "staking_refund" },
 ];
 
-const currentItem = ref("all");
-/* watch(currentItem, function (newValue) {
-    console.log(newValue);
-}); */
+const currentItem = ref(props.filters.type);
+watch(currentItem, function (newValue) {
+    //console.log(newValue);
+    Inertia.post(
+        route("usdt.asset"),
+        { type: newValue },
+        { preserveState: true }
+    );
+});
 
 const selected = ref(currentItem.value);
 
 const changeSelection = function (l) {
     currentItem.value = l;
+};
+
+const typeLabel = (v) => {
+    return selection.find((s) => s.value == v)[`name_${getActiveLanguage()}`];
 };
 </script>
 <template>
@@ -51,7 +65,19 @@ const changeSelection = function (l) {
                     </div>
                 </template>
             </Card>
-            <Empty />
+            <div class="mt-8">
+                <div v-for="item in lists" v-if="lists.length">
+                    <div class="p-8">
+                        <div class="flex justify-between">
+                            <p>{{ typeLabel(item.type) }}</p>
+                            <p>{{ item.amount.toFixed(4) }}</p>
+                        </div>
+                        <p>{{ new Date(item.created_at) }}</p>
+                    </div>
+                    <hr />
+                </div>
+                <Empty v-else />
+            </div>
         </div>
     </AppLayoutNew>
     <Teleport to="body">

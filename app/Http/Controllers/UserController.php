@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BonusHistory;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Profit;
@@ -88,6 +89,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function manageWithdraw()
+    {
+        $lists = Payment::where('trx_type', 'withdraw')->with(['user'])->get();
+        return Inertia::render('ManageWithdraw', [
+            'lists' => $lists,
+        ]);
+    }
+
+
 
     public function delete(Request $request)
     {
@@ -167,7 +177,9 @@ class UserController extends Controller
 
     public function withdrawalHistory()
     {
-        //$lists = Payment::where('user_id', Auth::id())->latest()->get();
+        $lists = Payment::where('user_id', Auth::id())->where('trx_type', 'withdraw')->latest()->get();
+
+        return Inertia::render('WithdrawalHistory', compact('lists'));
     }
 
     public function updateTopup(Request $request)
@@ -186,6 +198,27 @@ class UserController extends Controller
                 'closing_balance' => $user->usdt_wallet + $payment->actual_amount
             ]);
             $user->usdt_wallet += $payment->actual_amount;
+            $user->save();
+        }
+        return back()->banner('Update successfull');
+    }
+
+    public function updateWithdraw(Request $request)
+    {
+        $payment = Payment::find($request->id);
+        $payment->update(['status' => $request->status]);
+        if ($request->status == 'Approved') {
+            $user = User::find($payment->user_id);
+
+            WalletLog::create([
+                'user_id' => $user->id,
+                'wallet_type' => 'roi',
+                'type' => 'withdraw',
+                'opening_balance' => $user->roi_wallet,
+                'amount' => $payment->actual_amount,
+                'closing_balance' => $user->roi_wallet - $payment->actual_amount
+            ]);
+            $user->roi_wallet -= $payment->actual_amount;
             $user->save();
         }
         return back()->banner('Update successfull');
@@ -243,7 +276,9 @@ class UserController extends Controller
     public function getStaking(Request $request)
     {
         $lists = Order::where('user_id', Auth::id())->latest()->get();
-        return Inertia::render('Staking', compact('lists'));
+        $total_profit = $lists->sum('total_profit');
+        $daily_profit = BonusHistory::where('user_id', Auth::id())->where('date_entitle', today())->sum('net_bonus');
+        return Inertia::render('Staking', compact('lists', 'total_profit', 'daily_profit'));
     }
 
     public function changePassword(Request $request)
@@ -328,5 +363,33 @@ class UserController extends Controller
         ]);
 
         return back()->banner('Create Admin Successful');
+    }
+
+    public function getUSDTAsset(Request $request)
+    {
+        $type = $request->type ?? 'all';
+        if ($type == "all") {
+            $lists = WalletLog::where('wallet_type', 'usdt')->latest()->get();
+        } else {
+            $lists = WalletLog::where('wallet_type', 'usdt')->where('type', $type)->latest()->get();
+        }
+        return Inertia::render('USDTAsset', [
+            'lists' => $lists,
+            'filters' => $request->only(['type'])
+        ]);
+    }
+
+    public function getROIAsset(Request $request)
+    {
+        $type = $request->type ?? 'all';
+        if ($type == "all") {
+            $lists = WalletLog::where('wallet_type', 'roi')->latest()->get();
+        } else {
+            $lists = WalletLog::where('wallet_type', 'roi')->where('type', $type)->latest()->get();
+        }
+        return Inertia::render('ROIAsset', [
+            'lists' => $lists,
+            'filters' => $request->only(['type'])
+        ]);
     }
 }
