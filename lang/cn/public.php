@@ -252,6 +252,9 @@ return [
     'image' => '照片',
     'popup' => '弹出',
     'accumulated_profit' => '累计利润',
+    "staking-statement" => "质押记录",
+    'profit' => '盈利',
+    'profile' => '个人资料',
 
 
 

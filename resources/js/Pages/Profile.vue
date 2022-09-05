@@ -4,6 +4,7 @@ import { Link, usePage } from "@inertiajs/inertia-vue3";
 import { computed } from "vue";
 import NavLink from "@/Components/NavLink.vue";
 import { Inertia } from "@inertiajs/inertia";
+import { getActiveLanguage } from "laravel-vue-i18n";
 
 const curUser = computed(() => usePage().props.value.auth.user);
 
@@ -12,7 +13,7 @@ const logout = () => {
 };
 </script>
 <template>
-    <AppLayoutNew title="Profile">
+    <AppLayoutNew :title="$t('public.profile')">
         <div class="bg-[url('/images/BG-02.png')] bg-no-repeat bg-auto">
             <div class="py-20 px-8 md:p-20">
                 <Card class="!text-xs">
@@ -32,30 +33,42 @@ const logout = () => {
                                 {{ curUser.full_name }}
                             </p>
                             <p>
-                                Agency Level: {{ curUser.user_ranking.name_en }}
+                                {{
+                                    $t("public.agency_level", {
+                                        level: curUser.user_ranking[
+                                            `name_${getActiveLanguage()}`
+                                        ],
+                                    })
+                                }}
                             </p>
                         </div>
                         <hr class="my-4" />
                         <div class="grid grid-cols-3">
                             <div class="col-span-3 md:col-span-1 text-center">
                                 <i class="pi pi-money-bill"></i>
-                                <p>Agency Total Invest</p>
+                                <p>
+                                    {{ $t("public.agency_total_invest") }}
+                                </p>
                                 <p class="text-primary font-bold">
-                                    $497,000.0000
+                                    ${{ "0.0000" }}
                                 </p>
                             </div>
                             <div class="col-span-3 md:col-span-1 text-center">
                                 <i class="pi pi-money-bill"></i>
-                                <p>Agency Total Invest</p>
+                                <p>
+                                    {{ $t("public.agency_total_sharing") }}
+                                </p>
                                 <p class="text-primary font-bold">
-                                    $497,000.0000
+                                    ${{ "0.0000" }}
                                 </p>
                             </div>
                             <div class="col-span-3 md:col-span-1 text-center">
                                 <i class="pi pi-money-bill"></i>
-                                <p>Agency Total Invest</p>
+                                <p>
+                                    {{ $t("public.agency_weekly_sharing") }}
+                                </p>
                                 <p class="text-primary font-bold">
-                                    $497,000.0000
+                                    ${{ "0.0000" }}
                                 </p>
                             </div>
                         </div>
@@ -72,20 +85,24 @@ const logout = () => {
                                 class="text-center"
                             >
                                 <div class="flex items-center">
-                                    <p>USDT Assets</p>
+                                    <p>{{ $t("public.usdt_assets") }}</p>
                                     <i class="pi pi-angle-right"></i>
                                 </div>
-                                <p class="font-bold">$497,000.0000</p>
+                                <p class="font-bold">
+                                    ${{ curUser.usdt_wallet }}
+                                </p>
                             </Link>
                             <Link
                                 :href="route('roi.asset')"
                                 class="text-center"
                             >
                                 <div class="flex items-center">
-                                    <p>ROI Assets</p>
+                                    <p>{{ $t("public.usdt_assets") }}</p>
                                     <i class="pi pi-angle-right"></i>
                                 </div>
-                                <p class="font-bold">$497,000.0000</p>
+                                <p class="font-bold">
+                                    ${{ curUser.roi_wallet }}
+                                </p>
                             </Link>
                         </div>
 
@@ -97,7 +114,9 @@ const logout = () => {
                                     :active="route().current('usdt.topup')"
                                 >
                                     <i class="pi pi-money-bill mr-3"></i>
-                                    <span class="font-bold">Topup Now</span>
+                                    <span class="font-bold">
+                                        {{ $t("public.topup_now") }}</span
+                                    >
                                 </NavLink>
                             </li>
                             <li class="relative">
@@ -112,9 +131,17 @@ const logout = () => {
                                     <i class="pi pi-book mr-3"></i>
                                     <span>
                                         <p class="font-bold">
-                                            Auto Receipt Record
+                                            {{
+                                                $t("public.auto_receipt_record")
+                                            }}
                                         </p>
-                                        <p>Weekly Auto Distribution</p>
+                                        <p>
+                                            {{
+                                                $t(
+                                                    "public.weekly_auto_distribution"
+                                                )
+                                            }}
+                                        </p>
                                     </span>
                                 </NavLink>
                             </li>
@@ -129,7 +156,9 @@ const logout = () => {
                             :active="route().current('my-team')"
                         >
                             <i class="pi pi-users mr-3"></i>
-                            <span class="font-bold">My Agency</span>
+                            <span class="font-bold">{{
+                                $t("public.my_agency")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -138,7 +167,9 @@ const logout = () => {
                             :active="route().current('notifications')"
                         >
                             <i class="pi pi-bell mr-3"></i>
-                            <span class="font-bold">Notifications</span>
+                            <span class="font-bold">{{
+                                $t("public.notification")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -147,7 +178,9 @@ const logout = () => {
                             :active="route().current('kyc')"
                         >
                             <i class="pi pi-user-edit mr-3"></i>
-                            <span class="font-bold">KYC</span>
+                            <span class="font-bold">{{
+                                $t("public.kyc")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -156,7 +189,9 @@ const logout = () => {
                             :active="route().current('feedback-center')"
                         >
                             <i class="pi pi-question-circle mr-3"></i>
-                            <span class="font-bold">Feedback Center</span>
+                            <span class="font-bold">{{
+                                $t("public.feedback_center")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -165,7 +200,9 @@ const logout = () => {
                             :active="route().current('invitation')"
                         >
                             <i class="pi pi-share-alt mr-3"></i>
-                            <span class="font-bold">Invitation</span>
+                            <span class="font-bold">{{
+                                $t("public.invitation")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -174,7 +211,9 @@ const logout = () => {
                             :active="route().current('settings')"
                         >
                             <i class="pi pi-cog mr-3"></i>
-                            <span class="font-bold">Settings</span>
+                            <span class="font-bold">{{
+                                $t("public.settings")
+                            }}</span>
                         </NavLink>
                     </li>
                     <li class="relative">
@@ -188,7 +227,9 @@ const logout = () => {
                                         class="pi pi-sign-out mr-3 text-red-600 align-middle"
                                     ></i>
 
-                                    <span class="align-middle">Logout</span>
+                                    <span class="align-middle">{{
+                                        $t("public.logout")
+                                    }}</span>
                                 </div>
 
                                 <div class="flex items-center">

@@ -106,7 +106,7 @@ reader.onloadend = () => {
 const fileUp = ref(null);
 const testUpload = (e) => {
     let date = item.value.start_date;
-    console.log(new Date(date).getTimezoneOffset());
+    //console.log(new Date(date).getTimezoneOffset());
     item.value.image = e.files[0];
     reader.readAsDataURL(e.files[0]);
 };

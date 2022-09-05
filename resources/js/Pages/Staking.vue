@@ -87,12 +87,22 @@ const dateDiff = (item) => {
                                 <p>$ {{ item.amount }}</p>
                                 <p>&#x2248;$ {{ item.float_amount }}</p>
                             </div>
-                            <div class="text-right">
-                                <h6>{{ $t("public.profit_loss") }}</h6>
+                            <Link
+                                class="text-right"
+                                :href="
+                                    route('staking.statement', {
+                                        id: item.order_id,
+                                    })
+                                "
+                            >
+                                <div class="flex items-center">
+                                    <h6>{{ $t("public.profit_loss") }}</h6>
+                                    <i class="pi pi-angle-right"></i>
+                                </div>
                                 <p class="text-green-500">
                                     +{{ item.total_percentage }}%
                                 </p>
-                            </div>
+                            </Link>
                         </div>
 
                         <div class="py-8">

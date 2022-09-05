@@ -3,13 +3,14 @@ import { Inertia } from "@inertiajs/inertia";
 import { onMounted, ref } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { getActiveLanguage } from "laravel-vue-i18n";
+import { FilterMatchMode, FilterOperator } from "primevue/api";
+import Banner from "@/Components/Banner.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+
 const props = defineProps({
     users: Array,
     ranking: Array,
 });
-import { FilterMatchMode, FilterOperator } from "primevue/api";
-import Banner from "@/Components/Banner.vue";
-import ValidationErrors from "@/Components/ValidationErrors.vue";
 
 const viewDialog = ref(false);
 const editKYCDialog = ref(false);

@@ -148,13 +148,13 @@ const openModal = () => {
 const closeModal = () => {
     displayModal.value = false;
 };
-const validateNumbers = (event) => {
-    console.log(event);
+/* const validateNumbers = (event) => {
+    //console.log(event);
     if (!/[0-9]/.test(event.key)) {
-        console.log("here");
+        //console.log("here");
         event.preventDefault();
     }
-};
+}; */
 const verifyEmailSent = ref(false);
 const sendVerifyEmail = () => {
     verifyEmailSent.value = false;
@@ -234,7 +234,6 @@ const sendVerifyEmail = () => {
                         </span>
                         <InputText
                             v-model="form.phone"
-                            @keydown="validateNumbers"
                             :placeholder="
                                 $t('public.placeholder', {
                                     attribute: $t('public.phone_number'),

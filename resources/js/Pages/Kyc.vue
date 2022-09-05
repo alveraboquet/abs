@@ -122,7 +122,6 @@ const uploadedImg = ref({
 const upload_id = ref(null);
 const reader = new FileReader();
 reader.onloadend = () => {
-    //console.log(reader.result);
     uploadedImg["value"][upload_id.value] = reader.result;
 };
 

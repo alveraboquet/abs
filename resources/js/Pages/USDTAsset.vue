@@ -21,9 +21,9 @@ const selection = [
 ];
 
 const currentItem = ref("all");
-watch(currentItem, function (newValue) {
+/* watch(currentItem, function (newValue) {
     console.log(newValue);
-});
+}); */
 
 const selected = ref(currentItem.value);
 

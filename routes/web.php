@@ -64,6 +64,8 @@ Route::middleware([
     Route::get('/staking/add', function () {
         return Inertia::render('StakingAdd');
     })->name('staking.add');
+    Route::get('/staking/{id}/statement', [OrderController::class, 'getOrder'])->name('staking.statement');
+
 
     Route::prefix('profile')->group(function () {
         Route::get('/', function () {

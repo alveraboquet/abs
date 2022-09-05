@@ -131,13 +131,13 @@ const openModal = () => {
 const closeModal = () => {
     displayModal.value = false;
 };
-const validateNumbers = (event) => {
-    console.log(event);
+/* const validateNumbers = (event) => {
+    //console.log(event);
     if (!/[0-9]/.test(event.key)) {
-        console.log("here");
+        //console.log("here");
         event.preventDefault();
     }
-};
+}; */
 </script>
 
 <template>
@@ -189,7 +189,6 @@ const validateNumbers = (event) => {
                         </span>
                         <InputText
                             v-model="form.phone"
-                            @keydown="validateNumbers"
                             placeholder="Type Phone Number"
                         />
                     </div>

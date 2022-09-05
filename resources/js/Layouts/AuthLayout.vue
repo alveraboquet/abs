@@ -32,7 +32,6 @@ const languages = [
 const lang = ref(getActiveLanguage());
 watch(lang, async function (newLang) {
     Inertia.visit(`/locale/${newLang}`, { preserveState: true });
-    ///console.log(newLang);
     await loadLanguageAsync(newLang);
 });
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BonusHistory;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\WalletLog;
 use App\Services\RunningNumberService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -66,5 +68,11 @@ class OrderController extends Controller
 
 
         return back()->banner('Successfully created');
+    }
+
+    public function getOrder(Request $request, $id)
+    {
+        $lists = BonusHistory::where('order_id', $id)->where('user_id', Auth::id())->latest()->get();
+        return Inertia::render('StakingStatement', compact('lists'));
     }
 }

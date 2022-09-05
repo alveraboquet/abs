@@ -252,6 +252,9 @@ return [
     'image' => 'Image',
     'popup' => 'Popup',
     'accumulated_profit' => 'Accumulated Profit',
+    'staking-statement' => 'Staking Statement',
+    'profit' => 'Profit',
+    'profile' => 'Profile',
 
 
 

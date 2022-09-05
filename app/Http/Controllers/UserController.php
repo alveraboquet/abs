@@ -198,7 +198,7 @@ class UserController extends Controller
             'country' => ['required', 'numeric'],
             'province' => ['nullable', 'numeric'],
             'full_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'numeric', 'max:255'],
             'username' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:users'],
             'invite_code' => ['required', 'string', 'min:6', 'exists:users,invite_code'],
             'password' => [Password::min(8)],
