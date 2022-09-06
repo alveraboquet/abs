@@ -15,10 +15,13 @@ const orderStatuses = {
 };
 
 const dateDiff = (item) => {
-    if (dayjs().isBefore(dayjs(item.date_end))) {
-        return item.duration - dayjs(item.date_end).diff(dayjs(), "days");
+    if (!dayjs().isBefore(dayjs(item.date_activate))) {
+        if (dayjs().isBefore(dayjs(item.date_end))) {
+            return dayjs(item.date_end).diff(dayjs(), "days");
+        }
+        return 0;
     }
-    return item.duration;
+    return 365;
 };
 </script>
 <template>
@@ -161,11 +164,13 @@ const dateDiff = (item) => {
                                         :strokeWidth="5"
                                         :innerStrokeWidth="5"
                                     >
-                                        {{
-                                            $t("public.days", {
-                                                day: dateDiff(item),
-                                            })
-                                        }}
+                                        <span class="text-xs">
+                                            {{
+                                                $t("public.days", {
+                                                    day: dateDiff(item),
+                                                })
+                                            }}</span
+                                        >
                                     </radial-progress-bar>
                                 </div>
                             </div>
