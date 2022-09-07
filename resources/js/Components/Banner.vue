@@ -19,6 +19,7 @@ watch(message, async () => {
     <Message
         v-if="show && message"
         :severity="style == 'danger' ? 'error' : style"
+        :closable="false"
         >{{ message }}</Message
     >
 </template>

@@ -118,13 +118,14 @@ Route::middleware([
     Route::middleware(['role:admin'])->name('admin.')->group(function () {
 
 
-
+        Route::get('/manage-profit', [UserController::class, 'manageProfit'])->name('manage-profit');
         Route::get('/manage-member', [UserController::class, 'manageMember'])->name('manage-member');
         Route::get('/manage-topup', [UserController::class, 'manageTopup'])->name('manage-topup');
         Route::get('/manage-withdraw', [UserController::class, 'manageWithdraw'])->name('manage-withdraw');
         Route::get('/manage-order', [UserController::class, 'manageOrder'])->name('manage-order');
         Route::post('/orders/update', [UserController::class, 'updateOrder'])->name('update-order');
         Route::post('/topup/update', [UserController::class, 'updateTopup'])->name('update-topup');
+        Route::post('/profit/update', [UserController::class, 'updateProfit'])->name('update-profit');
         Route::post('/withdraw/update', [UserController::class, 'updateWithdraw'])->name('update-withdraw');
         Route::get('/manage-notification', [NotificationController::class, 'manageNotification'])->name('manage-notification');
         Route::post('/notification/update', [NotificationController::class, 'updateNotification'])->name('update-notification');
@@ -148,7 +149,7 @@ Route::middleware([
 });
 Route::post('email/verify', [EmailOtpController::class, 'create'])->name('email.verify');
 Route::get('email/confirm-verify', [EmailOtpController::class, 'verify'])->name('email.verify.confirm');
-Route::get('/test',  [ProfitController::class, 'calculateProfit']);
+/* Route::get('/test',  [ProfitController::class, 'calculateProfit']); */
 Route::get('locale/{lang}', function ($lang) {
     App::setLocale($lang);
     Session::put('locale', $lang);

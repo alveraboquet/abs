@@ -197,6 +197,7 @@ const statuses = {
                                 <Tag v-else value="Unknown" severity="info" />
                             </p>
                         </div>
+
                         <div class="flex align-items-stretch space-x-5">
                             <div>
                                 <p>{{ $t("public.personal_invest") }}</p>

@@ -256,7 +256,7 @@ return [
     'profit' => 'Profit',
     'profile' => 'Profile',
     'withdraw' => 'Withdraw',
-
+    'date' => 'Date',
 
 
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Feedback;
 use App\Models\Support;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class SupportController extends Controller
 {
@@ -25,6 +27,8 @@ class SupportController extends Controller
             'title' => $request->title,
             'content' => $request->content,
         ]);
+        Mail::to('customer.service@absglobalco.com')->send(new Feedback($request->email, $request->phone, $request->title, $request->content));
+
         return back()->banner('Successfully submitted');
     }
 }

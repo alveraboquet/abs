@@ -36,6 +36,9 @@ class UserController extends Controller
         $monthlyProfit = Profit::whereBetween('date', [Carbon::now()->startOfMonth(), $yesterday])->pluck('profit_1')->sum();
         $accumulateProfit = Profit::whereBetween('date', [Carbon::now()->startOfYear(), $yesterday])->pluck('profit_1')->sum();
 
+        //fake data
+        $accumulateProfit += 30.5416;
+
         $data = [];
         return Inertia::render('Home', [
             'yesterdayProfit' => $yesterdayProfit,
@@ -52,17 +55,27 @@ class UserController extends Controller
     {
         $id = $request->id ?? null;
         $search = $request->search;
-        if ($search) {
-            $rootUsers = User::query()->where(function ($q) use ($search) {
-                $q->where('hierarchyList', 'like', '%-' . Auth::id() . '-%')->orWhere('id', Auth::id());
-            })
-                ->where('username', 'like', "%{$search}%")
-                ->with(['children'])->get();
+        if (Auth::user()->role == "admin") {
+            if ($search) {
+                $rootUsers = User::query()
+                    ->where('username', 'like', "%{$search}%")
+                    ->with(['children'])->get();
+            } else {
+                $rootUsers = User::query()->where('referral', NULL)
+                    ->with(['children'])->get();
+            }
         } else {
-            $rootUsers = User::query()->where('id', Auth::id())
-                ->with(['children'])->get();
+            if ($search) {
+                $rootUsers = User::query()->where(function ($q) use ($search) {
+                    $q->where('hierarchyList', 'like', '%-' . Auth::id() . '-%')->orWhere('id', Auth::id());
+                })
+                    ->where('username', 'like', "%{$search}%")
+                    ->with(['children'])->get();
+            } else {
+                $rootUsers = User::query()->where('id', Auth::id())
+                    ->with(['children'])->get();
+            }
         }
-
         $directUsers = User::where('referral', Auth::id())->get();
 
         return Inertia::render('MyTeam', [
@@ -369,9 +382,9 @@ class UserController extends Controller
     {
         $type = $request->type ?? 'all';
         if ($type == "all") {
-            $lists = WalletLog::where('wallet_type', 'usdt')->latest()->get();
+            $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'usdt')->latest()->get();
         } else {
-            $lists = WalletLog::where('wallet_type', 'usdt')->where('type', $type)->latest()->get();
+            $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'usdt')->where('type', $type)->latest()->get();
         }
         return Inertia::render('USDTAsset', [
             'lists' => $lists,
@@ -383,13 +396,80 @@ class UserController extends Controller
     {
         $type = $request->type ?? 'all';
         if ($type == "all") {
-            $lists = WalletLog::where('wallet_type', 'roi')->latest()->get();
+            $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'roi')->latest()->get();
         } else {
-            $lists = WalletLog::where('wallet_type', 'roi')->where('type', $type)->latest()->get();
+            switch ($type) {
+                case 'roi_bonus': {
+                        $type = 'Personal';
+                        break;
+                    }
+                case 'team_sharing': {
+                        $type = 'Team Sharing';
+                        break;
+                    }
+                case 'profit_sharing': {
+                        $type = 'Profit Sharing';
+                        break;
+                    }
+            }
+            $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'roi')->where('type', $type)->latest()->get();
         }
+        /*  $lists = BonusHistory::where('user_id', Auth::id());
+        if ($type == "all") {
+        } else {
+            switch ($type) {
+                case 'roi_bonus': {
+                        $type = 'Personal';
+                        break;
+                    }
+                case 'team_sharing': {
+                        $type = 'Team Sharing';
+                        break;
+                    }
+                case 'profit_sharing': {
+                        $type = 'Profit Sharing';
+                        break;
+                    }
+            }
+            $lists = $lists->where('bonus_type', $type);
+        }
+        $lists = $lists->latest()->get(); */
         return Inertia::render('ROIAsset', [
             'lists' => $lists,
             'filters' => $request->only(['type'])
         ]);
+    }
+    public function manageProfit(Request $request)
+    {
+        $lists = Profit::latest('date')->get();
+        return Inertia::render('ManageProfit', [
+            'lists' => $lists,
+        ]);
+    }
+    public function updateProfit(Request $request)
+    {
+        $date = Carbon::parse($request->date);
+
+        if ($request->profit_1 <= 0) {
+            return back()->dangerBanner('Amount cannot be 0');
+        }
+        $r = Profit::firstWhere('date', $date);
+        if ($r) {
+            return back()->dangerBanner('Already exists');
+        } else {
+
+            Profit::create([
+                'date' => $date,
+                'year' => $date->year,
+                'month' => $date->month,
+                'day' => $date->day,
+                'total_profit' => $request->profit_1 * 3,
+                'profit_1' => $request->profit_1,
+                'profit_2' => $request->profit_1,
+                'profit_3' => $request->profit_1,
+
+            ]);
+            return back()->banner('Success');
+        }
     }
 }

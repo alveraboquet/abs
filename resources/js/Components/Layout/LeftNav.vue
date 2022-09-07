@@ -112,6 +112,7 @@ const closeModal = () => {
                         }}</span>
                     </NavLink>
                 </li>
+
                 <li class="relative">
                     <NavLink
                         :href="route('admin.manage-withdraw')"
@@ -120,6 +121,17 @@ const closeModal = () => {
                         <i class="pi pi-users mr-3"></i>
                         <span class="font-bold">{{
                             $t("public.manage", { name: $t("public.withdraw") })
+                        }}</span>
+                    </NavLink>
+                </li>
+                <li class="relative">
+                    <NavLink
+                        :href="route('admin.manage-profit')"
+                        :active="route().current('admin.manage-profit')"
+                    >
+                        <i class="pi pi-users mr-3"></i>
+                        <span class="font-bold">{{
+                            $t("public.manage", { name: $t("public.profit") })
                         }}</span>
                     </NavLink>
                 </li>

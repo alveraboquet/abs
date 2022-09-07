@@ -98,6 +98,22 @@ const typeLabel = (v) => {
                 </div>
                 <Empty v-else />
             </div>
+            <!-- <div class="mt-8">
+                <div v-for="item in lists" v-if="lists.length">
+                    <div class="p-8">
+                        <div class="flex justify-between">
+                            <p>Bonus Type: {{ item.bonus_type }}</p>
+                        </div>
+                        <p>Order ID: {{ item.order_id }}</p>
+                        <p>Amount: {{ item.amount }}</p>
+                        <p>Bonus percentage: {{ item.bonus_percentage }}</p>
+                        <p>Net Bonus: {{ item.net_bonus }}</p>
+                        <p>{{ new Date(item.date_entitle) }}</p>
+                    </div>
+                    <hr />
+                </div>
+                <Empty v-else />
+            </div> -->
         </div>
     </AppLayoutNew>
 

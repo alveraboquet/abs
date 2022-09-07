@@ -256,6 +256,7 @@ return [
     'profit' => '盈利',
     'profile' => '个人资料',
     'withdraw' => '提现',
+    'date' => '日期',
 
 
 
