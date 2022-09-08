@@ -148,8 +148,151 @@ const logout = () => {
                         </ul>
                     </template>
                 </Card>
+                <ul
+                    v-if="curUser.role == 'admin'"
+                    class="relative px-1 divide-solid divide-y"
+                >
+                    <li class="relative">
+                        <NavLink
+                            :href="route('my-team')"
+                            :active="route().current('my-team')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.my_agency")
+                            }}</span>
+                        </NavLink>
+                    </li>
 
-                <ul class="relative px-1 divide-solid divide-y">
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.dashboard')"
+                            :active="route().current('admin.dashboard')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.dashboard")
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-member')"
+                            :active="route().current('admin.manage-member')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.member"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-topup')"
+                            :active="route().current('admin.manage-topup')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.topup"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-withdraw')"
+                            :active="route().current('admin.manage-withdraw')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.withdraw"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-profit')"
+                            :active="route().current('admin.manage-profit')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.profit"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-order')"
+                            :active="route().current('admin.manage-order')"
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.order"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('admin.manage-notification')"
+                            :active="
+                                route().current('admin.manage-notification')
+                            "
+                        >
+                            <i class="pi pi-users mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.manage", {
+                                    name: $t("public.notification"),
+                                })
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <NavLink
+                            :href="route('settings')"
+                            :active="route().current('settings')"
+                        >
+                            <i class="pi pi-cog mr-3"></i>
+                            <span class="font-bold">{{
+                                $t("public.settings")
+                            }}</span>
+                        </NavLink>
+                    </li>
+                    <li class="relative">
+                        <form @submit.prevent="logout">
+                            <button
+                                class="w-full py-4 px-2 h-12 flex items-center justify-between overflow-hidden text-red-500 text-ellipsis whitespace-nowrap rounded transition duration-300 ease-in-out"
+                                type="submit"
+                            >
+                                <div class="flex items-center">
+                                    <i
+                                        class="pi pi-sign-out mr-3 text-red-600 align-middle"
+                                    ></i>
+
+                                    <span class="align-middle">{{
+                                        $t("public.logout")
+                                    }}</span>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <div>
+                                        <i class="pi pi-angle-right"> </i>
+                                    </div>
+                                </div>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                <ul v-else class="relative px-1 divide-solid divide-y">
                     <li class="relative">
                         <NavLink
                             :href="route('my-team')"
