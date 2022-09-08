@@ -257,6 +257,9 @@ return [
     'profile' => '个人资料',
     'withdraw' => '提现',
     'date' => '日期',
+    'dashboard' => '仪表板',
+    'pending_topup' => '等待充值',
+
 
 
 

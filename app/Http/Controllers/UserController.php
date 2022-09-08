@@ -310,7 +310,9 @@ class UserController extends Controller
     public function updateUser(Request $request)
     {
 
-        $request->validate(['']);
+        $request->validate(['ranking' => 'required']);
+        $user = User::find($request->id);
+        $user->update(['ranking' => $request->ranking]);
 
         return back()->banner('Update Successful');
     }
@@ -398,7 +400,7 @@ class UserController extends Controller
         if ($type == "all") {
             $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'roi')->latest()->get();
         } else {
-            switch ($type) {
+            /*  switch ($type) {
                 case 'roi_bonus': {
                         $type = 'Personal';
                         break;
@@ -411,7 +413,7 @@ class UserController extends Controller
                         $type = 'Profit Sharing';
                         break;
                     }
-            }
+            } */
             $lists = WalletLog::where('user_id', Auth::id())->where('wallet_type', 'roi')->where('type', $type)->latest()->get();
         }
         /*  $lists = BonusHistory::where('user_id', Auth::id());
@@ -432,8 +434,8 @@ class UserController extends Controller
                     }
             }
             $lists = $lists->where('bonus_type', $type);
-        }
-        $lists = $lists->latest()->get(); */
+        } */
+        $lists = $lists->latest()->get();
         return Inertia::render('ROIAsset', [
             'lists' => $lists,
             'filters' => $request->only(['type'])
@@ -471,5 +473,12 @@ class UserController extends Controller
             ]);
             return back()->banner('Success');
         }
+    }
+
+    public function dashboard(Request $request)
+    {
+        $pending_kyc = User::where('kyc_status', 'pending')->count();
+        $pending_topup = Payment::where('status', 'Pending')->where('trx_type', 'topup')->count();
+        return  Inertia::render('Dashboard', ['pending_kyc' => $pending_kyc, 'pending_topup' => $pending_topup]);
     }
 }

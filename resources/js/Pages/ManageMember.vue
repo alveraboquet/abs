@@ -291,7 +291,7 @@ const kycStatuses = {
             :closeOnEscape="false"
             class="p-fluid"
         >
-            <div class="field">
+            <!--  <div class="field">
                 <label for="username">{{ $t("public.username") }}</label>
                 <InputText
                     id="username"
@@ -329,7 +329,7 @@ const kycStatuses = {
                         })
                     "
                 />
-            </div>
+            </div> -->
 
             <div class="field">
                 <label for="ranking" class="mb-3">{{

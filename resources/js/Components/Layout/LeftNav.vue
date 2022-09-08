@@ -92,6 +92,17 @@ const closeModal = () => {
                 </li>
                 <li class="relative">
                     <NavLink
+                        :href="route('admin.dashboard')"
+                        :active="route().current('admin.dashboard')"
+                    >
+                        <i class="pi pi-users mr-3"></i>
+                        <span class="font-bold">{{
+                            $t("public.dashboard")
+                        }}</span>
+                    </NavLink>
+                </li>
+                <li class="relative">
+                    <NavLink
                         :href="route('admin.manage-member')"
                         :active="route().current('admin.manage-member')"
                     >

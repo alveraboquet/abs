@@ -117,7 +117,7 @@ Route::middleware([
 
     Route::middleware(['role:admin'])->name('admin.')->group(function () {
 
-
+        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
         Route::get('/manage-profit', [UserController::class, 'manageProfit'])->name('manage-profit');
         Route::get('/manage-member', [UserController::class, 'manageMember'])->name('manage-member');
         Route::get('/manage-topup', [UserController::class, 'manageTopup'])->name('manage-topup');

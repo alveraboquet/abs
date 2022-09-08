@@ -30,7 +30,7 @@ const logout = () => {
                     <template #content>
                         <div class="text-center">
                             <p class="font-bold">
-                                {{ curUser.full_name }}
+                                {{ curUser.username }}
                             </p>
                             <p>
                                 {{

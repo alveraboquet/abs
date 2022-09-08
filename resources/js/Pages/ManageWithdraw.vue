@@ -131,7 +131,7 @@ const withdrawStatuses = {
                         sortable
                     ></Column>
                     <Column
-                        field="user.full_name"
+                        field="user.username"
                         :header="$t('public.user')"
                         sortable
                     ></Column>

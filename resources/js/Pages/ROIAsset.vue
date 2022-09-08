@@ -98,7 +98,7 @@ const typeLabel = (v) => {
                 </div>
                 <Empty v-else />
             </div>
-            <!-- <div class="mt-8">
+            <!--  <div class="mt-8">
                 <div v-for="item in lists" v-if="lists.length">
                     <div class="p-8">
                         <div class="flex justify-between">

@@ -257,6 +257,8 @@ return [
     'profile' => 'Profile',
     'withdraw' => 'Withdraw',
     'date' => 'Date',
+    'dashboard' => 'Dashboard',
+    'pending_topup' => 'Pending Topup',
 
 
 

@@ -148,13 +148,13 @@ const openModal = () => {
 const closeModal = () => {
     displayModal.value = false;
 };
-/* const validateNumbers = (event) => {
+const validateNumbers = (event) => {
     //console.log(event);
     if (!/[0-9]/.test(event.key)) {
         //console.log("here");
         event.preventDefault();
     }
-}; */
+};
 const verifyEmailSent = ref(false);
 const sendVerifyEmail = () => {
     verifyEmailSent.value = false;

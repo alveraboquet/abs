@@ -1,22 +1,34 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
+import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
+import { Link } from "@inertiajs/inertia-vue3";
+import { getActiveLanguage } from "laravel-vue-i18n";
+defineProps({
+    pending_kyc: Number,
+    pending_topup: Number,
+});
+const orderStatuses = {
+    Pending: { en: "Pending", cn: "处理中" },
+    Active: { en: "Active", cn: "活跃" },
+    Cancelled: { en: "Cancelled", cn: "已取消" },
+};
 </script>
-
 <template>
-    <AppLayout title="Dashboard">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
-        </template>
+    <AppLayoutNew :title="$t('public.dashboard')">
+        <div class="m-8 space-y-8">
+            <h1>{{ $t("public.dashboard") }}</h1>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
-                </div>
-            </div>
+            <Card>
+                <template #content>
+                    {{ $t("public.pending_kyc") }}:{{ pending_kyc }}
+                </template>
+            </Card>
+
+            <Card>
+                <template #content>
+                    {{ $t("public.pending_topup") }} :{{ pending_topup }}
+                </template>
+            </Card>
         </div>
-    </AppLayout>
+    </AppLayoutNew>
 </template>
+<style scope lang="css"></style>
