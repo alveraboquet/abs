@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import AppLayoutNew from "@/Layouts/AppLayoutNew.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { trans, wTrans } from "laravel-vue-i18n";
@@ -19,7 +19,7 @@ const series = [
     },
 ];
 
-const chartOptions = {
+const chartOptions = computed(() => ({
     chart: {
         type: "area",
         height: 350,
@@ -52,7 +52,7 @@ const chartOptions = {
     legend: {
         horizontalAlign: "left",
     },
-};
+}));
 </script>
 
 <template>

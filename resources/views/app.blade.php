@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo/logo-03.png') }}">
     @if (App::environment('production'))
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     @endif

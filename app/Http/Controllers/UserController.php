@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $yesterday = Carbon::yesterday()->format("Y-m-d");
 
-        $yesterdayProfit = Profit::firstWhere('date', $yesterday);
+        $yesterdayProfit = Profit::where('date', "<=", $yesterday)->latest()->first();
         // dd($yesterdayProfit);
         $lastWeekProfit = Profit::whereBetween('date', [Carbon::yesterday()->subDay(6), $yesterday])->get();
         $chartProfit = $lastWeekProfit->pluck('profit_1');
