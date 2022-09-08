@@ -31,14 +31,12 @@ class EmailOtpController extends Controller
                     'code' => $code,
                     'created_at' => now()
                 ]);
-
-                back()->banner('Resent email');
+                Mail::to($request->email)->send(new VerificationEmail($code));
+                return back()->banner('Resent email');
             } else {
                 return back()->dangerBanner('Cannot resent email within ' . $limit . ' minutes');
             }
         }
-
-
 
         Mail::to($request->email)->send(new VerificationEmail($code));
 
