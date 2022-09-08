@@ -59,8 +59,8 @@ const chartOptions = computed(() => ({
     <AppLayoutNew title="Home">
         <div class="h-screen main-con p-8 space-y-5">
             <!--  <h1 >Home</h1> -->
-            <div class="h-1/2"></div>
-            <div class="h-screen mx-auto space-y-5">
+            <div class="h-1/4 md:h-1/2"></div>
+            <div class="mx-auto space-y-5 py-8">
                 <div class="text-center">
                     <h4>{{ $t("public.total_profit_per_day") }}</h4>
                     <p>{{ yesterdayProfit.date }}</p>
