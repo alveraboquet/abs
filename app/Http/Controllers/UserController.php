@@ -96,7 +96,7 @@ class UserController extends Controller
 
     public function manageTopup()
     {
-        $lists = Payment::where('trx_type', 'topup')->with(['user'])->get();
+        $lists = Payment::where('trx_type', 'topup')->with(['user'])->latest()->get();
         return Inertia::render('ManageTopup', [
             'lists' => $lists,
         ]);

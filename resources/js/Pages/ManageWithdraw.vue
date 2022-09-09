@@ -182,7 +182,9 @@ const withdrawStatuses = {
                         <template #filter="{ filterModel }">
                             <Dropdown
                                 v-model="filterModel.value"
-                                :options="statuses"
+                                :options="withdrawStatusesOption"
+                                :option-label="getActiveLanguage()"
+                                option-value="value"
                                 placeholder="Any"
                                 class="p-column-filter"
                                 showClear

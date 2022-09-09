@@ -182,7 +182,9 @@ const topupStatuses = {
                         <template #filter="{ filterModel }">
                             <Dropdown
                                 v-model="filterModel.value"
-                                :options="statuses"
+                                :options="topupStatusesOption"
+                                :option-label="getActiveLanguage()"
+                                option-value="value"
                                 placeholder="Any"
                                 class="p-column-filter"
                                 showClear
