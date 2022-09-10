@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('rankings_logs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('current_ranking')->default(1);
             $table->unsignedBigInteger('new_ranking')->default(1);
             $table->unsignedBigInteger('sponsor_ranking_count')->default(0);

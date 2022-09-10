@@ -434,8 +434,9 @@ class UserController extends Controller
                     }
             }
             $lists = $lists->where('bonus_type', $type);
-        } */
+        }
         $lists = $lists->latest()->get();
+         */
         return Inertia::render('ROIAsset', [
             'lists' => $lists,
             'filters' => $request->only(['type'])
